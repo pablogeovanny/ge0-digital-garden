@@ -2,7 +2,7 @@
 {"dg-publish":true,"permalink":"/digital-garden/home/","tags":["gardenEntry"]}
 ---
 
-My name is **Pablo Geovanny Flores**.
+My name is **Pablo Geovanny Flores**. 
 This is my blog about cybersecurity, pentesting, CFTs and more. 
 
 <div align="center">
