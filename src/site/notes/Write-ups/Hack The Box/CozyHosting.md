@@ -2,6 +2,18 @@
 {"dg-publish":true,"permalink":"/write-ups/hack-the-box/cozy-hosting/"}
 ---
 
+
+---
+# Información general
+
+| OS               | Linux                           |
+| ---------------- | ------------------------------- |
+| Desarrollado por | Pablo Flores(Ge0), Amal & Mitia |
+| Dificultad       | Fácil                           |
+| Liberación       | 26 Febrero 2024                 |
+| Puntos           | 20                              |
+
+---
 # Enumeración
 
 ## Puertos
