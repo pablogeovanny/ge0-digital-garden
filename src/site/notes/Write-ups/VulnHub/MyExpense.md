@@ -7,12 +7,14 @@ samuel/fzghn4lw
 # Scan
 General scan
 PORT      STATE SERVICE REASON
+```
    7   │ 80/tcp    open  http    syn-ack ttl 64
    8   │ 38575/tcp open  unknown syn-ack ttl 64
    9   │ 53717/tcp open  unknown syn-ack ttl 64
   10   │ 54457/tcp open  unknown syn-ack ttl 64
   11   │ 59781/tcp open  unknown syn-ack ttl 64
-# 80
+```
+# Port 80
 ## Focused scan
 ```
 PORT      STATE SERVICE VERSION
