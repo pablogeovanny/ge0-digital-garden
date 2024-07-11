@@ -2,8 +2,8 @@
 {"dg-publish":true,"permalink":"/write-ups/vuln-hub/my-expense/"}
 ---
 
-From description we have the credentials
-samuel/fzghn4lw
+From description we have the credentials:
+`samuel_fzghn4lw`
 # Scan
 General scan
 PORT      STATE SERVICE REASON

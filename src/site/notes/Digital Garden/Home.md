@@ -2,7 +2,8 @@
 {"dg-publish":true,"permalink":"/digital-garden/home/","tags":["gardenEntry"]}
 ---
 
-# Pablo Geovanny Flores
+My name is **Pablo Geovanny Flores**.
+This is my blog about cybersecurity, pentesting, CFTs and more.
 
 <div align="center">
     <a href="https://tryhackme.com/p/Ge0">
@@ -13,8 +14,4 @@
     </a>
 </div>
 
-## Ge0
-Texto de prueba.
-### Cybersecurity
-
-THis is my blog.
+<iframe src="https://srgalan.vercel.app/" width="100%" height="1500"></iframe>
