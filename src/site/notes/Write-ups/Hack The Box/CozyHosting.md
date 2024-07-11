@@ -18,7 +18,7 @@
 
 ## Puertos
 Se realiza un escaneo de puertos y servicios a la IP de la máquina usando nmap con el comando:
-```sh
+```shell
 sudo nmap -sCV -vvv -A -T5 -p- 10.10.11.230
 ```
 Se encuentran abiertos los puertos 22 y 80.
