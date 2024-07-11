@@ -40,25 +40,25 @@ We found an admin panel.
 We have more info about us.
 `slamotte	Samuel	Lamotte	slamotte@futuraBI.fr	Collaborator	2019-12-03 17:08:09`
 We don't have permissions to inactive our user
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240703174158.png)
+![Pasted image 20240703174158.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703174158.png)
 
 Trying to login using `slamotte` and `fzghn4lw`.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240703175002.png)
+![Pasted image 20240703175002.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703175002.png)
 
 Create a new account.
 And the button is disable, but we can inspect the html code.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240703175519.png)
+![Pasted image 20240703175519.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703175519.png)
 And delete the disable part.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240703175631.png)
+![Pasted image 20240703175631.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703175631.png)
 Now the button is enable and we can create the new account.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240703175654.png)
+![Pasted image 20240703175654.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703175654.png)
 We are in the system with an inactive account.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240703175913.png)
+![Pasted image 20240703175913.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703175913.png)
 
 Trying XSS creating a new test user with the fields. Don't forget able the button.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240703180410.png)
+![Pasted image 20240703180410.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703180410.png)
 Check the admin panel and we have a XSS.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240703180550.png)
+![Pasted image 20240703180550.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703180550.png)
 # XSS
 To exploit this XSS we need the interaction of a some user, to check if some user is checking the admin panel.
 Create a new user with this code on the two last fields.
@@ -87,7 +87,7 @@ We got some cookies, one of them is the admin account, but if use that cookie, w
 # XSRF
 Activate account
 Trying another way, if we try to activate the account we have.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240704171243.png)
+![Pasted image 20240704171243.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240704171243.png)
 
 Now we know that the admin is constantly visiting the admin panel, so we can set the XSS to the user make a request to the url above.
 ```js
@@ -96,17 +96,17 @@ request.open('GET', 'http://192.168.122.204/admin/admin.php?id=11&status=active'
 request.send();
 ```
 Now we start the python server again ans wait. After a while we can see that the admin make the request and our account should be activate.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240704171856.png)
+![Pasted image 20240704171856.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240704171856.png)
 
 After login in, in the expense reports, we see the report and now submit it.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240704172227.png)
+![Pasted image 20240704172227.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240704172227.png)
 Some has to approve our report, and we see in the profile settings that Manen RIviere is our Manager.
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240704172450.png)
+![Pasted image 20240704172450.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240704172450.png)
 We supposs to Manon has an panel to approve our report, so we'll try to get the Manon cookie sending an js in the message field. Again listen on python server.
-![](/img/user/Write-ups/VulnHub/attachments/Screenshot_20240704_181923.png)
+![Screenshot_20240704_181923.png](/img/user/Write-ups/VulnHub/attachments/Screenshot_20240704_181923.png)
 We have a few cookies, one of them is the Manager cookie.
 
-![](/img/user/Write-ups/VulnHub/attachments/Screenshot_20240704_182401.png)
+![Screenshot_20240704_182401.png](/img/user/Write-ups/VulnHub/attachments/Screenshot_20240704_182401.png)
 Now validate the report. On the green button.
 
 We need that the financial person approve the payment
