@@ -35,7 +35,7 @@ Disallow: /admin/admin.php
 Fuzzing the page we just found `/admin` like above.
 
 ## /admin/admin.php
-![](/img/user/Write-ups/VulnHub/attachments/Pasted image 20240703173824.png)
+![Pasted image 20240703173824.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703173824.png)
 We found an admin panel.
 We have more info about us.
 `slamotte	Samuel	Lamotte	slamotte@futuraBI.fr	Collaborator	2019-12-03 17:08:09`
