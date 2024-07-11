@@ -4,7 +4,7 @@
 
 # Enum
 ## Ports
-PORT   STATE SERVICE REASON
+PORT   STATE SERVICE REASON 
 22/tcp open  ssh     syn-ack
 80/tcp open  http    syn-ack
 ##  Users
