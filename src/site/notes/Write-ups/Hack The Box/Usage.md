@@ -117,7 +117,7 @@ Table: users
 ## Crack the hash
 `$2y$10$ohq2kLpBH/ri.P5wR0P3UOmc24Ydvl9DA9H1S6ooOMgH5xVfUPrL2`
 `john --format=bcrypt --wordlist=/usr/share/wordlists/rockyou.txt hash`
-whatever1
+`whatever1`
 login in the admin page
 ## Get access
 [LFI]
