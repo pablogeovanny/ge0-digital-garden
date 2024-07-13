@@ -1,22 +1,22 @@
 ---
-{"dg-publish":true,"permalink":"/write-ups/hack-the-box/cozy-hosting/"}
+{"dg-publish":true,"permalink":"/write-ups/hack-the-box/cozy-hosting/","tags":["CTF","write-up"]}
 ---
 
+---
+![CozyHosting.png|500](/img/user/Write-ups/Hack%20The%20Box/attachments/CozyHosting.png)
+> [!INFO] Info about CozyHosting
+>  CozyHosting is an easy-difficulty Linux machine that features a `Spring Boot` application. The application has the `Actuator` endpoint enabled. Enumerating the endpoint leads to the discovery of a user&amp;#039;s session cookie, leading to authenticated access to the main dashboard. The application is vulnerable to command injection, which is leveraged to gain a reverse shell on the remote machine. Enumerating the application&amp;#039;s `JAR` file, hardcoded credentials are discovered and used to log into the local database. The database contains a hashed password, which once cracked is used to log into the machine as the user `josh`. The user is allowed to run `ssh` as `root`, which is leveraged to fully escalate privileges.
+
+> [!FAQ]- Hints
+> No hints.
 
 ---
-# Información general
-
-| OS               | Linux                           |
-| ---------------- | ------------------------------- |
-| Desarrollado por | Pablo Flores(Ge0), Amal & Mitia |
-| Dificultad       | Fácil                           |
-| Liberación       | 26 Febrero 2024                 |
-| Puntos           | 20                              |
+# Passive reconnaisance
+N/A
 
 ---
-# Enumeración
-
-## Puertos
+# Active reconnaisance
+## Enum ports and services
 Se realiza un escaneo de puertos y servicios a la IP de la máquina usando nmap con el comando:
 ```shell
 sudo nmap -sCV -vvv -A -T5 -p- 10.10.11.230
@@ -41,7 +41,10 @@ sudo nmap -sCV -A -p22,80 10.10.11.230
 	|**Supported Methods: GET HEAD OPTIONS**
 
 Encontramos información como la versión del ssh, el puerto 80 usa nginx
-## Puerto 80
+
+---
+# Vuln analisis
+## Port 80
 Se realiza un escaneo al puerto 80 usando "whatweb".
 ```shell
 whatweb 10.10.11.230
@@ -59,17 +62,18 @@ Al visualizar el error 404 en una página errónea, la página muestra informaci
 ![Pasted image 20240224150700.png|700](/img/user/Pasted%20image%2020240224150700.png)
 *This application has no explicit mapping for /error, so you are seeing this as a fallback.*
 El texto de error, sirve para buscar información acerca del mismo en la web.
-
-Se encuentra que el error está asociado a una tecnología llamada **spring boot**.
+> [!error] Error
+> Se encuentra que el error está asociado a una tecnología llamada **spring boot**.
 
 Conociendo la tecnología, se realiza un fuzzing más específico a la página usando wfuzz.
 ```shell
 wfuzz -c --hc=403,404 -t 4 -w /usr/share/seclists/Discovery/Web-Content/spring-boot.txt -u http://cozyhosting.htb/FUZZ
 ```
-
 Se encuentran varios subdirectorios:
 "actuator/env", "actuator", "actuator/env/lang", "actuator/health", "actuator/env/path", "**actuator/sessions**", "actuator/mappings", "actuator/beans"
-# Ganando acceso
+
+---
+# Exploitation
 ## Reemplazo de cookie
 Se accede a "actuator/sessions", en el que se encuentra información relevante de un usuario y su cookie de sessión:
 ![Pasted image 20240224151423.png|700](/img/user/Pasted%20image%2020240224151423.png)
@@ -164,8 +168,12 @@ ssh josh@10.10.11.230 -p22
 ```
 
 Y obtenemos la flag de user:
-![Pasted image 20240226223120.png|400](/img/user/Pasted%20image%2020240226223120.png)
-# Escalada de privilegios
+
+> [!check]- User flag
+> ![Pasted image 20240226223120.png|400](/img/user/Pasted%20image%2020240226223120.png)
+
+---
+# Privilege Escalation
 Probamos si ejecutar algún comando como root:
 ```shell
 sudo -l
@@ -177,4 +185,7 @@ Por lo tanto escalamos privilegios usando ssh de la siguiente manera:
 sudo ssh -o ProxyCommand=';sh 0<&2 1>&2' x
 ```
 
-![Pasted image 20240226231132.png|400](/img/user/Pasted%20image%2020240226231132.png)
+> [!check]- Root flag
+> ![Pasted image 20240226231132.png|400](/img/user/Pasted%20image%2020240226231132.png)
+
+---
