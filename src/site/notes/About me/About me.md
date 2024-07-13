@@ -2,7 +2,6 @@
 {"dg-publish":true,"permalink":"/about-me/about-me/","tags":["gardenEntry"]}
 ---
 
----
 <div align="center">
 	<img src="https://tryhackme-images.s3.amazonaws.com/user-avatars/64860e3a1aa6c3004a78a6ce-1717730285921" alt="Profile image" height="200">
     </a>
@@ -15,7 +14,6 @@ This is my blog about cybersecurity, pentesting, CFTs and more.
 </center>
 
 ---
-
 <div align="center">
     <a href="https://tryhackme.com/p/Ge0">
       <img src="https://tryhackme-badges.s3.amazonaws.com/Ge0.png" alt="TryHackMe" width="250">
@@ -44,5 +42,3 @@ This is my blog about cybersecurity, pentesting, CFTs and more.
 	<img src="https://img.shields.io/badge/Email-8D6DFF?style=flat&logo=protonmail&logoColor=white" alt="Email Badge" height="30">
     </a>
 </div>
-
----
