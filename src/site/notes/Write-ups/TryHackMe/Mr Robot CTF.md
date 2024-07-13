@@ -1,9 +1,9 @@
 ---
-{"dg-publish":true,"permalink":"/write-ups/try-hack-me/mr-robot-ctf/","tags":["CTF","write-up","linux","easy"]}
+{"dg-publish":true,"permalink":"/write-ups/try-hack-me/mr-robot-ctf/","tags":["CTF","write-up","linux","easy","DirtyCow"]}
 ---
 
 ---
-> [!INFO] Info about {{title}}
+> [!INFO] Info about Mr Robot CFT
 >  Can you root this Mr. Robot styled machine? This is a virtual machine meant for beginners/intermediate users. There are 3 hidden keys located on the machine, can you find them?
 >  Credit to [Leon Johnson](https://twitter.com/@sho_luv) for creating this machine. **This machine is used here with the explicit permission of the creator <3**
 
@@ -94,8 +94,6 @@ Elliot
 Upload a php reverse shell in wp admin console plugin, shell.php -> shell.zip
 upload, install and activate the plugin
 get a bash
-> [!check]- User flag
-> Flag
 
 ---
 # Privilege Escalation
