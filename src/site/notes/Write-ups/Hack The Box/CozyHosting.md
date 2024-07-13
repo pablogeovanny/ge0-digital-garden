@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/write-ups/hack-the-box/cozy-hosting/","tags":["CTF","write-up"]}
+{"dg-publish":true,"permalink":"/write-ups/hack-the-box/cozy-hosting/","tags":["CTF","write-up","misconfiguration","RCE","linux","easy"]}
 ---
 
 ---

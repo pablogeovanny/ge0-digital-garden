@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/write-ups/vuln-hub/my-expense/","tags":["CTF","write-up"]}
+{"dg-publish":true,"permalink":"/write-ups/vuln-hub/my-expense/","tags":["CTF","write-up","XSS","XSRF","SQLi","password-cracking","linux"]}
 ---
 
 ---
