@@ -2,10 +2,14 @@
 {"dg-publish":true,"permalink":"/ge0-blog/about-me/","tags":["gardenEntry"]}
 ---
 
+<div align="center">
+	<img src="https://tryhackme-images.s3.amazonaws.com/user-avatars/64860e3a1aa6c3004a78a6ce-1717730285921" alt="Profile image" height="200">
+    </a>
+</div>
 My name is **Pablo Geovanny Flores**.
 I'm a Mechatronics engineer training in cybersecurity.
 
-> [!info] This is my blog about cybersecurity, pentesting, CFTs and more.
+This is my blog about cybersecurity, pentesting, CFTs and more.
 
 <div align="center">
     <a href="https://www.linkedin.com/in/p-g-f">
