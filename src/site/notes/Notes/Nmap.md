@@ -5,7 +5,7 @@
 - Net inventory, admin service updates, check host and service activity.
 - Default tcp ports. 1000 common ports(randomly).
 - TCP [[Networking/Seguridad en redes/Fabricación y manipulación de paquetes/TCP SYN\|TCP SYN]] are the default scans used by Nmap _if run with sudo permissions_.
-- If run **without** sudo permissions, Nmap defaults to the **TCP Connect** [[Networking/Seguridad en redes/Fabricación y manipulación de paquetes/3-way handshake\|3-way handshake]]scan we saw in the previous task.
+- If run **without** sudo permissions, Nmap defaults to the **TCP Connect** [[Networking/Seguridad en redes/Fabricación y manipulación de paquetes/3-way handshake\|3-way handshake]] scan we saw in the previous task.
 
 | Option                                                                                                       | Description                                                                |
 | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
@@ -166,16 +166,3 @@
 
 # Metodology
 ![Pasted image 20240708081910.png|200](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020240708081910.png)
-
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-
-
-![](https://muirlandoracle.co.uk/wp-content/uploads/2020/03/image-2.png)
-![](https://i.imgur.com/ngzBWID.png)
-
-- This request contains something called a _SYN_ (short for _synchronise_) bit, which essentially makes first contact in starting the connection process.
-- The server will then respond with a packet containing the **SYN** bit, as well as another "acknowledgement" bit, called _ACK_. 
-- Finally, your computer will send a packet that contains the **ACK** bit by itself, confirming that the connection has been setup successfully.
-
-</div></div>
