@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/write-ups/try-hack-me/capstone/","tags":["CTF","write-up"]}
+{"dg-publish":true,"permalink":"/write-ups/try-hack-me/capstone/","tags":["CTF","write-up","SUID","sudo-l"]}
 ---
 
 
