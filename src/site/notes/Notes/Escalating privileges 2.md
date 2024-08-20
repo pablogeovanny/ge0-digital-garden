@@ -330,7 +330,7 @@ export PATH=/path_to_executable:$PATH
 
 
 
-## Bash versions below `4.2-048`
+## Bash versions `<4.2-048`
 - Define shell **functions** with **names** that **resemble** file paths
 - then **export** those functions so that they are used **instead** of any actual **executable** at that file **path**.
 - If we have an executable `strings /usr/local/bin/suid-env2`
@@ -345,7 +345,7 @@ function /usr/sbin/service { /bin/bash -p; }
 export -f /usr/sbin/service
 ```
 - Run the executable
-## Bash below `4.4`
+## Bash `<4.4`
 -  If we have an executable 
 - In debugging mode, Bash uses the environment variable **PS4** to display an extra prompt for debugging statements.
 - Run the executable with bash debugging enabled and the PS4 variable set to an embedded command which creates an SUID version of /bin/bash:
