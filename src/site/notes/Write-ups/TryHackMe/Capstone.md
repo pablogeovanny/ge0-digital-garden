@@ -52,3 +52,46 @@ We are root now
 ![Pasted image 20240819184137.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240819184137.png)
 > [!check]- flag2.txt
 > THM-168824782390238
+
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+
+| Option                                                                                                                                                        | Description                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `find .`                                                                                                                                                      | Search in the currenty dir                             |
+| `find / -name dirname`                                                                                                                                        | Find a dirs by name in the /                           |
+| `find . -iname my-file`                                                                                                                                       | Don't differen between Mayus                           |
+| `find / -name qtile 2>/dev/null \| xargs ls -l`                                                                                                               | Redirect the (stderr) to a hole                        |
+| `find / -name qtile 2>/dev/null \| xargs ls -l`                                                                                                               | list the contend of each dir                           |
+| `find / -type f -perm 4000 2>/dev/null`                                                                                                                       | search files [[Operative System/Linux/Permisos/SUID\|SUID]]                                  |
+| `find -a`<br>`-a \( -perm -u+s -o -perm -g+s \)`                                                                                                              | Combine conditions [[Operative System/Linux/Permisos/SUID\|SUID]] or [[Operative System/Linux/Permisos/SGID\|SGID]]<br>`-o ` is OR |
+| `find / -type -d -group wheel 2>/dev/null`                                                                                                                    | find dirs in the group wheel                           |
+| `find -executable`<br>`find / -perm a=x`                                                                                                                      | Find items executable                                  |
+| `find / -writable -type d 2>/dev/null`<br>`find / -perm -222 -type d 2>/dev/null`<br>`find / -perm -o w -type d 2>/dev/null`                                  | Find world-writable folders                            |
+| `find / -writable -type d 2>/dev/null \| cut -d "/" -f 2 \| sort -u`                                                                                          | First Writable folders                                 |
+| `find / -writable 2>/dev/null \| cut -d "/" -f 2,3 \| grep -v proc \| sort -u`<br>`find / -writable 2>/dev/null \| grep  usr \| cut -d "/" -f 2,3 \| sort -u` | 1 and 2 Writable folders<br>`usr`                      |
+| `find ! -executable`                                                                                                                                          | Find items **not** executables                         |
+| `find / -user root -writable 2>/dev/null`<br>`find / -user root -executable -type -f 2>/dev/null`<br>                                                         | Find items from root user                              |
+| `find -name dex\* 2>/dev/null`                                                                                                                                | Find files that start by dex                           |
+| `find -name \*exdump\* 2>/dev/null`                                                                                                                           | FInd files that content exdump between his name        |
+| `find -name dex\*.sh 2>/dev/null`                                                                                                                             | Start with dex and finish in .sh                       |
+| `find / -size +5G`                                                                                                                                            | List all files with more than 5 Gigabites              |
+| `find / -size 10M`                                                                                                                                            | List all files with exactly 10 megabytes               |
+| `find / -size -5M`                                                                                                                                            | List all files with less than 5 megabytes              |
+| `find / - empty`                                                                                                                                              | Find empty items in the system                         |
+| `find . -name "*.md*" -type f -exec grep -l "text to search" {} +`                                                                                            | Search a file by the content of it                     |
+| `find / -mtime 10`                                                                                                                                            | Find files that were modified in the last 10 days      |
+| `find / -atime 10`                                                                                                                                            | Find files that were accessed in the last 10 day       |
+| `find / -cmin -60`                                                                                                                                            | find files changed within the last hour (60 minutes)   |
+| `find / -amin -60`                                                                                                                                            | find files accesses within the last hour (60 minutes)  |
+
+- **c** – bytes
+- **k** – kilobytes
+- **M** – megabytes
+- **G** – gigabytes
+- **b** – trozos de 512 bytes
+
+</div></div>
