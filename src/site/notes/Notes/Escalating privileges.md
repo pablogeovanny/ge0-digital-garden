@@ -1289,7 +1289,7 @@ Los atacantes alteran los archivos plist para ejecutar código malicioso en nomb
 Una shell web es un script basado en la web que permite el acceso a un servidor web.
 Los atacantes crean web shells para inyectar un script malicioso en un servidor web para mantener un acceso persistente y escalar privilegios.
 
-![Pasted image 20230909124442.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909124442.png)
+![Pasted_image_20230909124442.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted_image_20230909124442.png)
 
 </div></div>
 
