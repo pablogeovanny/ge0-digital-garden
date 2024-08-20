@@ -54,3 +54,108 @@ We are root now
 > THM-168824782390238
 
 ---
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+Replace the DLL by a malicious
+
+![Pasted_image_20230909115418.png](/img/user/attachments/Pasted_image_20230909115418.png)
+## Exploit know vulnerabilities
+
+Tools
+	Robber
+	PowerSploit
+
+
+</div></div>
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+# DLL hijacking head
+
+</div>
+
+
+Replace the DLL by a malicious
+
+![Pasted_image_20230909115418.png](/img/user/attachments/Pasted_image_20230909115418.png)
+## Exploit know vulnerabilities
+
+Tools
+	Robber
+	PowerSploit
+
+
+</div></div>
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+## L2 Header
+
+</div>
+
+
+Replace the DLL by a malicious
+
+![Pasted_image_20230909115418.png](/img/user/attachments/Pasted_image_20230909115418.png)
+## Exploit know vulnerabilities
+
+Tools
+	Robber
+	PowerSploit
+
+
+</div></div>
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+# The title is DLL hijacking
+
+</div>
+
+
+Replace the DLL by a malicious
+
+![Pasted_image_20230909115418.png](/img/user/attachments/Pasted_image_20230909115418.png)
+## Exploit know vulnerabilities
+
+Tools
+	Robber
+	PowerSploit
+
+
+</div></div>
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+## L2 header and The title is DLL hijacking
+
+</div>
+
+
+Replace the DLL by a malicious
+
+![Pasted_image_20230909115418.png](/img/user/attachments/Pasted_image_20230909115418.png)
+## Exploit know vulnerabilities
+
+Tools
+	Robber
+	PowerSploit
+
+
+</div></div>
