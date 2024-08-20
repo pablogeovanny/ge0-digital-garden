@@ -13,10 +13,15 @@
 ![Pasted image 20240607184831.png|500](/img/user/Pasted%20image%2020240607184831.png)
 # Linux privesc
 ## Basic
-### Stable shell|###{{title}}
+### Stable shell
 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+# netcat
+
+</div>
 
 
 ### Technique 1: Python
@@ -185,6 +190,11 @@ sudo -u root /bin/bash
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### linpeas
+
+</div>
 
 
 to scan vulns in linux
@@ -201,6 +211,11 @@ wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+# ### lse
+
+</div>
 
 
 ``` shell
