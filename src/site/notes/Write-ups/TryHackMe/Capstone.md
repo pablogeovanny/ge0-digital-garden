@@ -52,3 +52,20 @@ We are root now
 ![Pasted image 20240819184137.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240819184137.png)
 > [!check]- flag2.txt
 > THM-168824782390238
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+Replace the DLL by a malicious
+
+![Pasted_image_20230909115418.png](/img/user/attachments/Pasted_image_20230909115418.png)
+## Exploit know vulnerabilities
+
+Tools
+	Robber
+	PowerSploit
+
+
+</div></div>
