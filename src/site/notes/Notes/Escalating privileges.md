@@ -89,7 +89,7 @@ sudo -u root /bin/bash
 
 <div class="markdown-embed-title">
 
-# ### - Commands linux
+# - Commands linux
 
 </div>
 
@@ -148,7 +148,7 @@ sudo -u root /bin/bash
 
 <div class="markdown-embed-title">
 
-# ### find
+# find
 
 </div>
 
@@ -196,7 +196,7 @@ sudo -u root /bin/bash
 
 <div class="markdown-embed-title">
 
-### netstat
+# netstat
 
 </div>
 
