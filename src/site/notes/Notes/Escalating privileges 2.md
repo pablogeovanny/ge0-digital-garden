@@ -330,7 +330,7 @@ export PATH=/path_to_executable:$PATH
 
 
 
-## Bash versions `<4.2-048`
+## Bash version `<4.2-048`
 - Define shell **functions** with **names** that **resemble** file paths
 - then **export** those functions so that they are used **instead** of any actual **executable** at that file **path**.
 - If we have an executable `strings /usr/local/bin/suid-env2`
