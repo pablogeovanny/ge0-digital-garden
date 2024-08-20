@@ -13,13 +13,12 @@
 ![Pasted image 20240607184831.png|500](/img/user/Pasted%20image%2020240607184831.png)
 # Linux privesc
 ## Basic
-### Stable shell
+### Stable shell|###{{title}}
 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
 
 
-## Shell stabilization
 ### Technique 1: Python
 1. Uses Python to spawn a better featured bash shell;
 ```sh
@@ -38,38 +37,6 @@ This does two things:
 - First, it **turns off our own terminal echo** (which gives us access to tab autocompletes, the arrow keys, and Ctrl + C to kill processes).
 - then **foregrounds the shell,** thus completing the process.
 - Note that **if the shell dies,** any input in your own terminal will **not be visible** (as a result of having disabled terminal echo). To **fix this, type** `reset` and press enter.
-### Technique 2: rlwrap
-- Rlwrap is a program which, in simple terms, gives us **access to history**, **tab autocompletion** and the **arrow keys** immediately upon receiving a shell
-``` sh
-rlwrap nc -lnvp <port>
-```
-- particularly useful when dealing with Windows shells
-- On Linux target, it's possible to completely stabilise,
-- using Ctrl + Z.
-```sh
-stty raw -echo; fg
-```
-### Technique 3: [[socat\|Socat]]
-### Technique 4: [[Operative System/Linux/Commands/SSH\|SSH]]
-
-### Extra 
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-
-
-- On my machine to get info from stty
-```sh
-stty -a
-```
-- Next, in your reverse/bind shell, type in:
-`stty rows <number>`  
-and
-`stty cols <number>`
-
-
-</div></div>
-
- 
 
 </div></div>
 
