@@ -13,20 +13,17 @@
 ![Pasted image 20240607184831.png|500](/img/user/Pasted%20image%2020240607184831.png)
 # Linux privesc
 ## Basic
-### Stable shell***
-[[Networking/netcat#Shell stabilization\|netcat#Shell stabilization#Technique 1 Python]]
+### Stable shell
 
 ### Get a bash
 ```shell
 script /dev/null -c bash
 ```
-
 ### exec bash like a sudo
 ```shell
 sudo -u root /bin/bash
 ```
 ## System enumeration - Manual
-### [[Operative System/Linux/Commands/- Commands linux#! Get information\|- Commands linux#! Get information]]***
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
@@ -200,7 +197,6 @@ sudo -l -U tracy
 - we can use a "hack" to leak information **leveraging a function of the application.**
 
 Example: Apache2 ant the `-f` parameter used to load the `/etc/shadow`, this will result in an error message that includes the first line of the `/etc/shadow` file.
-### [[sudo Environment Variables\|sudo Environment Variables]]***
 ## SUID-SGID executables scaling
 - https://gtfobins.github.io/
 - [[Operative System/Linux/Permisos/SUID\|SUID]] [[Operative System/Linux/Permisos/SGID\|SGID]]
