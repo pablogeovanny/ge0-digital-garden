@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/notes/escalating-privileges/"}
+{"dg-publish":true,"permalink":"/notes/escalating-privileges/","dgShowToc":"false"}
 ---
 
  Important
