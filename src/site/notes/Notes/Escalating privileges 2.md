@@ -262,9 +262,9 @@ find / -perm -g=s -type f -ls 2>/dev/null
 
 - Find a known exploit. [Exploit-DB](https://www.exploit-db.com/), Google, and GitHub are good places to search!
 
-|             |                      |
-| ----------- | -------------------- |
+
 | exim-4.84-3 | [[cve-2016-1531.sh\|cve-2016-1531.sh]] |
+| ----------- | -------------------- |
 
 
 </div></div>
@@ -294,7 +294,7 @@ gcc -shared -fPIC -o /home/user/.config/libcalc.so /home/user/tools/suid/libcal
 - Run again
 `/usr/local/bin/suid-so`
 
-strace /usr/bin/mount 2>&1 | grep -iE "open|access|no such file"
+`strace /usr/bin/mount 2>&1 | grep -iE "open|access|no such file"`
 
 </div></div>
 
