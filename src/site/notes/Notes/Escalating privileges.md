@@ -1362,11 +1362,11 @@ arbitrario.
 
 - Los atacantes utilizan la técnica de pivoteo para comprometer un sistema, obtener un acceso shell remoto en él, y además saltarse el firewall para pivotear a el sistema comprometido para acceder a otros sistemas vulnerables en la red.
 - Los atacantes utilizan la técnica de retransmisión para acceder a recursos presentes en otros sistemas a través del sistema comprometido, de forma que las solicitudes de acceso a los recursos procedan del sistema inicialmente comprometido.
-![Pasted image 20230909122520.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909122520.png)
+![Pasted image 20230909122521.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909122521.png)
 
-![Pasted image 20230909123600.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909123600.png)
+![Pasted image 20230909123601.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909123601.png)
 
-![Pasted image 20230909123727.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909123727.png)
+![Pasted image 20230909123728.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909123728.png)
 
 
 
