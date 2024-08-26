@@ -119,9 +119,13 @@
 | `--script "ftp*"`                                    | Run all that start with `ftp`                                 |
 | `--script`                                           | activate a script                                             |
 | `--script=vuln`                                      | activate all of the scripts in the "vuln" category            |
+| `--script=smb-vuln*`                                 | Check vulns for smb                                           |
 | `--script="vuln and safe" -sV`                       | Use the scripts in the "vuln and safe" category               |
 | `nmap -p- --script vuln IP`                          | find vulns in all ports (/usr/share/nmap/scripts) (Intrusive) |
 | `--script-args`                                      | Some scripts require arguments                                |
+{ #d52ab0}
+
+
 ## Categories
 | Script Category | Description                                                                                                                                               |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |

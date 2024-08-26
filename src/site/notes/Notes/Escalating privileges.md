@@ -1288,6 +1288,15 @@ perl linux-exploit-suggester-2.pl
 ### [[Hacking Ético y Pentesting/DirtyCow\|DirtyCow]]
 
 # Windows privesc
+```powershell
+dir /b/s "\*.conf*"
+dir /b/s "\*.txt*"
+dir /b/s "\*secret*"
+route print
+netstat -r
+fsutil fsinfo drives
+wmic logicaldisk get Caption,Description,providername
+```
 
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
@@ -1441,7 +1450,7 @@ wes.py systeminfo.txt
 
 ## To scan vuln on windows
 ```shell
-multi/recon/local_exploit_suggester
+run multi/recon/local_exploit_suggester
 ```
 
 </div></div>
@@ -1852,7 +1861,8 @@ whoami /priv
 ```
 ![Pasted image 20240823084610.png|600](/img/user/Pasted%20image%2020240823084610.png)
 
-Abusing `utilman.exe`
+## Abusing utilman.exe
+- We need GUI
 - Built-on windows app to provide ease of access options during the lock screen
 - Replace the original binary for a payload
 - Take ownership
@@ -1872,6 +1882,8 @@ copy cmd.exe utilman.exe
 ![Pasted image 20240823094514.png|200](/img/user/Pasted%20image%2020240823094514.png)
 - Click on `ease of access` button and get a command prompt
 ![Pasted image 20240823094611.png|500](/img/user/Pasted%20image%2020240823094611.png)
+## Meterpreter
+- If we have a meterpreter session we can migrate to most privileged account using [[meterpreter#Migrate\|meterpreter#Migrate]]
 
 </div></div>
 
@@ -2390,9 +2402,61 @@ arbitrario.
 </div>
 
 
+
+| Option                                               | Description                                                       |
+| ---------------------------------------------------- | ----------------------------------------------------------------- |
+| `ip route add "IP descubierta" via "gateway"`        | IP Routing (Acceder a otra IP a la que no tengamos accesibilidad) |
+| `ip route add 10.10.16.0/24 via 10.10.16.1 dev tap0` |                                                                   |
+
+# 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- We gonna Route the trafic
+- We need acces to the machine 2 and `bg` that seasson
+`1` is the number session background of the second machine hacked
+
+```sh
+
+```
+
+| Option                                         | Description                                                                      |
+| ---------------------------------------------- | -------------------------------------------------------------------------------- |
+| `route add pivot_3_machine_IP 255.255.255.0 1` | route add IP_machine3 255.255.255.0 1                                            |
+| `route print`                                  | Show route                                                                       |
+| `ping_sweep`                                   | Module to send ping to discover the machine 3 (IF we don't know the machine3 IP) |
+| `portscan`                                     | Module to scan ports on the machine3_IP                                          |
+| `portfwd add -l 33 -p 80 -r IP_machine3`       | lport 33, rport 80, rhost IP_machine3                                            |
+| `portfwd delete -l 8080 -p 80 -r 10.0.2.3`     | Delete                                                                           |
+| `portfwd list`                                 | List porforwarding configs                                                       |
+
+
+## way 2
+
+| Option                           | Description        |
+| -------------------------------- | ------------------ |
+| `autorute`                       | Module to pivoting |
+| `run autoroute -s 10.10.16.0/24` |                    |
+## Way 3
+- We need meterpreter
+-the ip of machine2
+
+| Option                         | Description |
+| ------------------------------ | ----------- |
+| `run autorute -s 10.0.33.0/24` |             |
+| `run autorute -p`              | Show routes |
+
+
+</div></div>
+
+# Description
 - Los atacantes utilizan la técnica de pivoteo para comprometer un sistema, obtener un acceso shell remoto en él, y además saltarse el firewall para pivotear a el sistema comprometido para acceder a otros sistemas vulnerables en la red.
-- Los atacantes utilizan la técnica de retransmisión para acceder a recursos presentes en otros sistemas a través del sistema comprometido, de forma que las solicitudes de acceso a los recursos procedan del sistema inicialmente comprometido.
-![Pasted image 20230909122521.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909122521.png)
+- Los atacantes utilizan la técnica de retransmisión para acceder a recursos presentes en otros sistemas a través del sistema 
+- comprometido, de forma que las solicitudes de acceso a los recursos procedan del sistema inicialmente comprometido.
+
+
+![Pasted image 20230909122521.png|700](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909122521.png)
 
 ![Pasted image 20230909123601.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909123601.png)
 
