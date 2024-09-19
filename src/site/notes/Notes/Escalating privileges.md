@@ -1362,20 +1362,24 @@ winPEASx64.exe > outputfile.txt
 
 <div class="markdown-embed-title">
 
-### powerup
+### PowerUp
 
 </div>
 
 
-- clearinghouse of common Windows privilege escalation vectors that rely on misconfigurations.
+- Clearinghouse of common Windows privilege escalation vectors that rely on misconfigurations.
 ```shell
 wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Privesc/PowerUp.ps1
 ```
 
 ```powershell
-..\PowerUp.ps1
+. .\PowerUp.ps1
 Invoke-AllChecks
 ```
+
+| Option                                                         | Description |
+| -------------------------------------------------------------- | ----------- |
+| `powershell -ep bypass -c ". .\PowerUp.ps1; Invoke-AllChecks"` | AllChecks   |
 
 </div></div>
 
@@ -1431,8 +1435,8 @@ On the attacker machine
 ```shell
 git clone https://github.com/bitsadmin/wesng --depth 1
 cd wesng
-wes.py --update
-wes.py systeminfo.txt
+python wes.py --update
+python wes.py systeminfo.txt
 ```
 
 
