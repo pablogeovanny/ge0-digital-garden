@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/write-ups/try-hack-me/retro/","tags":["CTF","write-up"]}
+{"dg-publish":true,"permalink":"/write-ups/try-hack-me/retro/","tags":["CTF","write-up","windows"]}
 ---
 
 ---
