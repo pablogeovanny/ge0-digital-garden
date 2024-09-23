@@ -175,13 +175,14 @@ sudo -u root /bin/bash
 
 | Option                          | Description                                                                                   |
 | ------------------------------- | --------------------------------------------------------------------------------------------- |
+| `netstat -anlp`                 |                                                                                               |
+| `netstat -ano`                  | `-a`: Display all sockets<br>`-n`: Do not resolve names<br>`-o`: Display timers               |
 | `netstat -a`                    | Shows all listening ports and established connections.                                        |
 | `netstat -at` <br>`netstat -au` | List TCP or UDP protocols respectively.                                                       |
 | `netstat -l`                    | List ports in “listening” mode.<br>Use with `t` or `u`                                        |
 | `netstat -s`                    | List network usage statistics by protocol.<br>Use with `t` or `u`                             |
 | `netstat -tp`                   | List connections with the service name and PID information.<br>can also be used with the `-l` |
 | `netstat -i`                    | Shows interface statistics.                                                                   |
-| `netstat -ano`                  | `-a`: Display all sockets<br>`-n`: Do not resolve names<br>`-o`: Display timers               |
 
 
 </div></div>
@@ -1232,11 +1233,25 @@ zip name.zip files -T --unzip-command "sh -c whoami"
 - These services **might** be running as **root**, or they might have **vulnerabilities** in them.
 
 Check the netstat and compare it with the nmap-scan you did from the outside.
-```shell
-# Linux
-netstat -anlp
-netstat -ano
-```
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+| Option                          | Description                                                                                   |
+| ------------------------------- | --------------------------------------------------------------------------------------------- |
+| `netstat -anlp`                 |                                                                                               |
+| `netstat -ano`                  | `-a`: Display all sockets<br>`-n`: Do not resolve names<br>`-o`: Display timers               |
+| `netstat -a`                    | Shows all listening ports and established connections.                                        |
+| `netstat -at` <br>`netstat -au` | List TCP or UDP protocols respectively.                                                       |
+| `netstat -l`                    | List ports in “listening” mode.<br>Use with `t` or `u`                                        |
+| `netstat -s`                    | List network usage statistics by protocol.<br>Use with `t` or `u`                             |
+| `netstat -tp`                   | List connections with the service name and PID information.<br>can also be used with the `-l` |
+| `netstat -i`                    | Shows interface statistics.                                                                   |
+
+
+</div></div>
+
 
 </div></div>
 
