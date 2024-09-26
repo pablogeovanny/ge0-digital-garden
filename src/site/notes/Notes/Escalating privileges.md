@@ -59,11 +59,6 @@ sudo -u root /bin/bash
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
-<div class="markdown-embed-title">
-
-# - Commands linux
-
-</div>
 
 
 ## 
