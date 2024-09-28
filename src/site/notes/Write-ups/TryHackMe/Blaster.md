@@ -7,7 +7,7 @@
 _This room is a remix of my previous room [Retro](https://tryhackme.com/room/retro) with some complications I added to that room having been removed. For increased difficulty and an exercise in patience, check that room out after this. In addition, this room is the sequel to [Ice](https://tryhackme.com/room/ice). - DarkStar7471_ 
 # Active reconnaisance
 ## Enum ports and services
-General Scan [[Notes/Nmap\|nmap]]
+General Scan [[Notes/Nmap\|Notes/Nmap]]
 ```shell
 sudo nmap 10.10.73.175 -p- -sS -n --open --min-rate 5000 -vvv -Pn
 ```
