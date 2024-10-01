@@ -322,6 +322,11 @@ to check another user
 ```shell
 sudo -l -U tracy
 ```
+
+Execute a file like the owner
+```shell
+sudo -u USERNAME ./script.sh
+```
 ### Shell Escape Sequences
 - [https://gtfobins.github.io/](https://gtfobins.github.io/)
 - [[Hacking Ético y Pentesting/sudo -l\|sudo -l]]
@@ -750,11 +755,15 @@ Switch to the root user, using the new password:
 
 ## Cron jobs exploiting
 Look for jobs, and try to exploit them
+System crontab
 ```shell
 /etc/crontab
 /etc/cron.d
 /etc/rc.d/
 /etc/init.d
+```
+Users crontabs
+```shell
 /var/spool/cron
 ```
 ### 

@@ -2,6 +2,7 @@
 {"dg-publish":true,"permalink":"/write-ups/try-hack-me/blog/","tags":["CTF","write-up","#SUID","#wordpress","#RCE"]}
 ---
 
+
 ---
 ![Pasted image 20240926172149.png|200](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926172149.png)
 

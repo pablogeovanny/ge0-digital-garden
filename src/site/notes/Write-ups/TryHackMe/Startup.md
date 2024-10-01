@@ -178,25 +178,4 @@ We have the root shell
 > ![Pasted image 20240927171845.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927171845.png)
 
 
-
 ---
-
-
-c4ntg3t3n0ughsp1c3
-
-I got banned from your library for moving the "C programming language" book into the horror section. Is there a way I can appeal? --Lennie
-$ ls
-concern.txt  list.txt  note.txt
-$ cat list*
-Shoppinglist: Cyberpunk 2077 | Milk | Dog food
-$ cat note*
-Reminders: Talk to Inclinant about our lacking security, hire a web developer, delete incident logs.
-
-planner.sh
-#!/bin/bash
-echo $LIST > /home/lennie/scripts/startup_list.txt
-/etc/print.sh
-
-/etc/print.sh
-#!/bin/bash
-echo "Done!"
