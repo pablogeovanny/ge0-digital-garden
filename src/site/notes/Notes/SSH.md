@@ -67,6 +67,11 @@ ssh -L 4545:127.0.0.1:8888 user@"ip_víctima"
 # 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+# Hardening SSH
+
+</div>
 
 
 - In the admin shell, go to the `/etc/ssh/sshd_config` file and edit it using your favourite text editor (remember to use sudo). 
@@ -80,6 +85,11 @@ ssh -L 4545:127.0.0.1:8888 user@"ip_víctima"
 # 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+# SCP
+
+</div>
 
 
 - Secure Copy Protocol
@@ -113,6 +123,11 @@ scp skyfuck@10.10.120.0:/home/skyfuck/* ~
 # 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+# John The Ripper
+
+</div>
 
 
 # 
