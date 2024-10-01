@@ -24,7 +24,7 @@
 </div>
 
 
-### Technique 1: Python
+## Technique 1: Python
 1. Uses Python to spawn a better featured bash shell;
 ```sh
 python3 -c 'import pty;pty.spawn("/bin/bash")'
@@ -128,8 +128,9 @@ sudo -u root /bin/bash
 | `find . -iname my-file`                                                                                                                                       | Don't differen between Mayus                           |
 | `find / -name qtile 2>/dev/null \| xargs ls -l`                                                                                                               | Redirect the (stderr) to a hole                        |
 | `find / -name qtile 2>/dev/null \| xargs ls -l`                                                                                                               | list the contend of each dir                           |
-| `find / -type f -perm 4000 2>/dev/null`                                                                                                                       | search files [[Operative System/Linux/Permisos/SUID\|SUID]]                                  |
-| `find -a`<br>`-a \( -perm -u+s -o -perm -g+s \)`                                                                                                              | Combine conditions [[Operative System/Linux/Permisos/SUID\|SUID]] or [[Operative System/Linux/Permisos/SGID\|SGID]]<br>`-o ` is OR |
+| `find / -type f -perm -u=s -ls 2>/dev/null`<br>`find / -type f -perm -4000 -ls 2>/dev/null`                                                                   | Search files [[Operative System/Linux/Permisos/SUID\|SUID]]                                  |
+| `find / -perm -g=s -type f -ls 2>/dev/null`<br>`find / -type f -perm -2000 -ls 2>/dev/null`                                                                   | Search files [[GUID\|GUID]]                                  |
+| `find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null`                                                                             | Combine conditions [[Operative System/Linux/Permisos/SUID\|SUID]] or [[Operative System/Linux/Permisos/SGID\|SGID]]<br>`-o ` is OR |
 | `find / -type -d -group wheel 2>/dev/null`                                                                                                                    | find dirs in the group wheel                           |
 | `find -executable`<br>`find / -perm a=x`                                                                                                                      | Find items executable                                  |
 | `find / -writable -type d 2>/dev/null`<br>`find / -perm -222 -type d 2>/dev/null`<br>`find / -perm -o w -type d 2>/dev/null`                                  | Find world-writable folders                            |
@@ -377,20 +378,26 @@ sudo LD_LIBRARY_PATH=/tmp apache2
 
 </div></div>
 
-## SUID-SGID executables scaling
+## SUID-SGID executable scaling
 - https://gtfobins.github.io/
 - [[Operative System/Linux/Permisos/SUID\|SUID]] [[Operative System/Linux/Permisos/SGID\|SGID]]
-Check files with SUID or SGID permission
+Check files with [[Operative System/Linux/Permisos/SUID\|SUID]] or [[Operative System/Linux/Permisos/SGID\|SGID]] permission
 ```shell
 find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
 ```
-Check files with SUID permision
+Check files with [[Operative System/Linux/Permisos/SUID\|SUID]] permission
 ```shell
-find / -perm -u=s -type f -ls 2>/dev/null
+find / -type f -perm -u=s -ls 2>/dev/null
 ```
-Check files with SUID permision
+```shell
+find / -type f -perm -4000 -ls 2>/dev/null
+```
+Check files with [[Operative System/Linux/Permisos/SGID\|SGID]] permission
 ```shell
 find / -perm -g=s -type f -ls 2>/dev/null
+```
+```shell
+find / -type f -perm -2000 -ls 2>/dev/null
 ```
 ### 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
@@ -1706,7 +1713,7 @@ sc config THMService binPath= "C:\Users\thm-unpriv\rev-svc.exe" obj= LocalSystem
 
 
 
-#### Listener revershell
+### Listener revershell
 Start a listener using rlwrap to try to simulate an interactive console
 ``` sh
 rlwrap nc -lnvp 4747
@@ -1935,7 +1942,7 @@ Example
 
 
 
-#### Listener revershell
+### Listener revershell
 Start a listener using rlwrap to try to simulate an interactive console
 ``` sh
 rlwrap nc -lnvp 4747

@@ -38,7 +38,6 @@ sudo nmap 10.10.100.226 -sCV -p 21,22,80
 ```
 From launchpad probabbly Ubuntu Xenial Xerus 16.04
 ![Pasted image 20240927085755.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927085755.png)
-
 ## Port 21
 ```c
 21/tcp open  ftp     vsftpd 3.0.3
@@ -84,7 +83,7 @@ Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
 ```shell
 wfuzz -c -t 10 --hc=404,403 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-small.txt -u http://startup.thm/files/FUZZ
 ```
-After fuzz we foudn only the `files ` subdirectory
+After fuzz we found only the `files ` sub-directory
 ![Pasted image 20240927152857.png|300](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927152857.png)
 And the ftp folder it's empty.
 
@@ -107,7 +106,7 @@ And we have the shell.
 ![Pasted image 20240927153415.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927153415.png)
 Get a better shell
 ```python
-python -c  'import pty;pty;spawn("/bin/bash")'
+python -c  'import pty;pty.spawn("/bin/bash")'
 ```
 
 > [!check] What is the secret spicy soup recipe?
@@ -115,9 +114,17 @@ python -c  'import pty;pty;spawn("/bin/bash")'
 
 ---
 # Privilege Escalation
-Check the [[Operative System/Linux/Permisos/SUID\|SUID]] files.
+Check files with [[Operative System/Linux/Permisos/SUID\|SUID]] permission
+```shell
+find / -type f -perm -u=s -ls 2>/dev/null
+```
+or
+```shell
+find / -type f -perm -4000 -ls 2>/dev/null
+```
 ![Pasted image 20240927171405.png|600](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927171405.png)
-## 
+## CVE-2021-4034
+ 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
 
@@ -173,3 +180,5 @@ We have the root shell
 
 
 ---
+
+
