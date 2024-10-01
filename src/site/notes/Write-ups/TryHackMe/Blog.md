@@ -2,14 +2,17 @@
 {"dg-publish":true,"permalink":"/write-ups/try-hack-me/blog/","tags":["CTF","write-up","#SUID","#wordpress","#RCE"]}
 ---
 
+---
 ![Pasted image 20240926172149.png|200](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926172149.png)
-Billy Joel made a blog on his home computer and has started working on it.  It's going to be so awesome!
 
-Enumerate this box and find the 2 flags that are hiding on it!  Billy has some weird things going on his laptop.  Can you maneuver around and get what you need?  Or will you fall down the rabbit hole...
 
-**In order to get the blog to work with AWS, you'll need to add 10.10.208.110 blog.thm to your /etc/hosts file.**
+> [!info] Description
+> Billy Joel made a blog on his home computer and has started working on it.  It's going to be so awesome!
+> Enumerate this box and find the 2 flags that are hiding on it!  Billy has some weird things going on his laptop.  Can you maneuver around and get what you need?  Or will you fall down the rabbit hole...
+> **In order to get the blog to work with AWS, you'll need to add 10.10.208.110 blog.thm to your /etc/hosts file.**
+> _Credit to [Sq00ky](https://tryhackme.com/p/Sq00ky) for the root privesc idea ;)_
 
-_Credit to [Sq00ky](https://tryhackme.com/p/Sq00ky) for the root privesc idea ;)_
+
 
 ---
 # Active reconnaisance
