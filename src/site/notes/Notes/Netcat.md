@@ -64,11 +64,6 @@ stty raw -echo; fg
 ## Extra 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
-<div class="markdown-embed-title">
-
-# stty
-
-</div>
 
 
 - On my machine to get info from stty
