@@ -85,11 +85,6 @@ sudo -u root /bin/bash
 | `ifconfig`                                          | Show interfaces                                                                                                                    |
 | `ip route`                                          | See which network routes exist.                                                                                                    |
 | `cat /proc/version`                                 | Info about the target system processes, kernel and compiler version                                                                |
-| `ps`                                                | List running processes basic                                                                                                       |
-| `ps -A`                                             | View all running processes                                                                                                         |
-| `ps -faux`                                          | processes for all users (a)<br>display the user that launched the process (u)<br>processes that are not attached to a terminal (x) |
-| `ps axjf`                                           | View process tree                                                                                                                  |
-| `ps -eo command`                                    | List all running commands                                                                                                          |
 | `netstat -nat`<br>`ss -nltp`<br>`cat /proc/net/tcp` | Get info about ports                                                                                                               |
 | `logname`                                           | Muestra inform​acion del usuario conectado.                                                                                        |
 | `date`                                              | Informa de la fecha y hora actual.                                                                                                 |
@@ -103,6 +98,51 @@ sudo -u root /bin/bash
 | `./`                                                | Current directory                                                                                                                  |
 | `../`                                               | pass level of directory, 1 level up                                                                                                |
 | `id -u`                                             | if the answer is 0, I am root                                                                                                      |
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+
+| Option                                      | Description                                       |
+| ------------------------------------------- | ------------------------------------------------- |
+| `ps`                                        | List running processes basic                      |
+| `ps -faux`                                  | Common use                                        |
+| `ps -faux \| grep -iE "sql\|db\|postgres" ` | Example to search some databases                  |
+| `ps -A`                                     | View all running processes                        |
+| `ps axjf`                                   | View process tree                                 |
+| `ps -eo command`                            | List all running commands                         |
+| `ps -a`                                     | Processes for all users (a)                       |
+| `ps -u`                                     | Display the user that launched the process (u)    |
+| `ps -x`                                     | Processes that are not attached to a terminal (x) |
+| `ps -f`                                     | Do full-format listing                            |
+
+
+</div></div>
+
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+Check interesting services
+
+| Option                                    | Description                                                                                   |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `netstat -lanp`                           | Common use                                                                                    |
+| `netstat -ano`                            | `-a`: Display all sockets<br>`-n`: Do not resolve names<br>`-o`: Display timers               |
+| `netstat -a`                              | Shows all listening ports and established connections.                                        |
+| `netstat -at` <br>`netstat -au`           | List TCP or UDP protocols respectively.                                                       |
+| `netstat -l`                              | List ports in “listening” mode.<br>Use with `t` or `u`                                        |
+| `netstat -s`                              | List network usage statistics by protocol.<br>Use with `t` or `u`                             |
+| `netstat -tp`                             | List connections with the service name and PID information.<br>can also be used with the `-l` |
+| `netstat -p`                              | Show the PID and name of the program to which each socket belongs.                            |
+| `netstat -i`                              | Shows interface statistics.                                                                   |
+| `netstat -anlp \| grep -iE "tcp.*LISTEN"` | Filtering `tcp`  and `listen`                                                                 |
+
+
+
+</div></div>
 
 
 </div></div>
@@ -169,19 +209,72 @@ sudo -u root /bin/bash
 </div>
 
 
-| Option                          | Description                                                                                   |
-| ------------------------------- | --------------------------------------------------------------------------------------------- |
-| `netstat -anlp`                 |                                                                                               |
-| `netstat -ano`                  | `-a`: Display all sockets<br>`-n`: Do not resolve names<br>`-o`: Display timers               |
-| `netstat -a`                    | Shows all listening ports and established connections.                                        |
-| `netstat -at` <br>`netstat -au` | List TCP or UDP protocols respectively.                                                       |
-| `netstat -l`                    | List ports in “listening” mode.<br>Use with `t` or `u`                                        |
-| `netstat -s`                    | List network usage statistics by protocol.<br>Use with `t` or `u`                             |
-| `netstat -tp`                   | List connections with the service name and PID information.<br>can also be used with the `-l` |
-| `netstat -i`                    | Shows interface statistics.                                                                   |
+Check interesting services
+
+| Option                                    | Description                                                                                   |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `netstat -lanp`                           | Common use                                                                                    |
+| `netstat -ano`                            | `-a`: Display all sockets<br>`-n`: Do not resolve names<br>`-o`: Display timers               |
+| `netstat -a`                              | Shows all listening ports and established connections.                                        |
+| `netstat -at` <br>`netstat -au`           | List TCP or UDP protocols respectively.                                                       |
+| `netstat -l`                              | List ports in “listening” mode.<br>Use with `t` or `u`                                        |
+| `netstat -s`                              | List network usage statistics by protocol.<br>Use with `t` or `u`                             |
+| `netstat -tp`                             | List connections with the service name and PID information.<br>can also be used with the `-l` |
+| `netstat -p`                              | Show the PID and name of the program to which each socket belongs.                            |
+| `netstat -i`                              | Shows interface statistics.                                                                   |
+| `netstat -anlp \| grep -iE "tcp.*LISTEN"` | Filtering `tcp`  and `listen`                                                                 |
+
 
 
 </div></div>
+
+### Check databases
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+
+| Option                                      | Description                                       |
+| ------------------------------------------- | ------------------------------------------------- |
+| `ps`                                        | List running processes basic                      |
+| `ps -faux`                                  | Common use                                        |
+| `ps -faux \| grep -iE "sql\|db\|postgres" ` | Example to search some databases                  |
+| `ps -A`                                     | View all running processes                        |
+| `ps axjf`                                   | View process tree                                 |
+| `ps -eo command`                            | List all running commands                         |
+| `ps -a`                                     | Processes for all users (a)                       |
+| `ps -u`                                     | Display the user that launched the process (u)    |
+| `ps -x`                                     | Processes that are not attached to a terminal (x) |
+| `ps -f`                                     | Do full-format listing                            |
+
+
+</div></div>
+
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+Check interesting services
+
+| Option                                    | Description                                                                                   |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `netstat -lanp`                           | Common use                                                                                    |
+| `netstat -ano`                            | `-a`: Display all sockets<br>`-n`: Do not resolve names<br>`-o`: Display timers               |
+| `netstat -a`                              | Shows all listening ports and established connections.                                        |
+| `netstat -at` <br>`netstat -au`           | List TCP or UDP protocols respectively.                                                       |
+| `netstat -l`                              | List ports in “listening” mode.<br>Use with `t` or `u`                                        |
+| `netstat -s`                              | List network usage statistics by protocol.<br>Use with `t` or `u`                             |
+| `netstat -tp`                             | List connections with the service name and PID information.<br>can also be used with the `-l` |
+| `netstat -p`                              | Show the PID and name of the program to which each socket belongs.                            |
+| `netstat -i`                              | Shows interface statistics.                                                                   |
+| `netstat -anlp \| grep -iE "tcp.*LISTEN"` | Filtering `tcp`  and `listen`                                                                 |
+
+
+
+</div></div>
+
 
 ## System enumeration - Automated
 ### 
@@ -1249,16 +1342,21 @@ Check the netstat and compare it with the nmap-scan you did from the outside.
 
 
 
-| Option                          | Description                                                                                   |
-| ------------------------------- | --------------------------------------------------------------------------------------------- |
-| `netstat -anlp`                 |                                                                                               |
-| `netstat -ano`                  | `-a`: Display all sockets<br>`-n`: Do not resolve names<br>`-o`: Display timers               |
-| `netstat -a`                    | Shows all listening ports and established connections.                                        |
-| `netstat -at` <br>`netstat -au` | List TCP or UDP protocols respectively.                                                       |
-| `netstat -l`                    | List ports in “listening” mode.<br>Use with `t` or `u`                                        |
-| `netstat -s`                    | List network usage statistics by protocol.<br>Use with `t` or `u`                             |
-| `netstat -tp`                   | List connections with the service name and PID information.<br>can also be used with the `-l` |
-| `netstat -i`                    | Shows interface statistics.                                                                   |
+Check interesting services
+
+| Option                                    | Description                                                                                   |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `netstat -lanp`                           | Common use                                                                                    |
+| `netstat -ano`                            | `-a`: Display all sockets<br>`-n`: Do not resolve names<br>`-o`: Display timers               |
+| `netstat -a`                              | Shows all listening ports and established connections.                                        |
+| `netstat -at` <br>`netstat -au`           | List TCP or UDP protocols respectively.                                                       |
+| `netstat -l`                              | List ports in “listening” mode.<br>Use with `t` or `u`                                        |
+| `netstat -s`                              | List network usage statistics by protocol.<br>Use with `t` or `u`                             |
+| `netstat -tp`                             | List connections with the service name and PID information.<br>can also be used with the `-l` |
+| `netstat -p`                              | Show the PID and name of the program to which each socket belongs.                            |
+| `netstat -i`                              | Shows interface statistics.                                                                   |
+| `netstat -anlp \| grep -iE "tcp.*LISTEN"` | Filtering `tcp`  and `listen`                                                                 |
+
 
 
 </div></div>

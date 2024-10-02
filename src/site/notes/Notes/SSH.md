@@ -22,44 +22,71 @@ sshpass -p 'password' ssh bandit0@bandit.labs.overthewire.org -p 2220
 sudo systemctl start sshd
 ```
 ## Create keys
-Create pair of keys RSA keys in ./ssh
+Create pair of keys RSA keys in `/home/USER/.ssh
 ```shell
 ssh-keygen
 ```
-id_rsa (private)
-id_rsa.pub (public)
-## Autorize pub key
-### To conect from comp2 to comp1 without password
-- Metod 1
- the **public key of comp 2** has to be in the file "authorized_keys" **in the comp1**
+`id_rsa` (private)
+`id_rsa.pub` (public)
+## Connect from computer 2 to computer 1 without password
+### Method 1
+ The **public key** (`id_rsa.pub`) of **computer 2** has to be in the file `authorized_keys` in the **computer 1**
+ 
+ 1. On the **computer 2**
+ Copy the content of the file `/home/USER/.ssh/id_rsa.pub` 
 ```sh
-cp id_rsa.pub authorized_keys
+cat /home/USER/.ssh/id_rsa.pub
 ```
--  Metod 2
-set the **private key of comp1**  like "authorized_keys" to **let to** any **connect to comp1** if they have the private key of comp1
-authorize
+![Pasted image 20241001192909.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020241001192909.png)
+Copy to the clipboard
 
-	ssh-copy-id -i id_rsa user@ipaddres
-connect from other comp (the permission should be `600`)
+2. On the **computer 1**
+Using `echo` paste the code and add or replace the `authorized_keys`
+```shell
+echo "ssh-rsa AAAA......gv7v......y2w/oJ0= kali@kali" >> authorized_keys
+```
+E.g. This is the new `authorized_keys`of the **computer 1**
+![Pasted image 20241002070248.png](/img/user/Notes/attachments/Pasted%20image%2020241002070248.png)
+
+3. On the **computer 2**
+All is ready, now to connect without password execute:
+```shell
+ssh USER_OF_COMPUTER_1@IP_COF_COMPUTER_1
+```
+### Method 2
+**Automated** version of the **method 1** but **we need** to introduce the **password** of the **computer 1** at least once.
+1. On the **computer 2**
+```shell
+ssh-copy-id -i ~/.ssh/id_rsa.pub COMPUTER_1_USERNAME@COMPUTER_1_IP
+```
+After this our `id_rsa-pub` will copy on `authorized_keys` of the **computer 1**.
+### Method 3
+Set the **private key of comp1**  like "authorized_keys" to **let to** any **connect to comp1** if the **computer2** has the private key of comp1.
+Authorize
+```shell
+ssh-copy-id -i id_rsa user@ipaddres
+```
+Connect from other comp (the permission should be `600`)
 ```shell
 ssh -i id_rsa user@ipaddres
 ssh -i root_key -oPubkeyAcceptedKeyTypes=+ssh-rsa -oHostKeyAlgorithms=+ssh-rsa root@10.10.250.21
 ```
-## Maths
+# Port forwarding
+`4545` port from a victim machine which we don't have access will be available in our machine on `127.0.0.1:8888`
+```shell
+ssh user@"VICTIM_IP" -L 4545:127.0.0.1:8888
+```
+
+# Maths
 - The key variables that you need to know about for RSA in CTFs are p, q, m, n, e, d, and c.
 - “p” and “q” are large prime numbers, “n” is the product of p and q.
 - The public key is n and e, the private key is n and d.
 - “m” is used to represent the message (in plaintext) and “c” represents the ciphertext (encrypted text).
 - https://muirlandoracle.co.uk/2020/01/29/rsa-encryption/
 
-## Tools RSA CTFs
+# Tools RSA CTFs
 https://github.com/Ganapati/RsaCtfTool
 https://github.com/ius/rsatool
-# Port forwarding
-4545 port from a victim machine which we don't have access will be available in our machine on `127.0.0.1:8888`
-```shell
-ssh -L 4545:127.0.0.1:8888 user@"ip_víctima"
-```
 # Errors
 - If you get an error saying `Unable to negotiate with <IP> port 22: no matching how to key type found. Their offer: ssh-rsa, ssh-dss` 
 - this is because OpenSSH have deprecated ssh-rsa. 
@@ -167,3 +194,5 @@ john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa_hash.txt
 
 
 </div></div>
+
+

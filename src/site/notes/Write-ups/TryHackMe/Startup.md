@@ -2,8 +2,14 @@
 {"dg-publish":true,"permalink":"/write-ups/try-hack-me/startup/","tags":["CTF","write-up"]}
 ---
 
+
+---
+
+
 ![Pasted image 20240926192837.png|300](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926192837.png)
-Abuse traditional vulnerabilities via untraditional means.
+
+> [!info] Description
+> Abuse traditional vulnerabilities via untraditional means.
 **We are Spice Hut,** a new startup company that just made it big! We offer a variety of spices and club sandwiches (in case you get hungry), but that is not why you are here. To be truthful, we aren't sure if our developers know what they are doing and our security concerns are rising. We ask that you perform a thorough penetration test and try to own root. Good luck!
 
 ---
