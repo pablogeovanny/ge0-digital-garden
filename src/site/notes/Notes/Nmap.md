@@ -4,8 +4,8 @@
 
 - Net inventory, admin service updates, check host and service activity.
 - Default tcp ports. 1000 common ports(randomly).
-- TCP [[Networking/Seguridad en redes/Fabricación y manipulación de paquetes/TCP SYN\|TCP SYN]] are the default scans used by Nmap _if run with sudo permissions_.
-- If run **without** sudo permissions, Nmap defaults to the **TCP Connect** [[Networking/Seguridad en redes/Fabricación y manipulación de paquetes/3-way handshake\|3-way handshake]] scan we saw in the previous task.
+- TCP [[TCP SYN\|TCP SYN]] are the default scans used by Nmap _if run with sudo permissions_.
+- If run **without** sudo permissions, Nmap defaults to the **TCP Connect** [[3-way handshake\|3-way handshake]] scan we saw in the previous task.
 
 | Option                                                                                                       | Description                                                                |
 | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
@@ -31,7 +31,7 @@
 | `nmap -PE -sn`                                                                       | **ICMP echo** scan<br>Barrido **Ping ICMP**<br>Scan any ports -- forcing it to rely primarily on ICMP echo packets<br>Also cause nmap to send a TCP SYN packet to port 443,<br>as well as a TCP ACK (or TCP SYN if not run as root)<br>packet to port 80 of the target. |
 | `nmap -PP -sn`                                                                       | **ICMP timestamp** scan - request (ICMP Type 13)                                                                                                                                                                                                                        |
 | `nmap -PM -sn`                                                                       | **ICMP Address mask** scan - queries (ICMP Type 17) <br>and checks address mask reply (ICMP Type 18).                                                                                                                                                                   |
-| `nmap -PS -sn MACHINE_IP/24`<br>`nmap -PS21-25`                                      | [[Networking/Seguridad en redes/Fabricación y manipulación de paquetes/TCP SYN\|TCP SYN]] Ping scan (**root** required)                                                                                                                                                                                                                               |
+| `nmap -PS -sn MACHINE_IP/24`<br>`nmap -PS21-25`                                      | [[TCP SYN\|TCP SYN]] Ping scan (**root** required)                                                                                                                                                                                                                               |
 | `nmap -PA -sn MACHINE_IP/24`<br>`nmap -PA21-25`                                      | TCP [[ACK ping\|ACK ping]] scan (root required)                                                                                                                                                                                                                                   |
 | `-PU -sn MACHINE_IP/24`                                                              | [[UDP ping\|UDP ping]] scan                                                                                                                                                                                                                                                       |
 | `-n`                                                                                 | No DNS lookup - online hosts (more fast)                                                                                                                                                                                                                                |
@@ -45,8 +45,8 @@
 
 | Option                                     | Description                                                              |
 | ------------------------------------------ | ------------------------------------------------------------------------ |
-| `-sS`                                      | Silent,  [[Networking/Seguridad en redes/Fabricación y manipulación de paquetes/TCP SYN\|TCP SYN]] scan, Stealthy, Fast                                |
-| `-sT`                                      | [[TCP Connect Scans\|TCP Connect Scans]]  using [[Networking/Seguridad en redes/Fabricación y manipulación de paquetes/3-way handshake\|3-way handshake]]                         |
+| `-sS`                                      | Silent,  [[TCP SYN\|TCP SYN]] scan, Stealthy, Fast                                |
+| `-sT`                                      | [[TCP Connect Scans\|TCP Connect Scans]]  using [[3-way handshake\|3-way handshake]]                         |
 | `-sU`                                      | [[UDP scan\|UDP scan]]                                                             |
 | `-sV`                                      | Deep scan, try to ger services and versions running on open ports        |
 | `-sC`                                      | Scan with the default Nmap scripts                                       |
@@ -94,7 +94,7 @@
 
 | Option                      | Description                                                                                        |
 | --------------------------- | -------------------------------------------------------------------------------------------------- |
-| `-sV`                       | determine service/version info on open ports<br>force [[Networking/Seguridad en redes/Fabricación y manipulación de paquetes/3-way handshake\|3-way handshake]]<br>don't work with `-sS` |
+| `-sV`                       | determine service/version info on open ports<br>force [[3-way handshake\|3-way handshake]]<br>don't work with `-sS` |
 | `-sV --version-light`       | try the most likely probes (2)                                                                     |
 | `-sV --version-all`         | try all available probes (9)                                                                       |
 | `-O`                        | detect OS                                                                                          |
