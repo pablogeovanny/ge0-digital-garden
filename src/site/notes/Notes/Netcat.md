@@ -4,7 +4,7 @@
 
 - "Swiss Army Knife" of networking.
 - Perform all kinds of network interactions.
-- Support [[Networking/TCP\|TCP]] and [[UDP\|UDP]]
+- Support [[TCP\|TCP]] and [[UDP\|UDP]]
 - Used to receive reverse shells and connect to remote ports attached to bind shells on a target system.
 - If you choose to use a **port below 1024**, you will need to use `sudo` when starting your listener.
 - It's **good idea** to **use** a **well-known** port number (**80, 443 or 53** being good choices) as this is more likely to get **past** outbound **firewall rules** on the target.
