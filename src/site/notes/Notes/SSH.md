@@ -4,7 +4,7 @@
 
 - Secure shell
 - Default port 22
-- We will need to confirm the fingerprint of the SSH server’s public key to avoid [[Hacking Ético y Pentesting/MITM attack\|MITM attack]]
+- We will need to confirm the fingerprint of the SSH server’s public key to avoid [[MITM attack\|MITM attack]]
 # Login with username and password
 ```shell
 ssh bandit0@bandit.labs.overthewire.org -p 2220
