@@ -19,7 +19,7 @@ This is my blog about cybersecurity, pentesting, CFTs and more.
       <img src="https://tryhackme-badges.s3.amazonaws.com/Ge0.png" alt="TryHackMe" width="250">
     </a>
     <a href="https://app.hackthebox.com/users/1827323">
-      <img src="https://www.hackthebox.com/badge/image/1827323" alt="HackTheBox" width="280">
+      <img src="https://www.hackthebox.com/badge/image/1827323" alt="HackTheBox" width="270">
     </a>
     <br><br>
 </div>
