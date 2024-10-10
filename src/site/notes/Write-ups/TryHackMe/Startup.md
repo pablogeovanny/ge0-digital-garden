@@ -6,7 +6,7 @@
 ---
 
 
-![Pasted image 20240926192837.png|300](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926192837.png)
+![Pasted image 20240926192837.png|300](/img/user/attachments/Pasted%20image%2020240926192837.png)
 
 > [!info] Description
 > Abuse traditional vulnerabilities via untraditional means.
@@ -43,7 +43,7 @@ sudo nmap 10.10.100.226 -sCV -p 21,22,80
 |_  256 a2:ff:2a:72:81:aa:a2:9f:55:a4:dc:92:23:e6:b4:3f (ED25519)
 ```
 From launchpad probabbly Ubuntu Xenial Xerus 16.04
-![Pasted image 20240927085755.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927085755.png)
+![Pasted image 20240927085755.png](/img/user/attachments/Pasted%20image%2020240927085755.png)
 ## Port 21
 ```c
 21/tcp open  ftp     vsftpd 3.0.3
@@ -72,7 +72,7 @@ ftp IP
 ftp
 ```
 Now we see the files.
-![Pasted image 20240927215100.png|500](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927215100.png)
+![Pasted image 20240927215100.png|500](/img/user/attachments/Pasted%20image%2020240927215100.png)
 
 To download them.
 ```shell
@@ -90,7 +90,7 @@ Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
 wfuzz -c -t 10 --hc=404,403 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-small.txt -u http://startup.thm/files/FUZZ
 ```
 After fuzz we found only the `files ` sub-directory
-![Pasted image 20240927152857.png|300](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927152857.png)
+![Pasted image 20240927152857.png|300](/img/user/attachments/Pasted%20image%2020240927152857.png)
 And the ftp folder it's empty.
 
 ---
@@ -98,7 +98,7 @@ And the ftp folder it's empty.
 ## Port 21 write access
 Test if we can write into the ftp folder.
 We can't write into the main folder but we can do it into `ftp` folder.
-![Pasted image 20240927153044.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927153044.png)
+![Pasted image 20240927153044.png|400](/img/user/attachments/Pasted%20image%2020240927153044.png)
 ## Port 80
 We create an reveseshell using https://www.revshells.com/ PHP PentestMonkey
 And put that file.
@@ -109,18 +109,18 @@ rlwrap nc -lnvp 4747
 ```
 And go to the file in the browser. http://startup.thm/files/ftp/rev_shell_1.php
 And we have the shell.
-![Pasted image 20240927153415.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927153415.png)
+![Pasted image 20240927153415.png](/img/user/attachments/Pasted%20image%2020240927153415.png)
 Get a better shell
 ```python
 python -c  'import pty;pty.spawn("/bin/bash")'
 ```
 
 > [!check] What is the secret spicy soup recipe?
-![Pasted image 20240927155826.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927155826.png)
+![Pasted image 20240927155826.png](/img/user/attachments/Pasted%20image%2020240927155826.png)
 
 ---
 # Privilege Escalation
-Check files with [[Operative System/Linux/Permisos/SUID\|SUID]] permission
+Check files with [[SUID\|SUID]] permission
 ```shell
 find / -type f -perm -u=s -ls 2>/dev/null
 ```
@@ -128,7 +128,7 @@ or
 ```shell
 find / -type f -perm -4000 -ls 2>/dev/null
 ```
-![Pasted image 20240927171405.png|600](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927171405.png)
+![Pasted image 20240927171405.png|600](/img/user/attachments/Pasted%20image%2020240927171405.png)
 ## CVE-2021-4034
  
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
@@ -174,14 +174,14 @@ python3 CVE-2021-4034.py
 </div></div>
 
 We have the root shell
-![Pasted image 20240927161322.png|500](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927161322.png)
+![Pasted image 20240927161322.png|500](/img/user/attachments/Pasted%20image%2020240927161322.png)
 
 > [!check] user.txt
-> ![Pasted image 20240927171747.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927171747.png)
+> ![Pasted image 20240927171747.png|400](/img/user/attachments/Pasted%20image%2020240927171747.png)
 
 
 > [!check] root.txt
-> ![Pasted image 20240927171845.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240927171845.png)
+> ![Pasted image 20240927171845.png|400](/img/user/attachments/Pasted%20image%2020240927171845.png)
 
 
 ---

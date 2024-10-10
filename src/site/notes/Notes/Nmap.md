@@ -65,7 +65,7 @@
 | ` -p 1-77`<br>` -p1-77`                    | From 1 to 77                                                             |
 | ` -p 22,80`                                | port 22 and 80                                                           |
 | ` -p- IP`                                  | All 65535 ports                                                          |
-# Advanced port scan (Firewall/IDS evasion)
+# Advanced port scan (Firewall IDS evasion)
 
 | Option                                                                             | Description                                                                                                                               |
 | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
@@ -92,18 +92,18 @@
 | `--badsum`                                                                         | generate in invalid checksum for packets                                                                                                  |
 # Post port scan
 
-| Option                      | Description                                                                                        |
-| --------------------------- | -------------------------------------------------------------------------------------------------- |
-| `-sV`                       | determine service/version info on open ports<br>force [[3-way handshake\|3-way handshake]]<br>don't work with `-sS` |
-| `-sV --version-light`       | try the most likely probes (2)                                                                     |
-| `-sV --version-all`         | try all available probes (9)                                                                       |
-| `-O`                        | detect OS                                                                                          |
-| `--traceroute`              | run traceroute to target                                                                           |
-| `-A`                        | equivalent to `-sV -O -sC --traceroute`                                                            |
-| `-oN`                       | save output in normal format                                                                       |
-| `-oG`                       | save output in grepable format                                                                     |
-| `-oX`                       | save output in XML format                                                                          |
-| `-oA`                       | save output in normal, XML and Grepable formats                                                    |
+| Option                | Description                                                                                        |
+| --------------------- | -------------------------------------------------------------------------------------------------- |
+| `-sV`                 | determine service/version info on open ports<br>force [[3-way handshake\|3-way handshake]]<br>don't work with `-sS` |
+| `-sV --version-light` | try the most likely probes (2)                                                                     |
+| `-sV --version-all`   | try all available probes (9)                                                                       |
+| `-O`                  | detect OS                                                                                          |
+| `--traceroute`        | run traceroute to target                                                                           |
+| `-A`                  | equivalent to `-sV -O -sC --traceroute`                                                            |
+| `-oN`                 | save output in normal format                                                                       |
+| `-oG`                 | save output in grepable format                                                                     |
+| `-oX`                 | save output in XML format                                                                          |
+| `-oA`                 | save output in normal, XML and Grepable formats                                                    |
 # Scripts
 - `/usr/share/nmap/scripts`
 - Nmap Scripting Engine (NSE) is a Lua interpreter that allows Nmap to execute Nmap scripts written in Lua language.
@@ -168,5 +168,18 @@
 6. **Closed|Filtered**:
    Nmap **cannot decide** whether a port is closed or filtered.
 
-# Metodology
-![Pasted image 20240708081910.png|200](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020240708081910.png)
+# Methodology
+![Pasted image 20240708081910.png|200](/img/user/attachments/Pasted%20image%2020240708081910.png)
+
+
+Nmap General Scan #anki
+```shell
+sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn 10.129.26.222 -oG allPorts
+```
+<!--ID: 1728389001046-->
+
+Nmap Focused scan #anki
+```shell
+sudo nmap -sCV -p22,80,8888 10.129.26.222 -oN targeted
+```
+<!--ID: 1728386777374-->

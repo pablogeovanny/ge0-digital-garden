@@ -13,7 +13,7 @@ mkfifo /tmp/f; nc -lvnp <PORT> < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f
 4. The output of the netcat listener (i.e. the commands we send) then gets piped directly into `sh` `| /bin/sh`
 5. ending the stderr output stream into stdout, `2>&1`
 6. and sending stdout itself into the input of the named pipe, thus completing the circle. `/bin/sh >/tmp/f`
-![Pasted image 20240402184247.png](/img/user/Pasted%20image%2020240402184247.png)
+![Pasted image 20240402184247.png](/img/user/attachments/Pasted%20image%2020240402184247.png)
 
 
 Aquí te explico paso a paso lo que hace:

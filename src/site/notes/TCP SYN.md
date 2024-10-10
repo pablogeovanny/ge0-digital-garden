@@ -4,8 +4,8 @@
 
 
 SYN scans sends back a RST TCP packet after receiving a SYN/ACK from the server
-![](https://i.imgur.com/cPzF0kU.png)
-![](https://i.imgur.com/bcgeZmI.png)
+![Pasted image 20241007220542.png](/img/user/attachments/Pasted%20image%2020241007220542.png)
+![Pasted image 20241007220612.png](/img/user/attachments/Pasted%20image%2020241007220612.png)
 advantages
 - It can be used to bypass older Intrusion Detection systems as they are looking out for a full three way handshake. This is often no longer the case with modern IDS solutions; it is for this reason that SYN scans are still frequently referred to as "stealth" scans.
 - SYN scans are often not logged by applications listening on open ports, as standard practice is to log a connection once it's been fully established. Again, this plays into the idea of SYN scans being stealthy.

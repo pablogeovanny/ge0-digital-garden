@@ -9,9 +9,9 @@
 - Relatively simple to carry out if the two parties do **not confirm the authenticity and integrity** of each message.
 - Affect **cleartext protocols**
 
-![Pasted image 20230908214558.png](/img/user/Hacking%20%C3%89tico%20y%20Pentesting/attachments/Pasted%20image%2020230908214558.png)
+![Pasted image 20230908214558.png](/img/user/attachments/Pasted%20image%2020230908214558.png)
 
-- Set [[Hacking Ético y Pentesting/Keylogger\|keylogger]]
+- Set [[Keylogger\|Keylogger]]
 - Get browser info
 - Screenshots
 - Delete certs

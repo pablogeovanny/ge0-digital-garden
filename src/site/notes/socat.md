@@ -91,7 +91,7 @@ socat TCP:<TARGET-IP>:<TARGET-PORT> -
 ```
 ## Encrypted Shells
 - **Cannot be spied** on unless you have the decryption key
-- Are often able to **bypass an [[Networking/Seguridad en redes/Seguridad Perimetral/IDS\|IDS]]** as a result.
+- Are often able to **bypass an [[IDS\|IDS]]** as a result.
 - TCP should be replaced with `OPENSSL` when working with encrypted shells
 - Generate a certificate
 ```sh

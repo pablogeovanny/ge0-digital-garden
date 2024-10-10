@@ -14,7 +14,7 @@
 
 
 
-![Pasted image 20230601200659.png](/img/user/Networking/Seguridad%20en%20redes/Anexos/Pasted%20image%2020230601200659.png)
+![Pasted image 20230601200659.png](/img/user/attachments/Pasted%20image%2020230601200659.png)
 
 UDP packets are much simpler than TCP packets and have fewer headers. However, both protocols share some standard headers, which are what is annotated in the table below:
 
@@ -39,6 +39,6 @@ UDP packets are much simpler than TCP packets and have fewer headers. However, b
 | UDP does not reserve a continuous connection on a device as TCP does. | This means that unstable connections result in a terrible experience for the user. |
 |  |  |
 
-![Pasted image 20231128153210.png](/img/user/Networking/attachments/Pasted%20image%2020231128153210.png)
+![Pasted image 20231128153210.png](/img/user/attachments/Pasted%20image%2020231128153210.png)
 The diagram below shows a normal UDP connection between Alice and Bob. In real life, this would be between two devices.
-![Pasted image 20231227204707.png](/img/user/Pasted%20image%2020231227204707.png)
+![Pasted image 20231227204707.png](/img/user/attachments/Pasted%20image%2020231227204707.png)
