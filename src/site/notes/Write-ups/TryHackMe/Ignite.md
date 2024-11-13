@@ -38,7 +38,7 @@ From the robots file and the webpage we know that the subdirectory `fuel` exists
 ### fuel
 ![Pasted image 20240920122454.png|400](/img/user/attachments/Pasted%20image%2020240920122454.png)
 Login with the credentials from the main page
-![Pasted image 20240920125300.png|300](/img/user/attachments/Pasted%20image%2020240920125300.png)
+![Pasted image 20240920125300.png|600](/img/user/attachments/Pasted%20image%2020240920125300.png)
 We are in the admin dashboard
 ![Pasted image 20240920125339.png|400](/img/user/attachments/Pasted%20image%2020240920125339.png)
 Anyway I'll try to find doing fuzzing
