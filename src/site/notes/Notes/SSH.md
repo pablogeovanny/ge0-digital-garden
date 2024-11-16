@@ -78,6 +78,44 @@ ssh -i root_key -oPubkeyAcceptedKeyTypes=+ssh-rsa -oHostKeyAlgorithms=+ssh-rsa r
 ```shell
 ssh user@"VICTIM_IP" -L 80:127.0.0.1:33
 ```
+# Transfer files 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+<div class="markdown-embed-title">
+
+# SCP
+
+</div>
+
+
+- Secure Copy Protocol
+MITM**Transferring Files From Your Host**
+Secure copy, or SCP, is just that -- a means of securely copying files. Unlike the regular cp command, this command allows you to transfer files between two computers using the SSH protocol to provide both authentication and encryption.
+
+Working on a model of SOURCE and DESTINATION, SCP allows you to:
+
+- Copy files & directories from your current system to a remote system
+- Copy files & directories from a remote system to your current system
+
+Send important.txt to other machine with the name transferred.txt
+```shell
+scp important.txt ubuntu@192.168.1.30:/home/ubuntu/transferred.txt
+```
+
+Get the documents.txt to my pc with the name notes.txt
+```shell
+scp ubuntu@192.168.1.30:/home/ubuntu/documents.txt notes.txt
+```
+```shell
+scp skyfuck@10.10.120.0:/home/skyfuck/* .
+```
+```shell
+scp skyfuck@10.10.120.0:/home/skyfuck/* ~
+```
+
+
+</div></div>
+
 # Math
 - The key variables that you need to know about for RSA in CTFs are p, q, m, n, e, d, and c.
 - “p” and “q” are large prime numbers, “n” is the product of p and q.
@@ -200,44 +238,6 @@ run
 
 - Next, find the line that says `Include /etc/ssh/sshd_config.d/*.conf` and change it to `#Include /etc/ssh/sshd_config.d/*.conf` (add a # sign at the beginning). 
 - Save the file, then enter the command `sudo systemctl restart ssh`.
-
-</div></div>
-
-# 
-<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
-
-<div class="markdown-embed-title">
-
-# SCP
-
-</div>
-
-
-- Secure Copy Protocol
-MITM**Transferring Files From Your Host**
-Secure copy, or SCP, is just that -- a means of securely copying files. Unlike the regular cp command, this command allows you to transfer files between two computers using the SSH protocol to provide both authentication and encryption.
-
-Working on a model of SOURCE and DESTINATION, SCP allows you to:
-
-- Copy files & directories from your current system to a remote system
-- Copy files & directories from a remote system to your current system
-
-Send important.txt to other machine with the name transferred.txt
-```shell
-scp important.txt ubuntu@192.168.1.30:/home/ubuntu/transferred.txt
-```
-
-Get the documents.txt to my pc with the name notes.txt
-```shell
-scp ubuntu@192.168.1.30:/home/ubuntu/documents.txt notes.txt
-```
-```shell
-scp skyfuck@10.10.120.0:/home/skyfuck/* .
-```
-```shell
-scp skyfuck@10.10.120.0:/home/skyfuck/* ~
-```
-
 
 </div></div>
 
