@@ -81,11 +81,6 @@ ssh user@"VICTIM_IP" -L 80:127.0.0.1:33
 # Transfer files 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
-<div class="markdown-embed-title">
-
-# SCP
-
-</div>
 
 
 - Secure Copy Protocol
