@@ -174,11 +174,6 @@ john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa_hash.txt
 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
-<div class="markdown-embed-title">
-
-# Metasploit
-
-</div>
 
 
 ## [[Notes/SSH\|SSH]] Exploitation
