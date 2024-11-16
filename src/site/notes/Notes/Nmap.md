@@ -7,50 +7,56 @@
 - TCP [[TCP SYN\|TCP SYN]] are the default scans used by Nmap _if run with sudo permissions_.
 - If run **without** sudo permissions, Nmap defaults to the **TCP Connect** [[3-way handshake\|3-way handshake]] scan we saw in the previous task.
 
-| Option                                                                                                       | Description                                                                |
-| ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| `nmap -sn 192.168.1.0/24`<br>`nmap -sn 192.168.0.1-254`<br>`nmap -sn 192.168.0.0/24`                         | **No port scan** host discovery only<br>                                   |
-| `sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn 10.129.26.222 -oG allPorts`<br>`extractPorts allPorts` | Ports scan                                                                 |
-| `sudo nmap -sCV -p22,80,8888 10.129.26.222 -oN targeted`                                                     | Focused scan                                                               |
-| `--script=vuln`                                                                                              | activate all scripts in the "vuln" category                                |
-| `--reason`                                                                                                   | explains how Nmap made its conclusion                                      |
-| `-v`                                                                                                         | Verbose                                                                    |
-| `-vv`<br>`-vvv`                                                                                              | More verbose                                                               |
-| `-d`                                                                                                         | debugging                                                                  |
-| `-dd`                                                                                                        | more details for debugging                                                 |
-| `-A`                                                                                                         | Enable OS detection<br>version detection<br>script scanning and traceroute |
-| `-O`                                                                                                         | Try to get OS                                                              |
-| `-Pn`                                                                                                        | Disable host discovery and scan for open ports                             |
+| Option                                                                               | Description                                                                |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| `--script=vuln`                                                                      | activate all scripts in the "vuln" category                                |
+| `--reason`                                                                           | explains how Nmap made its conclusion                                      |
+| `-v`                                                                                 | Verbose                                                                    |
+| `-vv`<br>`-vvv`                                                                      | More verbose                                                               |
+| `-d`                                                                                 | debugging                                                                  |
+| `-dd`                                                                                | more details for debugging                                                 |
+| `-A`                                                                                 | Enable OS detection<br>version detection<br>script scanning and traceroute |
+| `-O`                                                                                 | Try to get OS                                                              |
+| `-Pn`                                                                                | Disable host discovery and scan for open ports                             |
 
 # Host discovery
 
-| Opction                                                                              | Description                                                                                                                                                                                                                                                             |
-| ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `nmap -sn 192.168.1.0/24`<br>`nmap -sn 192.168.0.1-254`<br>`nmap -sn 192.168.0.0/24` | **No port scan** host discovery only<br>                                                                                                                                                                                                                                |
-| `nmap -PR -sn TARGETS`<br>`nmap -PR -sn MACHINE_IP/24`                               | Only to perform an **ARP scan** without port-scanning                                                                                                                                                                                                                   |
-| `nmap -PE -sn`                                                                       | **ICMP echo** scan<br>Barrido **Ping ICMP**<br>Scan any ports -- forcing it to rely primarily on ICMP echo packets<br>Also cause nmap to send a TCP SYN packet to port 443,<br>as well as a TCP ACK (or TCP SYN if not run as root)<br>packet to port 80 of the target. |
-| `nmap -PP -sn`                                                                       | **ICMP timestamp** scan - request (ICMP Type 13)                                                                                                                                                                                                                        |
-| `nmap -PM -sn`                                                                       | **ICMP Address mask** scan - queries (ICMP Type 17) <br>and checks address mask reply (ICMP Type 18).                                                                                                                                                                   |
-| `nmap -PS -sn MACHINE_IP/24`<br>`nmap -PS21-25`                                      | [[TCP SYN\|TCP SYN]] Ping scan (**root** required)                                                                                                                                                                                                                               |
-| `nmap -PA -sn MACHINE_IP/24`<br>`nmap -PA21-25`                                      | TCP [[ACK ping\|ACK ping]] scan (root required)                                                                                                                                                                                                                                   |
-| `-PU -sn MACHINE_IP/24`                                                              | [[UDP ping\|UDP ping]] scan                                                                                                                                                                                                                                                       |
-| `-n`                                                                                 | No DNS lookup - online hosts (more fast)                                                                                                                                                                                                                                |
-| `-R`                                                                                 | reverse-DNS lookup for all hosts even for offline hosts                                                                                                                                                                                                                 |
-| `--dns-servers DNS_SERVER`                                                           | use a specific DNS server                                                                                                                                                                                                                                               |
-| `nmap 192.168.0.1`<br>`nmap host.com`                                                | Get live hosts, open ports, services, packet types, <br>firewalls, info of OS and versions.                                                                                                                                                                             |
-| `nmap -iL list_of_hosts.txt`                                                         | Provide a file as input for your list of targets                                                                                                                                                                                                                        |
-| `nmap -sL TARGETS`                                                                   | List of the hosts that Nmap will scan without scanning them                                                                                                                                                                                                             |
+[[Notes/Nmap\|Nmap]] Host discovery, ping scan without port scan. #flashcard 
+```shell
+nmap -sn 192.168.1.0/24
+```
+<!--ID: 1728898860808-->
+
+| Opction                                                                              | Description                                                                                                                                                                                                                                                                                                   |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nmap -sn 192.168.1.0/24`<br>`nmap -sn 192.168.0.1-254`<br>`nmap -sn 192.168.0.0/24` | Host discovery only<br>**Ping Scan** - **disable port scan**<br>                                                                                                                                                                                                                                              |
+| `nmap -e eth0`                                                                       | Specify interface                                                                                                                                                                                                                                                                                             |
+| `nmap -PR -sn TARGETS`<br>`nmap -PR -sn MACHINE_IP/24`                               | Only to perform an **ARP scan** without port-scanning                                                                                                                                                                                                                                                         |
+| `nmap -PE -sn`                                                                       | `PE` = **ICMP echo** scan<br>Barrido **Ping ICMP**, Ping Scan - disable port scan<br>Scan any ports -- forcing it to rely primarily on ICMP echo packets<br>Also cause nmap to send a TCP SYN packet to port 443,<br>as well as a TCP ACK (or TCP SYN if not run as root)<br>packet to port 80 of the target. |
+| `nmap -PP -sn`                                                                       | **ICMP timestamp** scan - request (ICMP Type 13)                                                                                                                                                                                                                                                              |
+| `nmap -PM -sn`                                                                       | **ICMP Address mask** scan - queries (ICMP Type 17) <br>and checks address mask reply (ICMP Type 18).                                                                                                                                                                                                         |
+| `nmap -PS -sn MACHINE_IP/24`<br>`nmap -PS21-25`                                      | [[TCP SYN\|TCP SYN]] Ping scan (**root** required)                                                                                                                                                                                                                                                                     |
+| `nmap -PA -sn MACHINE_IP/24`<br>`nmap -PA21-25`                                      | TCP [[ACK ping\|ACK ping]] scan (root required)                                                                                                                                                                                                                                                                         |
+| `-PU -sn MACHINE_IP/24`                                                              | [[UDP ping\|UDP ping]] scan                                                                                                                                                                                                                                                                                             |
+| `-n`                                                                                 | No DNS lookup - online hosts (more fast)                                                                                                                                                                                                                                                                      |
+| `-R`                                                                                 | reverse-DNS lookup for all hosts even for offline hosts                                                                                                                                                                                                                                                       |
+| `--dns-servers DNS_SERVER`                                                           | use a specific DNS server                                                                                                                                                                                                                                                                                     |
+| `nmap 192.168.0.1`<br>`nmap host.com`                                                | Get live hosts, open ports, services, packet types, <br>firewalls, info of OS and versions.                                                                                                                                                                                                                   |
+| `nmap -iL list_of_hosts.txt`                                                         | Provide a file as input for your list of targets                                                                                                                                                                                                                                                              |
+| `nmap -sL TARGETS`                                                                   | List of the hosts that Nmap will scan without scanning them                                                                                                                                                                                                                                                   |
 
 # Port scan
+Nmap General Scan #flashcard 
+```shell
+sudo nmap IP -n -p- -Pn -sS -vvv --open --min-rate 5000 -oG allPorts
+```
+<!--ID: 1728389001046-->
 
 | Option                                     | Description                                                              |
 | ------------------------------------------ | ------------------------------------------------------------------------ |
 | `-sS`                                      | Silent,  [[TCP SYN\|TCP SYN]] scan, Stealthy, Fast                                |
 | `-sT`                                      | [[TCP Connect Scans\|TCP Connect Scans]]  using [[3-way handshake\|3-way handshake]]                         |
 | `-sU`                                      | [[UDP scan\|UDP scan]]                                                             |
-| `-sV`                                      | Deep scan, try to ger services and versions running on open ports        |
-| `-sC`                                      | Scan with the default Nmap scripts                                       |
-| `-sCV`                                     | -sV + -sC                                                                |
 | `nmap --open`                              | Just show open ports                                                     |
 | `-r`                                       | Scan the ports in consecutive order                                      |
 | `nmap 192.168.1.1/24`                      | Scan all devices and port, OPEN at the same time                         |
@@ -69,7 +75,14 @@
 
 | Option                                                                             | Description                                                                                                                               |
 | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| **Against stateless firewall**                                                     | A stateless firewall will check if the incoming packet has the SYN flag set to detect a connection attempt.                               |
+| **Against** [[Firewall#Stateless\|Firewall#Stateless]]                                                 | A stateless firewall will check if the incoming packet has the SYN flag set to detect a connection attempt.                               |
+| `-f`                                                                               | Fragment IP data into 8 bytes                                                                                                             |
+| `-ff`                                                                              | Fragment IP data into 16 bytes                                                                                                            |
+| `--source-port PORT_NUM`                                                           | specify source port number                                                                                                                |
+| `--data-length 21`                                                                 | append random data to reach given length (58 +21)                                                                                         |
+| `--scan-delay <time>ms`                                                            | add a delay between packets sent                                                                                                          |
+| `--badsum`                                                                         | generate in invalid checksum for packets                                                                                                  |
+| `nmap --mtu 16`                                                                    | Change MTU (8 multiple)                                                                                                                   |
 | `-sN MACHINE_IP`                                                                   | [[TCP Null Scan\|TCP Null Scan]] (TCP request is sent with **no flags set** at all, target host should respond with a RST if the port is closed)         |
 | `-sF MACHINE_IP`                                                                   | [[TCP FIN Scan\|TCP FIN Scan]] (a request is sent with the **FIN** flag, expects a RST if the port is closed.)                                          |
 | `-sX MACHINE_IP`                                                                   | [[TCP Xmas Scan\|TCP Xmas Scan]] (send a **malformed** TCP packet (FIN, PSH, and URG flags simultaneously) and expects a RST response for closed ports.) |
@@ -83,46 +96,52 @@
 | `--spoof-mac SPOOFED_MAC -Pn`<br>`--spoof-mac Dell -Pn`                            | [[Spoofed MAC Address\|Spoofed MAC Address]]                                                                                                                   |
 | `nmap -D DECOY_IP,ME MACHINE_IP`<br>`nmap -D DECOY_IP,RND,ME MACHINE_IP`           | [[Decoy Scan\|Decoy Scan]] (ME=myIP, RND=randomIP)                                                                                                    |
 | `sudo nmap -sI ZOMBIE_IP MACHINE_IP`                                               | [[Idle (Zombie) Scan\|Idle (Zombie) Scan]]                                                                                                                    |
-| `-f`                                                                               | Fragment IP data into 8 bytes                                                                                                             |
-| `-ff`                                                                              | Fragment IP data into 16 bytes                                                                                                            |
-| `nmap --mtu 16`                                                                    | Change MTU (8 multiple)                                                                                                                   |
-| `--source-port PORT_NUM`                                                           | specify source port number                                                                                                                |
-| `--data-length 21`                                                                 | append random data to reach given length (58 +21)                                                                                         |
-| `--scan-delay <time>ms`                                                            | add a delay between packets sent                                                                                                          |
-| `--badsum`                                                                         | generate in invalid checksum for packets                                                                                                  |
+
 # Post port scan
 
-| Option                | Description                                                                                        |
-| --------------------- | -------------------------------------------------------------------------------------------------- |
-| `-sV`                 | determine service/version info on open ports<br>force [[3-way handshake\|3-way handshake]]<br>don't work with `-sS` |
-| `-sV --version-light` | try the most likely probes (2)                                                                     |
-| `-sV --version-all`   | try all available probes (9)                                                                       |
-| `-O`                  | detect OS                                                                                          |
-| `--traceroute`        | run traceroute to target                                                                           |
-| `-A`                  | equivalent to `-sV -O -sC --traceroute`                                                            |
-| `-oN`                 | save output in normal format                                                                       |
-| `-oG`                 | save output in grepable format                                                                     |
-| `-oX`                 | save output in XML format                                                                          |
-| `-oA`                 | save output in normal, XML and Grepable formats                                                    |
-# Scripts
-- `/usr/share/nmap/scripts`
-- Nmap Scripting Engine (NSE) is a Lua interpreter that allows Nmap to execute Nmap scripts written in Lua language.
-- ftp-anon.nse - to check anonymous ftp account
-- http-robots.txt.nse to check relevant info about robots files
+Nmap Focused scan #flashcard
+```shell
+sudo nmap IP -sCV -p 22,80 -oN targeted
+```
+<!--ID: 1728386777374-->
 
-| Option                                               | Description                                                   |
-| ---------------------------------------------------- | ------------------------------------------------------------- |
-| `locate .nse \| grep typeofscript`                   | Search specific scripts                                       |
-| `-sC` or `--script=default`                          | To execute main Scripts                                       |
-| `-sCV`                                               | like -sV + scripts                                            |
-| `--script=<script-name>`<br>`--script=scrpt1,scrpt2` | To run a specific script                                      |
-| `--script "ftp*"`                                    | Run all that start with `ftp`                                 |
-| `--script`                                           | activate a script                                             |
-| `--script=vuln`                                      | activate all of the scripts in the "vuln" category            |
-| `--script=smb-vuln*`                                 | Check vulns for smb                                           |
-| `--script="vuln and safe" -sV`                       | Use the scripts in the "vuln and safe" category               |
-| `nmap -p- --script vuln IP`                          | find vulns in all ports (/usr/share/nmap/scripts) (Intrusive) |
-| `--script-args`                                      | Some scripts require arguments                                |
+| Option                | Description                                                                                                   |
+| --------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `-sV`                 | Deep scan, determine service/version info on open ports<br>force [[3-way handshake\|3-way handshake]]<br>don't work with `-sS` |
+| `-sV --version-light` | try the most likely probes (2)                                                                                |
+| `-sV --version-all`   | try all available probes (9)                                                                                  |
+| `-sC`                 | Scan with the default Nmap scripts                                                                            |
+| `-sCV`                | -sV + -sC                                                                                                     |
+| `-O`                  | detect OS                                                                                                     |
+| `--traceroute`        | run traceroute to target                                                                                      |
+| `-A`                  | equivalent to `-sV -O -sC --traceroute`                                                                       |
+| `-oN`                 | save output in normal format                                                                                  |
+| `-oG`                 | save output in grepable format                                                                                |
+| `-oX`                 | save output in XML format                                                                                     |
+| `-oA`                 | save output in normal, XML and Grepable formats                                                               |
+# NSE
+- **N**map **S**cripting **E**ngine
+- It's a Lua interpreter that allows Nmap to execute Nmap scripts written in Lua language.
+- `/usr/share/nmap/scripts`
+- `ftp-anon.nse` - to check anonymous ftp account
+- `http-robots.txt.nse` to check relevant info about robots files
+
+| Option                                                                                  | Description                                                              |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `locate .nse \| grep smb-*`<br>`locate .nse \| grep ftp-*`                              | Search specific scripts                                                  |
+| `-sC` or `--script=default`                                                             | To execute main Scripts                                                  |
+| `-sCV`                                                                                  | like -sV + scripts                                                       |
+| `--script=<script-name>`<br>`--script=scrpt1,scrpt2`                                    | To run a specific script                                                 |
+| `--script "ftp*"`                                                                       | Run all that start with `ftp`                                            |
+| `--script`                                                                              | activate a script                                                        |
+| `--script=vuln`<br>`--script vuln`                                                      | Run all "vuln" scripts category<br>`/usr/share/nmap/scripts` (Intrusive) |
+|                                                                                         |                                                                          |
+| `--script="vuln and safe" -sV`                                                          | Use the scripts in the "vuln and safe" category                          |
+| `--script-args`                                                                         | Some scripts require arguments                                           |
+| `--script=http-enum.nse`                                                                | Enum http service                                                        |
+| `--script=http-shellshock --script-args "http-shellshock.uri=/URI_SCRIPT_CGI_PATH.cgi"` | Detect ShellShock [[CVE-2014-6271\|CVE-2014-6271]]                                      |
+
+
 { #d52ab0}
 
 
@@ -143,6 +162,23 @@
 | `safe`          | Safe scripts that won’t crash the target                                                                                                                  |
 | `version`       | Retrieve service versions                                                                                                                                 |
 | `vuln`          | Checks for vulnerabilities or exploit vulnerable services                                                                                                 |
+## [[SMB\|SMB]]
+
+| Option                                                                                       | Description                                                     |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| `-p445 --script smb-enum-*`                                                                  | Run smb scripts to enum                                         |
+| `p445 --script smb-enum-* --script-args smbusername=administrator,smbpassword=smbserver_771` | Run smb scripts to enum with credentials                        |
+| `--script smb-protocols`                                                                     | list the supported protocols and dialects of an [[SMB\|SMB]] server. |
+| `--script smb-vuln* -p139,445`                                                               | Check vulns                                                     |
+## [[NetBIOS\|NetBIOS]]
+| Option                 | Description      |
+| ---------------------- | ---------------- |
+| `--script stat -p 137` | [[NetBIOS\|NetBIOS]] enum |
+## [[SNMP\|SNMP]]
+| Option                                                   | Desctiption                       |
+| -------------------------------------------------------- | --------------------------------- |
+| `-sU -p 161 --script snmp-brute`                         | [[Brute-force\|Brute-force]] community strings |
+| `-sU -p 161 --script snmp-* demo.ine.local > snmp _info` | Run all scripts ans save results  |
 # Output formats
 
 | Option | Desctiption                                     |
@@ -170,16 +206,3 @@
 
 # Methodology
 ![Pasted image 20240708081910.png|200](/img/user/attachments/Pasted%20image%2020240708081910.png)
-
-
-Nmap General Scan #anki
-```shell
-sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn 10.129.26.222 -oG allPorts
-```
-<!--ID: 1728389001046-->
-
-Nmap Focused scan #anki
-```shell
-sudo nmap -sCV -p22,80,8888 10.129.26.222 -oN targeted
-```
-<!--ID: 1728386777374-->

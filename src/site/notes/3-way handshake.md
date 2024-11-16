@@ -11,5 +11,5 @@
 - Finally, your computer will send a packet that contains the **ACK** bit by itself, confirming that the connection has been setup successfully.
 
 If the server is respond with an RST.
-- Could be closed, filtered, blocked by the [[WAF\|WAF]] or another reason.
+- Could be closed, filtered, blocked by the [[Firewall\|Firewall]] or another reason.
 ![Pasted image 20241009105121.png](/img/user/attachments/Pasted%20image%2020241009105121.png)

