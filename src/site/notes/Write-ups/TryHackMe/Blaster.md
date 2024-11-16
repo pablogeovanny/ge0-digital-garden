@@ -172,7 +172,7 @@ After all, `run -j`
 And we have a code
 ![Pasted image 20240920092816.png|300](/img/user/attachments/Pasted%20image%2020240920092816.png)
 Copy, paste and run on the windows machine.
-After run it, we come back to the metasploit and we have a shell
+After run it, we come back to the [[Metasploit\|metasploit]] and we have a shell
 ![Pasted image 20240920094759.png|600](/img/user/attachments/Pasted%20image%2020240920094759.png)
 # Persistence
 Use the session number obtained in the last step.

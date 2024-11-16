@@ -218,7 +218,7 @@ help
 
 > [!check]- Run this command now. What is Dark's password?
 > Password01!
-# Post-Explotation
+# Post-Exploitation
 ```shell
 help
 ```

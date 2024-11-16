@@ -296,10 +296,11 @@ And transfer to the victim machine
 
 
 ## Transfer files
-On the folder that contain the file to send **on the source machine.** E.g. `file.txt`
+Using **Python**, in the folder that contain the file to send **on the source machine.** E.g. `file.txt` #flashcard
 ```python
 python -m http.server 4545
 ```
+<!--ID: 1728611164654-->
 
 On the destination machine
 ```shell

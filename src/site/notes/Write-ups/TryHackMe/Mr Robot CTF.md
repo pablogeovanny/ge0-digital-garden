@@ -114,7 +114,7 @@ second flag got it
 > 822c73956184f694993bede3eb39f959
 
 ## DirtyCow
-Using linpeas we see [[DirtyCow\|DirtyCow]] vuln
+Using linpeas we see [[CVE-2016-5195\|CVE-2016-5195]] vuln
 
 It works ant we get the flag3
 
