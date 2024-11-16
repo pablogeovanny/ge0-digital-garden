@@ -134,14 +134,9 @@ PORT   STATE SERVICE VERSION
 `22/tcp open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)`
 https://launchpad.net/ubuntu
 OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13
-## 
+## Using Metasploit 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
-<div class="markdown-embed-title">
-
-# Metasploit
-
-</div>
 
 
 ## [[Notes/SSH\|SSH]] Enum
