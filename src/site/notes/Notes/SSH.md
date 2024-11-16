@@ -104,6 +104,11 @@ OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13
 ## 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+# Metasploit
+
+</div>
 
 
 ## [[Notes/SSH\|SSH]] Enum
@@ -169,6 +174,11 @@ john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa_hash.txt
 
 <div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
 
+<div class="markdown-embed-title">
+
+# Metasploit
+
+</div>
 
 
 ## [[Notes/SSH\|SSH]] Exploitation
