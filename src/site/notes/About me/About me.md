@@ -4,26 +4,14 @@
 
 <div align="center">
 	<img src="https://tryhackme-images.s3.amazonaws.com/user-avatars/64860e3a1aa6c3004a78a6ce-1717730285921" alt="Profile image" height="200">
-    </a>
 </div>
 
 <center>
-My name is <b>Pablo Geovanny Flores</b>.<br>
-I'm a Mechatronics engineer training in cybersecurity.<br><br>
+My name is <b>Pablo Geovanny Flores</b>. I'm a Mechatronics engineer training in cybersecurity.<br><br>
 This is my blog about cybersecurity, pentesting, CFTs and more.
 </center>
 
 ---
-<div align="center">
-    <a href="https://tryhackme.com/p/Ge0">
-      <img src="https://tryhackme-badges.s3.amazonaws.com/Ge0.png" alt="TryHackMe" width="250">
-    </a>
-    <a href="https://app.hackthebox.com/users/1827323">
-      <img src="https://www.hackthebox.com/badge/image/1827323" alt="HackTheBox" width="270">
-    </a>
-    <br><br>
-</div>
-
 
 <div align="center">
     <a href="https://www.linkedin.com/in/p-g-f">
@@ -41,4 +29,15 @@ This is my blog about cybersecurity, pentesting, CFTs and more.
     <a href="mailto:pgfloresm@protonmail.com">
 	<img src="https://img.shields.io/badge/Email-8D6DFF?style=flat&logo=protonmail&logoColor=white" alt="Email Badge" height="30">
     </a>
+</div>
+
+<div align="center">
+    <a href="https://tryhackme.com/p/Ge0">
+      <img src="https://tryhackme-badges.s3.amazonaws.com/Ge0.png" alt="TryHackMe" width="240">
+    </a>
+    
+    <a href="https://app.hackthebox.com/users/1827323">
+      <img src="https://www.hackthebox.com/badge/image/1827323" alt="HackTheBox" width="270">
+    </a>
+    <br><br>
 </div>

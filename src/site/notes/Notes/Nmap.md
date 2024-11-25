@@ -139,10 +139,7 @@ sudo nmap IP -sCV -p 22,80 -oN targeted
 | `--script="vuln and safe" -sV`                                                          | Use the scripts in the "vuln and safe" category                          |
 | `--script-args`                                                                         | Some scripts require arguments                                           |
 | `--script=http-enum.nse`                                                                | Enum http service                                                        |
-| `--script=http-shellshock --script-args "http-shellshock.uri=/URI_SCRIPT_CGI_PATH.cgi"` | Detect ShellShock [[CVE-2014-6271\|CVE-2014-6271]]                                      |
-
-
-{ #d52ab0}
+| `--script=http-shellshock --script-args "http-shellshock.uri=/URI_SCRIPT_CGI_PATH.cgi"` | Detect ShellShock [[CVE-2014-6271\|CVE-2014-6271]]                                      |{ #d52ab0}
 
 
 ## Categories
