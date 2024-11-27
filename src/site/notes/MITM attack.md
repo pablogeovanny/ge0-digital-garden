@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/mitm-attack/","hide":"true"}
+{"dg-publish":true,"permalink":"/mitm-attack/","hide":true}
 ---
 
 - Man in the middle
