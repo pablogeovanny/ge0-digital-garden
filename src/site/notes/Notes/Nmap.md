@@ -48,9 +48,14 @@ nmap -sn 192.168.1.0/24
 # Port scan
 Nmap General Scan #flashcard 
 ```shell
-sudo nmap IP -n -p- -Pn -sS -vvv --open --min-rate 5000 -oG allPorts
+sudo nmap IP -n -p- -Pn -sS -vvv --open --min-rate 5000 -oG nmap_scan
 ```
 <!--ID: 1728389001046-->
+
+Send all ports to the clipboard
+```shell
+grep "Ports:" nmap_scan | sed 's/.*Ports: //;s/, /,/g' | tr ',' '\n' | awk -F'/' '{print $1}' | paste -sd ',' | xsel -ib --trim
+```
 
 | Option                                     | Description                                                              |
 | ------------------------------------------ | ------------------------------------------------------------------------ |
