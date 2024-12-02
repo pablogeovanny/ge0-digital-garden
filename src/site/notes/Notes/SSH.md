@@ -113,7 +113,8 @@ ssh user@"VICTIM_IP" -L 80:127.0.0.1:33
 
 
 - Secure Copy Protocol
-MITM**Transferring Files From Your Host**
+- **Transferring Files From Your Host**
+- MITM
 Secure copy, or SCP, is just that -- a means of securely copying files. Unlike the regular cp command, this command allows you to transfer files between two computers using the SSH protocol to provide both authentication and encryption.
 
 Working on a model of SOURCE and DESTINATION, SCP allows you to:
@@ -121,21 +122,29 @@ Working on a model of SOURCE and DESTINATION, SCP allows you to:
 - Copy files & directories from your current system to a remote system
 - Copy files & directories from a remote system to your current system
 
-Send important.txt to other machine with the name transferred.txt
+## Send a file
+Send file1.txt from my machine to the target machine with the name file2.txt
 ```shell
-scp important.txt ubuntu@192.168.1.30:/home/ubuntu/transferred.txt
+scp file1.txt <target_username>@<target_IP>:/home/ubuntu/file2.txt
+```
+## Download a file
+Get the documents.txt from the target machine to my machine. (To my current directory `.`)
+```shell
+scp <target_username>@<target_IP>:/home/ubuntu/documents.txt .
+```
+Change the name to notes.txt
+```shell
+scp <target_username>@<target_IP>:/home/ubuntu/documents.txt notes.txt
+```
+Examples to get all files from a folder
+```shell
+scp <target_username>@<target_IP>:/home/ubuntu/* .
+```
+```shell
+scp <target_username>@<target_IP>:/home/ubuntu/* ~
 ```
 
-Get the documents.txt to my pc with the name notes.txt
-```shell
-scp ubuntu@192.168.1.30:/home/ubuntu/documents.txt notes.txt
-```
-```shell
-scp skyfuck@10.10.120.0:/home/skyfuck/* .
-```
-```shell
-scp skyfuck@10.10.120.0:/home/skyfuck/* ~
-```
+
 
 
 </div></div>
