@@ -6,6 +6,7 @@
 ![Pasted image 20241202214247.png|300](/img/user/attachments/Pasted%20image%2020241202214247.png)
 
 ---
+
 > [!INFO] Info about Canto
 > Linux machine.
 
