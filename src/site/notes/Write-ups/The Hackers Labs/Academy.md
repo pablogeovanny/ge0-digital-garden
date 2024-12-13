@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/write-ups/the-hackers-labs/academy/","tags":["CTF","write-up"]}
+{"dg-publish":true,"permalink":"/write-ups/the-hackers-labs/academy/","tags":["CTF","write-up","#wordpress"]}
 ---
 
 
