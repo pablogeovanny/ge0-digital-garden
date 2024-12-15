@@ -135,7 +135,6 @@ rlwrap nc -lnvp 4748
 Wait if some user execute this script and it works. Looks that the script is executing very minute.
 ![Pasted image 20241212185335.png](/img/user/attachments/Pasted%20image%2020241212185335.png)
 
-
 > [!check] User flag
 > ![Pasted image 20241212185547.png](/img/user/attachments/Pasted%20image%2020241212185547.png)
 
