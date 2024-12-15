@@ -7,7 +7,7 @@
 
 **General use**
 ```shell
-hydra -f -V -t 64 -l <username> -P /usr/share/wordlists/rockyou.txt <IP> <service>`
+hydra -f -V -t 64 -l <username> -P /usr/share/wordlists/rockyou.txt <IP> <service>
 ```
 
 | Option                                                                                                                     | Description                                                   |
