@@ -6,8 +6,11 @@
 Login
 ```shell
 xfreerdp /u:<username> /p:<password> /v:<IP>
+```
+```shell
 xfreerdp [/d:domain] /u:<username> /p:<password> /v:<IP>:<PORT>
 ```
+
 Login with domain and username
 ```sh
 xfreerdp /dynamic-resolution +clipboard /cert:ignore /v:10.10.166.150 /u:Administrator /p:'TryH4ckM3!'

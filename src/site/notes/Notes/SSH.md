@@ -232,7 +232,6 @@ john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa_hash.txt
 </div></div>
 
 
-
 </div></div>
 
 ## Exploit `libssh`
