@@ -10,12 +10,12 @@ sudo apt update
 sudo apt install docker.io
 ```
 ### Start docker service
-We have **two** options:
-1. **Start** the docker service and **enable** it to autostart after future restarts. (Recommended)
+We have **two** options, choose one:
+1. **Start** the docker service and **enable** it to autostart after future restarts. (*Recommended*)
 ```shell
 sudo systemctl enable docker
 ```
-2. **Start** the docker service once (You'll need to start manually after every restart)
+2. **Start** the docker service once (*Important*: You'll need to start manually after every restart)
 Use one of this commands
 ```shell
 sudo systemctl start docker
