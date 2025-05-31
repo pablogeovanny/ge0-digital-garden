@@ -45,13 +45,12 @@ nc -nv IP_destination 1234 < file.txt
 
 
 
-- Secure Copy Protocol
-- **Transferring Files From Your Host**
-- MITM
-Secure copy, or SCP, is just that -- a means of securely copying files. Unlike the regular cp command, this command allows you to transfer files between two computers using the SSH protocol to provide both authentication and encryption.
+- **S**ecure **C**opy **P**rotocol
+- **Transferring Files** between two computers using the **[[Notes/SSH\|SSH]]** protocol 
+- Provide both authentication and encryption.
+- [[MITM\|MITM]]
 
 Working on a model of SOURCE and DESTINATION, SCP allows you to:
-
 - Copy files & directories from your current system to a remote system
 - Copy files & directories from a remote system to your current system
 
@@ -93,6 +92,18 @@ General use
 ```powershell
 certutil.exe -urlcache -f http://IP:PORT//file.exe file.exe
 ```
+
+</div></div>
+
+## 
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+- [[SFTP\|SFTP]] and [[FTP\|FTP]] client for **Windows**
+- **Transfer files** between a local computer and remote servers 
+- Use [[FTP\|FTP]], [[FTPS\|FTPS]], [[SCP\|SCP]], [[SFTP\|SFTP]], [[WebDAV\|WebDAV]] or S3 file transfer protocols.
+- https://winscp.net/eng/index.php
 
 </div></div>
 

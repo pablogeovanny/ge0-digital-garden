@@ -112,13 +112,12 @@ ssh user@"VICTIM_IP" -L 80:127.0.0.1:33
 
 
 
-- Secure Copy Protocol
-- **Transferring Files From Your Host**
-- MITM
-Secure copy, or SCP, is just that -- a means of securely copying files. Unlike the regular cp command, this command allows you to transfer files between two computers using the SSH protocol to provide both authentication and encryption.
+- **S**ecure **C**opy **P**rotocol
+- **Transferring Files** between two computers using the **[[Notes/SSH\|SSH]]** protocol 
+- Provide both authentication and encryption.
+- [[MITM\|MITM]]
 
 Working on a model of SOURCE and DESTINATION, SCP allows you to:
-
 - Copy files & directories from your current system to a remote system
 - Copy files & directories from a remote system to your current system
 
