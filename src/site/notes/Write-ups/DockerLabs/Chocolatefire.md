@@ -85,7 +85,7 @@ tcp open  socks5         (No authentication; connection not allowed by ruleset)
 tcp open  realserver?
 fingerprint-strings:
 |   DNSStatusRequestTCP, DNSVersionBindReqTCP:
-|     HTTP/1.1 400 Illegal character CNTL=0x0
+|     HTTP/1.1 400 Illegal character CNTL=0x0 
 
 ## Port 9090 - zeus-admin
 **Openfire 4.7.4**

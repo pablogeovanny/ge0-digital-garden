@@ -166,6 +166,12 @@ sudo nmap IP -sCV -p 22,80 -oN targeted
 | `safe`          | Safe scripts that won’t crash the target                                                                                                                  |
 | `version`       | Retrieve service versions                                                                                                                                 |
 | `vuln`          | Checks for vulnerabilities or exploit vulnerable services                                                                                                 |
+## [[Active Reconnaissance#Subdomain Brute force\|Active Reconnaissance#Subdomain Brute force]]
+| Option                                                 | Description       |
+| ------------------------------------------------------ | ----------------- |
+| `--script=droadcast-dns-service-discovery`             | [[DNS\|DNS]] discovery |
+| `--script dns-brute`                                   | [[Brute-force\|Brute-force]]   |
+| `--script dns-srv-enum "dns-srv-enum-domain='domain'"` | DNS Enum          |
 ## [[SMB\|SMB]]
 
 | Option                                                                                       | Description                                                     |
@@ -177,15 +183,30 @@ sudo nmap IP -sCV -p 22,80 -oN targeted
 | `--script smb-os-discovery`                                                                  |                                                                 |
 | `--script=smb-enum-shares,smb-enum-users`                                                    |                                                                 |
 ## [[NetBIOS\|NetBIOS]]
-| Option                   | Description      |
-| ------------------------ | ---------------- |
-| `--script stat -p 137`   | [[NetBIOS\|NetBIOS]] enum |
-| `-sV -v --script nbstat` |                  |
+| Option                       | Description      |
+| ---------------------------- | ---------------- |
+| `-sV --script nbstat -p 137` | [[NetBIOS\|NetBIOS]] enum |
+| `-sV -v --script nbstat`     |                  |
 ## [[SNMP\|SNMP]]
 | Option                                                   | Desctiption                       |
 | -------------------------------------------------------- | --------------------------------- |
 | `-sU -p 161 --script snmp-brute`                         | [[Brute-force\|Brute-force]] community strings |
 | `-sU -p 161 --script snmp-* demo.ine.local > snmp _info` | Run all scripts ans save results  |
+## [[LDAP\|LDAP]]
+| Option                                                                                  | Desctiption |
+| --------------------------------------------------------------------------------------- | ----------- |
+| `nmap -sU -p 389 IP`                                                                    | Simple scan |
+| `nmap -p 389 --script ldap-brute --script-args ldap.base='"cn=users,dc=CEH,dc=com"' IP` | Scripts     |
+## [[NFS\|NFS]]
+| Option                                      | Desctiption |
+| ------------------------------------------- | ----------- |
+| `sudo nmap IP -p111,2049 -sV -sC`           | Simple scan |
+| `sudo nmap --script nfs* IP -sV -p111,2049` | Scripts     |
+## [[SMTP\|SMTP]]
+| Option                                      | Desctiption |
+| ------------------------------------------- | ----------- |
+| `nmap -p 25 --script=smtp* IP`              |             |
+
 # Output formats
 
 | Option | Desctiption                                     |
