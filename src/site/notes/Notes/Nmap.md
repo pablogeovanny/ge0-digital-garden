@@ -18,7 +18,6 @@
 | `-A`                                                                                 | Enable OS detection<br>version detection<br>script scanning and traceroute |
 | `-O`                                                                                 | Try to get OS                                                              |
 | `-Pn`                                                                                | Disable host discovery and scan for open ports                             |
-
 # Host discovery
 
 [[Notes/Nmap\|Nmap]] Host discovery, ping scan without port scan. #flashcard 
@@ -166,6 +165,10 @@ sudo nmap IP -sCV -p 22,80 -oN targeted
 | `safe`          | Safe scripts that won’t crash the target                                                                                                                  |
 | `version`       | Retrieve service versions                                                                                                                                 |
 | `vuln`          | Checks for vulnerabilities or exploit vulnerable services                                                                                                 |
+## Detect the high risk HTTP methods
+```shell
+nmap --script http-methods -p 80 example.com
+```
 ## [[Active Reconnaissance#Subdomain Brute force\|Active Reconnaissance#Subdomain Brute force]]
 | Option                                                 | Description       |
 | ------------------------------------------------------ | ----------------- |

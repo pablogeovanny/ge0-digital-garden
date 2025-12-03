@@ -42,10 +42,10 @@ Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
 http-title: Did not follow redirect to http://blog.literal.hmv
 http-server-header: Apache/2.4.41 (Ubuntu)
 
-> [!NOTE] Add the redirect link to etc hosts
-> ```shell
+Add the redirect link to etc hosts
+```shell
 sudo echo "TARGET_IP http://blog.literal.hmv" | sudo tee -a /etc/hosts
->```
+```
 
 ![Pasted image 20251010182740.png|700](/img/user/attachments/Pasted%20image%2020251010182740.png)
 
