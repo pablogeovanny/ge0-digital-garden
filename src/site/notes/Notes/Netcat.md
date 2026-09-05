@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/notes/netcat/"}
+{"dg-publish":true,"permalink":"/notes/netcat/","dg-note-properties":{"aliases":["nc"]}}
 ---
 
 - "Swiss Army Knife" of networking.
