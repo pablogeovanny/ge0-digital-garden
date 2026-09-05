@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/whoami/","pinned":true,"tags":["gardenEntry"]}
+{"dg-publish":true,"permalink":"/whoami/","pinned":true,"tags":["gardenEntry"],"dg-note-properties":{}}
 ---
 
 <div align="center">
@@ -25,9 +25,6 @@ This is my blog about cybersecurity, pentesting, CFTs and more.
     </a>
     <a href="https://github.com/pablogeovanny">
 	<img src="https://img.shields.io/badge/GitHub-gray?style=flat&logo=github&logoColor=white" alt="GitHub Badge" height="30">
-    </a>
-    <a href="mailto:pgfloresm@protonmail.com">
-	<img src="https://img.shields.io/badge/Email-8D6DFF?style=flat&logo=protonmail&logoColor=white" alt="Email Badge" height="30">
     </a>
 </div>
 
