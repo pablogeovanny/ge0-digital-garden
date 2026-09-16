@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/notes/nessus/"}
+{"dg-publish":true,"permalink":"/notes/nessus/","dg-note-properties":{}}
 ---
 
 - Nessus essential is a free version of the Nessus vulnerability scanning tool provided by Tenable.
@@ -7,8 +7,8 @@
 - Offering essential scanning capabilities for small teams or individuals looking to improve their security posture without significant investment
 # Download
 Go to the official download page [here](https://www.tenable.com/downloads/nessus)
-Download the *.deb* file, after select the version and platform (If you have Kali linux, it is a Debian based, so select it)
-![Pasted image 20250323214003.png|600](/img/user/attachments/Pasted%20image%2020250323214003.png)
+Download the *.deb* file, after select the version and platform (If you have Kali linux, it is a Debian based, so, select it)
+![Pasted image 20250323214003.png\|600](/img/user/attachments/Pasted%20image%2020250323214003.png)
 # Install
 The file should be downloaded on the *Downloads* folder
 Open a console

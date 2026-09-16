@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/notes/open-vas/"}
+{"dg-publish":true,"permalink":"/notes/open-vas/","dg-note-properties":{}}
 ---
 
 # Installation
@@ -31,7 +31,8 @@ Run this command and all instalation will complete after a while, be patient.
 sudo docker run -d -p 443:443 --name openvas mikesplain/openvas
 ```
 Now, OpenVAS is installed in a docker container and also is already running as a server.
-As a client we need to connect to the server through the browser, usually to the `https://127.0.0.1:443/` or the *URL* showed in the console after installation.
+As a client, we need to connect to the server through the browser, usually to the `https://127.0.0.1:443/` or the *URL* showed in the console after installation.
+Credentials `admin:admin`
 
 > [!important] Important
 > This just work right now but to make it work after restart, you will need to run docket again with the *start* command from above, or use the *enable* command and forget the start the service every restart

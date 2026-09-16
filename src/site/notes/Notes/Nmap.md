@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/notes/nmap/"}
+{"dg-publish":true,"permalink":"/notes/nmap/","dg-note-properties":{}}
 ---
 
 - Net inventory, admin service updates, check host and service activity.
@@ -206,10 +206,9 @@ nmap --script http-methods -p 80 example.com
 | `sudo nmap IP -p111,2049 -sV -sC`           | Simple scan |
 | `sudo nmap --script nfs* IP -sV -p111,2049` | Scripts     |
 ## [[SMTP\|SMTP]]
-| Option                                      | Desctiption |
-| ------------------------------------------- | ----------- |
-| `nmap -p 25 --script=smtp* IP`              |             |
-
+| Option                         | Desctiption |
+| ------------------------------ | ----------- |
+| `nmap -p 25 --script=smtp* IP` |             |
 # Output formats
 
 | Option | Desctiption                                     |
@@ -236,4 +235,4 @@ nmap --script http-methods -p 80 example.com
    Nmap **cannot decide** whether a port is closed or filtered.
 
 # Methodology
-![Pasted image 20240708081910.png|200](/img/user/attachments/Pasted%20image%2020240708081910.png)
+![Pasted image 20240708081910.png\|200](/img/user/attachments/Pasted%20image%2020240708081910.png)

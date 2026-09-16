@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/notes/upgrading-shell/"}
+{"dg-publish":true,"permalink":"/notes/upgrading-shell/","dg-note-properties":{}}
 ---
 
 Try to get an interactive shell
