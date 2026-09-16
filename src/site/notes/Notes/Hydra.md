@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/notes/hydra/"}
+{"dg-publish":true,"permalink":"/notes/hydra/","dg-note-properties":{}}
 ---
 
 - Crack pass with pass dic
@@ -53,7 +53,7 @@ Only a password is required
 ```shell
 hydra -l '' -P 3digits.txt -f -v 10.10.180.149 http-post-form "/login.php:pin=^PASS^:Access denied" -s 8000
 ```
-![Pasted image 20231206174317.png|700](/img/user/attachments/Pasted%20image%2020231206174317.png)
+![Pasted image 20231206174317.png\|700](/img/user/attachments/Pasted%20image%2020231206174317.png)
 - `"/login.php:pin=^PASS^:Access denied"` has three parts separated by `:`
     - `/login.php` is the page where the PIN code is submitted
     - `pin=^PASS^` will replace `^PASS^` with values from the password list
